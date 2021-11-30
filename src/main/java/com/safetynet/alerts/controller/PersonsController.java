@@ -22,7 +22,7 @@ public class PersonsController {
 	@GetMapping("/")
 	public String index() {
 		logger.info("Index reached");
-		return "Greetings from Spring Boot!";
+		return "Welcome to SafetyNet Alerts API";
 	}
 	
 	@GetMapping("/persons")
@@ -30,5 +30,4 @@ public class PersonsController {
 		logger.info("Persons Found in list");
 		return this.personService.getAllPersons();
 	}
-
 }

@@ -1,11 +1,10 @@
 package com.safetynet.alerts.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Medicalrecord {
+	
 	 private String firstName;
 	 private String lastName;
 	 private String birthcate;
@@ -48,7 +47,7 @@ public class Medicalrecord {
 		return medications;
 	}
 
-	public void setMedications(HashMap<String, Integer> medications) {
+	public void setMedications(Map<String, Integer> medications) {
 		this.medications = medications;
 	}
 
@@ -56,7 +55,7 @@ public class Medicalrecord {
 		return allergies;
 	}
 
-	public void setAllergies(ArrayList<String> allergies) {
+	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
 	}
 	 

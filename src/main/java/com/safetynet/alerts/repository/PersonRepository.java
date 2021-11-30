@@ -13,13 +13,13 @@ public class PersonRepository implements IPersonRepository {
     private List<Person> personList = new ArrayList<>();
 
 	@Override
+	public List<Person> getAllPerson() {
+		return this.personList;
+	}
+    
+	@Override
 	public Person addPerson(Person person) {
 		this.personList.add(person);
 		return person;
-	}
-
-	@Override
-	public List<Person> getAllPerson() {
-		return this.personList;
 	}
 }
