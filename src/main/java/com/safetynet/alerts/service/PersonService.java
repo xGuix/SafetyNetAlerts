@@ -1,5 +1,7 @@
 package com.safetynet.alerts.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,21 +9,12 @@ import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
 
 @Service
-public class PersonService {
+public class PersonService implements IPersonService {
 	
 	@Autowired
 	private PersonRepository personRepository;
     
-	public PersonRepository getPersonRepository() {
-		return (PersonRepository) personRepository.findAll();
+	public List<Person> getAllPersons(){
+		return this.personRepository.getAllPerson();
 	}
-
-	public Iterable<Person> list(){
-		return PersonRepository.personList;
-	}
-	
-	public Iterable<Person> personList(){
-		return personRepository.findAll();
-	}
-
 }

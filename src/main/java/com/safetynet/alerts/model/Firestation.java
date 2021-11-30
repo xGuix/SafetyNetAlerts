@@ -2,12 +2,11 @@ package com.safetynet.alerts.model;
 
 public class Firestation {
 	private String address;
-	private int Station;
+	private int station;
 	
 	public Firestation(String address, int station) {
-		super();
 		this.address = address;
-		Station = station;
+		this.station = station;
 	}
 	public String getAddress() {
 		return address;
@@ -16,9 +15,9 @@ public class Firestation {
 		this.address = address;
 	}
 	public int getStation() {
-		return Station;
+		return station;
 	}
 	public void setStation(int station) {
-		Station = station;
+		this.station = station;
 	}
 }

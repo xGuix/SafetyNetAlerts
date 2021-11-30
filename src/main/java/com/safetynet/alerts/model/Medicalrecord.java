@@ -2,16 +2,17 @@ package com.safetynet.alerts.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Medicalrecord {
 	 private String firstName;
 	 private String lastName;
 	 private String birthcate;
-	 private HashMap<String , Integer> medications;
-	 private ArrayList<String> allergies;
+	 private Map<String , Integer> medications;
+	 private List<String> allergies;
 	 
-	 public Medicalrecord(String firstName, String lastName, String birthcate, HashMap<String, Integer> medications, ArrayList<String> allergies) {
-		super();
+	 public Medicalrecord(String firstName, String lastName, String birthcate, Map<String, Integer> medications, List<String> allergies) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthcate = birthcate;
@@ -43,7 +44,7 @@ public class Medicalrecord {
 		this.birthcate = birthcate;
 	}
 
-	public HashMap<String, Integer> getMedications() {
+	public Map<String, Integer> getMedications() {
 		return medications;
 	}
 
@@ -51,7 +52,7 @@ public class Medicalrecord {
 		this.medications = medications;
 	}
 
-	public ArrayList<String> getAllergies() {
+	public List<String> getAllergies() {
 		return allergies;
 	}
 

@@ -1,18 +1,25 @@
 package com.safetynet.alerts.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.safetynet.alerts.model.Person;
 
 @Repository
-public interface PersonRepository extends CrudRepository<Person, Long> {
+public class PersonRepository implements IPersonRepository {
 	
-    public static final List<Person> personList = null;
+    private List<Person> personList = new ArrayList<>();
 
-    public static List<Person> showpersonList() {
-        return personList;
-    }
+	@Override
+	public Person addPerson(Person person) {
+		this.personList.add(person);
+		return person;
+	}
+
+	@Override
+	public List<Person> getAllPerson() {
+		return this.personList;
+	}
 }

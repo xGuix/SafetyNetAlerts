@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "dataSourceJson",
+    "type": "java.lang.String",
+    "description": "The dataSourceJson for persistence in memory"
+  },
+  {
+    "name": "dataSourceJson",
+    "type": "java.lang.String",
+    "description": "A description for 'dataSourceJson'"
+  },
+  {
+    "name": "dataSourceJson",
+    "type": "java.lang.String",
+    "description": "A description for 'dataSourceJson'"
+  },
+  {
+    "name": "dataSourceJson",
+    "type": "java.lang.String",
+    "description": "A description for 'dataSourceJson'"
+  },
+  {
+    "name": "dataSourceJson",
+    "type": "java.lang.String",
+    "description": "A description for 'dataSourceJson'"
+  }
+]}
