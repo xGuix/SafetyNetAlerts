@@ -1,4 +1,6 @@
 # SafetyNetAlerts
-API for Alerts and emergencies services
 
+APIRest for emergencies services
+
+Alerts system for Firestation
 Aim to help emergency services save lives.

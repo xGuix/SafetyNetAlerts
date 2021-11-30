@@ -7,13 +7,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.IPersonService;
 
 @RestController
 public class PersonsController {
 	
-	private static Logger logger = LogManager.getLogger("AlertsController");
+	private static Logger logger = LogManager.getLogger("PersonsController");
 	
 	@Autowired
 	private IPersonService personService;
@@ -26,7 +27,8 @@ public class PersonsController {
 	
 	@GetMapping("/persons")
 	public List<Person> getAllPersons(){
-		logger.info("List of persons reached");
+		logger.info("Persons Found in list");
 		return this.personService.getAllPersons();
 	}
+
 }
