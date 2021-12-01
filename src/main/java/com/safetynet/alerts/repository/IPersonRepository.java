@@ -9,4 +9,5 @@ public interface IPersonRepository {
 	public List<Person> getAllPerson();
 	
 	public Person addPerson(Person person);
+
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,9 +27,15 @@ public class PersonsController {
 		return "Welcome to SafetyNet Alerts API";
 	}
 	
-	@GetMapping("/persons")
+	@GetMapping(value = "/persons")
 	public List<Person> getAllPersons(){
-		logger.info("Persons Found in list");
+		logger.info("Persons list is found");
 		return this.personService.getAllPersons();
 	}
+	
+    @GetMapping(value = "/personsList")
+    public ResponseEntity<List<Person>> responseEntity(){
+        logger.info("Show persons List");
+        return new ResponseEntity<>(personService.getAllPersons(), HttpStatus.OK);
+    }
 }
