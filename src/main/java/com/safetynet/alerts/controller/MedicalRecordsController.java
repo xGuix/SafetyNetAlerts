@@ -8,20 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.service.IPersonService;
+import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.service.IMedicalRecordService;
 
 @RestController
-public class PersonsController {
+public class MedicalRecordsController {
 	
 	private static Logger logger = LogManager.getLogger("PersonsController");
 	
 	@Autowired
-	private IPersonService personService;
-			
-	@GetMapping(value = "/persons")
-	public List<Person> getAllPersons(){
-		logger.info("Persons list is found");
-		return this.personService.getAllPersons();
-	}
+	private IMedicalRecordService medicalRecordService;
+		   
+    @GetMapping(value = "/medicalRecords")
+    public List<MedicalRecord> getAllMedicalRecords(){
+		logger.info("Firestations list is found");
+		return this.medicalRecordService.getAllMedicalRecords();
+    }
 }
