@@ -14,14 +14,14 @@ import com.safetynet.alerts.service.IMedicalRecordService;
 @RestController
 public class MedicalRecordsController {
 	
-	private static Logger logger = LogManager.getLogger("PersonsController");
+	private static Logger logger = LogManager.getLogger("MedicalRecordsController");
 	
 	@Autowired
 	private IMedicalRecordService medicalRecordService;
 		   
     @GetMapping(value = "/medicalRecords")
     public List<MedicalRecord> getAllMedicalRecords(){
-		logger.info("Firestations list is found");
+		logger.info("Medical Records list is found");
 		return this.medicalRecordService.getAllMedicalRecords();
     }
 }

@@ -14,7 +14,7 @@ import com.safetynet.alerts.service.IFirestationService;
 @RestController
 public class FirestationsController {
 	
-	private static Logger logger = LogManager.getLogger("PersonsController");
+	private static Logger logger = LogManager.getLogger("FirestationsController");
 	
 	@Autowired
 	private IFirestationService firestationService;

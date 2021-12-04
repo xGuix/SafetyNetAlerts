@@ -2,9 +2,9 @@ package com.safetynet.alerts;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -44,9 +44,16 @@ public class JsonLoader {
 	 private String phone;
 	 private String email;
 	 private String station;
-	 private Map<String, String> medications;
-	 private List<String> allergies;
+	 private HashMap<String,String> medication;
+	 private String treatment;
+	 private String dosage;
+	 private List<String> allergie;
 
+	private void medication(String treatment, String dosage) {
+		this.treatment = treatment;
+		this.dosage = dosage;	
+	}
+	 
 
 	@PostConstruct
 	public void readJsonData() throws IOException {
@@ -84,19 +91,40 @@ public class JsonLoader {
 		JsonNode medicalRecords = root.path("medicalrecords");
 		for (Iterator<JsonNode> iteratorMedicalRecord = medicalRecords.iterator(); iteratorMedicalRecord.hasNext();) {
 			JsonNode readMedicalRecord = iteratorMedicalRecord.next();
-			MedicalRecord medicalRecord = new MedicalRecord(firstName, lastName, birthdate);
+			MedicalRecord medicalRecord = new MedicalRecord(firstName, lastName, birthdate,medication,allergie);
 			medicalRecord.setFirstName(readMedicalRecord.path(firstName).asText());
 			medicalRecord.setLastName(readMedicalRecord.path(lastName).asText());
 			medicalRecord.setBirthdate(readMedicalRecord.path(birthdate).asText());
+			// Medication treatment and dosage
+			JsonNode medications = root.at("/medicalrecords/medications");
+			medication = new HashMap<String, String> () {{
+				put(readMedicalRecord.at("/medications").asText(),readMedicalRecord.at("/medications").asText());
+				medicalRecordRepository.addMedication(treatment,dosage);
+			}};
 			
+			medicalRecord.setAllergie(allergie);
+			medicalRecordRepository.addMedication(medication);
+			medicalRecordRepository.addMedicalRecord(medicalRecord);
+			
+			/**********
+			JsonNode medications = root.at("/medicalrecords/medications");
+			for (Iterator<JsonNode> iteratorMedication = medications.iterator(); iteratorMedication.hasNext();) {
+				JsonNode readMedication = iteratorMedication.next();
+				medication = new HashMap<String, String>() {{
+						put(treatment = readMedication.path("medications").asText(),dosage = readMedication.path("medications").asText());
+					medicalRecordRepository.addMedication(treatment,dosage);
+				}};
+			medicalRecordRepository.getAllMedicalRecord();
+			}**********/
+			/************
 			JsonNode medications = root.path("medications");
 			for (Iterator<JsonNode> iteratorMedication = medications.iterator(); iteratorMedication.hasNext();) {
 				JsonNode readMedication = iteratorMedication.next();
-				//MedicalRecord medication = new MedicalRecord(medications);
-				medicalRecord.setMedications((Map<String, String>) readMedication.fields());
-				//medicalRecord.setAllergies(readMedicalRecord.path("allergies").findValues(allergie, allergies));
-				medicalRecordRepository.addMedicalRecord(medicalRecord);
-			}
+				medication = new HashMap<>();
+				medicalRecord.setMedication(readMedication.path("medications").withArray("medication"));
+				medicalRecordRepository.addMedication(treatment, dosage);
+			}*************/
+			
 		}
 	}
 }
