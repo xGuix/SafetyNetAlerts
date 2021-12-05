@@ -10,6 +10,10 @@ public interface IMedicalRecordRepository {
 	
 	public List<MedicalRecord> getAllMedicalRecord();
 	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord);
-	public Map<String, String> addMedication(String treatment, String dosage);
-	public void addMedication(HashMap<String, String> medication);
+	
+	public Map<String, String> addMedication();
+	public MedicalRecord addMedication(MedicalRecord medicalRecord);
+	
+	HashMap<String, String> addMedication(HashMap<String, String> medication);
+
 }

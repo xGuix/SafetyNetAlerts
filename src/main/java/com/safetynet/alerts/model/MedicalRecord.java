@@ -11,7 +11,7 @@ public class MedicalRecord {
 	 private Map<String,String> medication;
 	 private List<String> allergie;
 	 
-	 public MedicalRecord(String firstName, String lastName, String birthdate,Map<String, String> medication, List<String> allergie) {
+	 public MedicalRecord(String firstName, String lastName, String birthdate, Map<String, String> medication, List<String> allergie) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthdate = birthdate;

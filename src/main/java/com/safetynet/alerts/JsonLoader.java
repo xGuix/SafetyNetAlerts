@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -45,15 +46,7 @@ public class JsonLoader {
 	 private String email;
 	 private String station;
 	 private HashMap<String,String> medication;
-	 private String treatment;
-	 private String dosage;
 	 private List<String> allergie;
-
-	private void medication(String treatment, String dosage) {
-		this.treatment = treatment;
-		this.dosage = dosage;	
-	}
-	 
 
 	@PostConstruct
 	public void readJsonData() throws IOException {
@@ -95,17 +88,27 @@ public class JsonLoader {
 			medicalRecord.setFirstName(readMedicalRecord.path(firstName).asText());
 			medicalRecord.setLastName(readMedicalRecord.path(lastName).asText());
 			medicalRecord.setBirthdate(readMedicalRecord.path(birthdate).asText());
-			// Medication treatment and dosage
-			JsonNode medications = root.at("/medicalrecords/medications");
-			medication = new HashMap<String, String> () {{
-				put(readMedicalRecord.at("/medications").asText(),readMedicalRecord.at("/medications").asText());
-				medicalRecordRepository.addMedication(treatment,dosage);
-			}};
+			// Medication Map <treatment and dosage>
+			JsonNode medications = root.path("medications");
+			for (Iterator<JsonNode> iteratorMedication = medications.iterator(); iteratorMedication.hasNext();) {
+				JsonNode readMedication = iteratorMedication.next();
+				//medication = new HashMap<>();
+				medication.put(readMedication.at("/medications").asText(),readMedication.at("/medications").asText());
+				medicalRecord.setMedication(medication);
+				medicalRecordRepository.addMedication(medicalRecord);
+			}
+			// Allergie List
+			JsonNode allergies = root.path("allergies");
+			for (Iterator<JsonNode> iteratorAllergie = allergies.iterator(); iteratorAllergie.hasNext();) {
+				JsonNode readAllergie = iteratorAllergie.next();
+				//allergie = new List<>();
+				allergie.add(readAllergie.at("/allergies").asText());
+				medicalRecord.setAllergie(allergie);
+				medicalRecordRepository.addMedicalRecord(medicalRecord);
+			}
 			
-			medicalRecord.setAllergie(allergie);
-			medicalRecordRepository.addMedication(medication);
-			medicalRecordRepository.addMedicalRecord(medicalRecord);
-			
+		 medicalRecordRepository.addMedicalRecord(medicalRecord);
+
 			/**********
 			JsonNode medications = root.at("/medicalrecords/medications");
 			for (Iterator<JsonNode> iteratorMedication = medications.iterator(); iteratorMedication.hasNext();) {
