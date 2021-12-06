@@ -12,9 +12,9 @@ import com.safetynet.alerts.repository.MedicalRecordRepository;
 public class MedicalRecordService implements IMedicalRecordService {
 	
 	@Autowired
-	private MedicalRecordRepository medicalRecordnRepository;
+	private MedicalRecordRepository medicalRecordRepository;
     
 	public List<MedicalRecord> getAllMedicalRecords(){
-		return this.medicalRecordnRepository.getAllMedicalRecord();
+		return this.medicalRecordRepository.getAllMedicalRecord();
 	}
 }

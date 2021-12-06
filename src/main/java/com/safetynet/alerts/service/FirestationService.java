@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.alerts.model.Firestation;
-import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.FirestationRepository;
-import com.safetynet.alerts.repository.PersonRepository;
 
 @Service
 public class FirestationService implements IFirestationService {
