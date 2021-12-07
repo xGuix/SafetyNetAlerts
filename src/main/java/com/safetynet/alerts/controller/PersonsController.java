@@ -21,7 +21,7 @@ public class PersonsController {
 			
 	@GetMapping(value = "/persons")
 	public List<Person> getAllPersons(){
-		logger.info("Persons list is found");
+		logger.info("Persons list found");
 		return this.personService.getAllPersons();
 	}
 }

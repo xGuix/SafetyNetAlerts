@@ -21,7 +21,7 @@ public class MedicalRecordsController {
 		   
     @GetMapping(value = "/medicalRecords")
     public List<MedicalRecord> getAllMedicalRecords(){
-		logger.info("Medical Records list is found");
+		logger.info("Medical Records list found");
 		return this.medicalRecordService.getAllMedicalRecords();
     }
 }

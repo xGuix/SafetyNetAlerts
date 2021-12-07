@@ -12,7 +12,7 @@ public class AlertsController {
 		
 	@GetMapping("/")
 	public String index() {
-		logger.info("Index reached");
+		logger.info("Index found");
 		return "Welcome to SafetyNet Alerts API";
 	}
 }

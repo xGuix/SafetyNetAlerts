@@ -1,10 +1,10 @@
-package com.safetynet.alerts;
+package com.safetynet.alerts.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class JsonLoaderTest {
+class JsonLoaderServiceTest {
 
 	@Test
 	void test() {

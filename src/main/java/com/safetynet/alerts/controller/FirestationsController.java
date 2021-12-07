@@ -21,7 +21,7 @@ public class FirestationsController {
 			
     @GetMapping(value = "/firestations")
     public List<Firestation> getAllFirestations(){
-		logger.info("Firestations list is found");
+		logger.info("Firestations list found");
 		return this.firestationService.getAllFirestations();
     }
 }

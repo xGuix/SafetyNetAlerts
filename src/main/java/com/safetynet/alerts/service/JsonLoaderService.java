@@ -1,4 +1,4 @@
-package com.safetynet.alerts;
+package com.safetynet.alerts.service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import com.safetynet.alerts.repository.IMedicalRecordRepository;
 import com.safetynet.alerts.repository.IPersonRepository;
 
 @Service
-public class JsonLoader {
+public class JsonLoaderService {
 	
 	@Autowired
 	private IPersonRepository personRepository;
@@ -32,16 +32,21 @@ public class JsonLoader {
 	
 	@Value("${dataSourceJson}")
 	private String dataFilePath;
-	
+		
 	@PostConstruct
-	public void readJsonData() throws IOException {
+	public void readJsonData() {
 		
 		ObjectMapper mapper = new ObjectMapper();
-		// InputStream jsonFile reader with JsonNode avec mapper.readTree
-		JsonNode root = mapper.readTree(new FileInputStream(dataFilePath));
-		loadPersonData(root);
-		loadFireStationData(root);
-		loadMedicalRecordData(root);
+		JsonNode root;
+		try {
+			root = mapper.readTree(new FileInputStream(dataFilePath));
+			loadPersonData(root);
+			loadFireStationData(root);
+			loadMedicalRecordData(root);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void loadPersonData(JsonNode root) {
@@ -80,37 +85,21 @@ public class JsonLoader {
 		medicalRecord.setLastName(nodeMedicalRecord.path("lastName").asText());
 		medicalRecord.setBirthdate(nodeMedicalRecord.path("birthdate").asText());
 		
-		JsonNode medications = root.findPath("medications");
+		JsonNode medications = nodeMedicalRecord.path("medications");
 		List<String >medicationList = new ArrayList<>();
 		for (JsonNode nodeMedication : medications) {
 			medicationList.add(nodeMedication.asText());
-			medicalRecord.setMedication(medicationList);
 		}
-		
-		JsonNode allergies = root.findPath("allergies");
+		medicalRecord.setMedication(medicationList);
+
+		JsonNode allergies = nodeMedicalRecord.path("allergies");
 		List<String> allergieList = new ArrayList<>();
 		for (JsonNode nodeAllergie : allergies) {
 			allergieList.add(nodeAllergie.asText());
-			medicalRecord.setAllergie(allergieList);
 		}
+		medicalRecord.setAllergie(allergieList);
+		
 		medicalRecordRepository.addMedicalRecord(medicalRecord);
 		}
 	}
-	/********************************
-	public void loadMedications(JsonNode root) {
-	JsonNode medications = root.path("medications");
-	for (JsonNode medication : medications) {
-		medicationList = new ArrayList<>();
-		medicationList.add(medication.path("medications").asText());
-		}
-	}
-	public void loadAllergies(JsonNode root) {
-	JsonNode allergies = root.path("allergies");
-	for (JsonNode nodeAllergie : allergies) {
-		allergieList = new ArrayList<>();
-		allergieList.add(nodeAllergie.path("medicalrecords/allergies").asText());
-		medicalRecordRepository.addMedicalRecord();
-		}	
-	}
-	*************************************/
 }

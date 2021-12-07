@@ -11,8 +11,6 @@ import com.safetynet.alerts.model.MedicalRecord;
 public class MedicalRecordRepository implements IMedicalRecordRepository {
 	
     private List<MedicalRecord> medicalRecordList = new ArrayList<>();
-    //private List<String> medicationList = new ArrayList<>();
-    //private List<String> allergieList = new ArrayList<>();
 
 	@Override
 	public List<MedicalRecord> getAllMedicalRecord() {
@@ -24,17 +22,4 @@ public class MedicalRecordRepository implements IMedicalRecordRepository {
 		this.medicalRecordList.add(medicalRecord);
 		return medicalRecord;
 	}
-	/***********************************
-	@Override
-	public List<String> addMedication(List<String> medication) {
-		this.medicationList.addAll(medication);
-		return medication;
-	}
-
-	@Override
-	public List<String> addAllergie(List<String> allergie) {
-		this.allergieList.addAll(allergie);
-		return allergie;
-	}
-	************************************/
 }
