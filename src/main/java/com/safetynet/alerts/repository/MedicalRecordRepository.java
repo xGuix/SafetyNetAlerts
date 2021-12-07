@@ -1,9 +1,7 @@
 package com.safetynet.alerts.repository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +11,8 @@ import com.safetynet.alerts.model.MedicalRecord;
 public class MedicalRecordRepository implements IMedicalRecordRepository {
 	
     private List<MedicalRecord> medicalRecordList = new ArrayList<>();
-    private Map<String, Object> medicationMapList = new HashMap<>();
-    private List<String> allergieList = new ArrayList<>();
+    //private List<String> medicationList = new ArrayList<>();
+    //private List<String> allergieList = new ArrayList<>();
 
 	@Override
 	public List<MedicalRecord> getAllMedicalRecord() {
@@ -24,14 +22,12 @@ public class MedicalRecordRepository implements IMedicalRecordRepository {
 	@Override
 	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord) {
 		this.medicalRecordList.add(medicalRecord);
-		this.medicationMapList.putAll(medicationMapList);
-		this.allergieList.addAll(allergieList);
 		return medicalRecord;
 	}
-
+	/*********************
 	@Override
-	public Map<String, Object> addMedication(Map<String, Object> medication) {
-		this.medicationMapList.putAll(medication);
+	public List<String> addMedication(List<String> medication) {
+		this.medicationList.addAll(medication);
 		return medication;
 	}
 
@@ -40,4 +36,5 @@ public class MedicalRecordRepository implements IMedicalRecordRepository {
 		this.allergieList.addAll(allergie);
 		return allergie;
 	}
+	********************/
 }

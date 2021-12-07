@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,77 +38,76 @@ public class JsonLoader {
 	@Autowired
 	private IMedicalRecordRepository medicalRecordRepository;
 	
-	
 	@Value("${dataSourceJson}")
 	private String dataFilePath;
 	
-	 private String firstName;
-	 private String lastName;
-	 private String birthdate;
-	 private String address;
-	 private String city;
-	 private String zip;
-	 private String phone;
-	 private String email;
-	 private String station;
-	 private Map<String,String> medication;
-	 private List<String> allergie;
-
+	private List<String> medicationList;
+	private List<String> allergieList;
+	
 	@PostConstruct
 	public void readJsonData() throws IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
+				
+		// InputStream jsonFile reader with JsonNode avec mapper.readTree
+		JsonNode root = mapper.readTree(new FileInputStream(dataFilePath));
 		
-		// InputStream jsonFile reader
-		//File src = new File(dataFilePath);
-		InputStream src = new FileInputStream(dataFilePath);
+		loadPersonData(root);
+		loadFireStationData(root);
+		loadMedicalRecordData(root);
+	}
+	
+	public void loadPersonData(JsonNode root) {
+	JsonNode persons = root.path("persons");
+	for (JsonNode nodePerson : persons) {
 		
-		// JsonNode avec mapper.readTreee pour mapper le contenu
-		JsonNode root = mapper.readTree(src);
-		
-		// Persons List
-		JsonNode persons = root.path("persons");
-		for (Iterator<JsonNode> iteratorPerson = persons.iterator(); iteratorPerson.hasNext();) {
-			JsonNode readPerson = iteratorPerson.next();
-		 	Person person = new Person(firstName, lastName, address, city, zip, phone, email);
-			person.setFirstName(readPerson.path("firstName").asText());
-			person.setLastName(readPerson.path("lastName").asText());
-			person.setAddress(readPerson.path("address").asText());
-			person.setCity(readPerson.path("city").asText());
-			person.setZip(readPerson.path("zip").asText());
-		 	person.setPhone(readPerson.path("phone").asText());
-		 	person.setEmail(readPerson.path("email").asText());
-		 	personRepository.addPerson(person);
-		}
-		
-		// Firestations List
-		JsonNode firestations = root.path("firestations");
-		for (Iterator<JsonNode> iteratorFirestation = firestations.iterator(); iteratorFirestation.hasNext();) {
-			JsonNode readfirestations = iteratorFirestation.next();
-			Firestation firestation = new Firestation(address, station);
-			firestation.setAddress(readfirestations.path("address").asText());
-			firestation.setStation(readfirestations.path("station").asText());
-			firestationRepository.addFirestation(firestation);
-		}
-		
-		// MedicalRecords List
-		JsonNode medicalRecords = root.path("medicalrecords");
-		for (Iterator<JsonNode> iteratorMedicalRecord = medicalRecords.iterator(); iteratorMedicalRecord.hasNext();) {
-			JsonNode readMedicalRecord = iteratorMedicalRecord.next();
-			MedicalRecord medicalRecord = new MedicalRecord(firstName, lastName, birthdate, medication, allergie);
-			medicalRecord.setFirstName(readMedicalRecord.path("firstName").asText());
-			medicalRecord.setLastName(readMedicalRecord.path("lastName").asText());
-			medicalRecord.setBirthdate(readMedicalRecord.path("birthdate").asText());
-			// Medication to Map <>
-			medication = new HashMap<>();
-			medication.put(readMedicalRecord.path("medications").asText(),readMedicalRecord.path("medications").asText());
-			medicalRecord.setMedication(medication);
-			// Allergie List
-			allergie = new ArrayList<>();
-			allergie.add(readMedicalRecord.path("allergies").asText());
-			medicalRecord.setAllergie(allergie);
-			// Return all setup
-			medicalRecordRepository.addMedicalRecord(medicalRecord);
+	 	Person person = new Person();
+		person.setFirstName(nodePerson.path("firstName").asText());
+		person.setLastName(nodePerson.path("lastName").asText());
+		person.setAddress(nodePerson.path("address").asText());
+		person.setCity(nodePerson.path("city").asText());
+		person.setZip(nodePerson.path("zip").asText());
+	 	person.setPhone(nodePerson.path("phone").asText());
+	 	person.setEmail(nodePerson.path("email").asText());
+	 	personRepository.addPerson(person);
 		}
 	}
-}	
+		
+	public void loadFireStationData(JsonNode root) {
+	JsonNode firestations = root.path("firestations");
+	for (JsonNode nodeFirestation : firestations) {
+			
+		Firestation firestation = new Firestation();
+		firestation.setAddress(nodeFirestation.path("address").asText());
+		firestation.setStation(nodeFirestation.path("station").asText());
+		firestationRepository.addFirestation(firestation);
+		}
+	}
+		
+	public void loadMedicalRecordData(JsonNode root) {
+	JsonNode medicalRecords = root.path("medicalrecords");
+	for (JsonNode nodeMedicalRecord : medicalRecords) {
+			
+		MedicalRecord medicalRecord = new MedicalRecord("firstName","lastName","birthdate", allergieList, allergieList);
+		medicalRecord.setFirstName(nodeMedicalRecord.path("firstName").asText());
+		medicalRecord.setLastName(nodeMedicalRecord.path("lastName").asText());
+		medicalRecord.setBirthdate(nodeMedicalRecord.path("birthdate").asText());
+		
+		JsonNode medications = root.path("medications");
+		medicationList = new ArrayList<>();
+		for (JsonNode nodeMedication : medications) {
+			medicationList.add(nodeMedication.path("medications").asText());
+			}
+		medicalRecord.setMedication(medicationList);
+	
+		JsonNode allergies = root.path("allergies");
+		allergieList = new ArrayList<>();
+		for (JsonNode nodeAllergie : allergies) {
+			allergieList.add(nodeAllergie.path("allergies").asText());
+			}	
+		medicalRecord.setAllergie(allergieList);
+
+		medicalRecordRepository.addMedicalRecord(medicalRecord);
+		}
+	}
+}

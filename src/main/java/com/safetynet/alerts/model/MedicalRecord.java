@@ -1,22 +1,25 @@
 package com.safetynet.alerts.model;
 
 import java.util.List;
-import java.util.Map;
 
 public class MedicalRecord {
 	
 	 private String firstName;
 	 private String lastName;
 	 private String birthdate;
-	 private Map<String, String> medication;
+	 private List<String> medication;
 	 private List<String> allergie;
 	 
-	 public MedicalRecord(String firstName, String lastName, String birthdate, Map<String, String> medication, List<String> allergie) {
+	 public MedicalRecord(String firstName, String lastName, String birthdate, List<String> medication, List<String> allergie) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthdate = birthdate;
 		this.medication = medication;
 		this.allergie = allergie;
+	}
+	 
+	public MedicalRecord() {
+		// use empty method
 	}
 	 
 	public String getFirstName() {
@@ -43,11 +46,11 @@ public class MedicalRecord {
 		this.birthdate = birthdate;
 	}
 
-	public Map<String, String> getMedication() {
+	public List<String> getMedication() {
 		return medication;
 	}
 	
-	public void setMedication(Map<String, String> medication) {
+	public void setMedication(List<String> medication) {
 		this.medication = medication;
 	}
 

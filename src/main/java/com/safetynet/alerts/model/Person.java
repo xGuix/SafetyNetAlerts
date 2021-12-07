@@ -20,6 +20,10 @@ public class Person {
 		this.email = email;
 	}
 
+	public Person() {
+		// use empty method
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
