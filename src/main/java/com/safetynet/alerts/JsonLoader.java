@@ -2,14 +2,8 @@ package com.safetynet.alerts;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 
@@ -17,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.model.Firestation;
@@ -41,17 +33,12 @@ public class JsonLoader {
 	@Value("${dataSourceJson}")
 	private String dataFilePath;
 	
-	private List<String> medicationList;
-	private List<String> allergieList;
-	
 	@PostConstruct
 	public void readJsonData() throws IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
-				
 		// InputStream jsonFile reader with JsonNode avec mapper.readTree
 		JsonNode root = mapper.readTree(new FileInputStream(dataFilePath));
-		
 		loadPersonData(root);
 		loadFireStationData(root);
 		loadMedicalRecordData(root);
@@ -88,26 +75,42 @@ public class JsonLoader {
 	JsonNode medicalRecords = root.path("medicalrecords");
 	for (JsonNode nodeMedicalRecord : medicalRecords) {
 			
-		MedicalRecord medicalRecord = new MedicalRecord("firstName","lastName","birthdate", allergieList, allergieList);
+		MedicalRecord medicalRecord = new MedicalRecord();
 		medicalRecord.setFirstName(nodeMedicalRecord.path("firstName").asText());
 		medicalRecord.setLastName(nodeMedicalRecord.path("lastName").asText());
 		medicalRecord.setBirthdate(nodeMedicalRecord.path("birthdate").asText());
 		
-		JsonNode medications = root.path("medications");
-		medicationList = new ArrayList<>();
+		JsonNode medications = root.findPath("medications");
+		List<String >medicationList = new ArrayList<>();
 		for (JsonNode nodeMedication : medications) {
-			medicationList.add(nodeMedication.path("medications").asText());
-			}
-		medicalRecord.setMedication(medicationList);
-	
-		JsonNode allergies = root.path("allergies");
-		allergieList = new ArrayList<>();
+			medicationList.add(nodeMedication.asText());
+			medicalRecord.setMedication(medicationList);
+		}
+		
+		JsonNode allergies = root.findPath("allergies");
+		List<String> allergieList = new ArrayList<>();
 		for (JsonNode nodeAllergie : allergies) {
-			allergieList.add(nodeAllergie.path("allergies").asText());
-			}	
-		medicalRecord.setAllergie(allergieList);
-
+			allergieList.add(nodeAllergie.asText());
+			medicalRecord.setAllergie(allergieList);
+		}
 		medicalRecordRepository.addMedicalRecord(medicalRecord);
 		}
 	}
+	/********************************
+	public void loadMedications(JsonNode root) {
+	JsonNode medications = root.path("medications");
+	for (JsonNode medication : medications) {
+		medicationList = new ArrayList<>();
+		medicationList.add(medication.path("medications").asText());
+		}
+	}
+	public void loadAllergies(JsonNode root) {
+	JsonNode allergies = root.path("allergies");
+	for (JsonNode nodeAllergie : allergies) {
+		allergieList = new ArrayList<>();
+		allergieList.add(nodeAllergie.path("medicalrecords/allergies").asText());
+		medicalRecordRepository.addMedicalRecord();
+		}	
+	}
+	*************************************/
 }
