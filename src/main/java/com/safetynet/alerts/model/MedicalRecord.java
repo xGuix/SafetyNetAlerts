@@ -8,10 +8,10 @@ public class MedicalRecord {
 	 private String firstName;
 	 private String lastName;
 	 private String birthdate;
-	 private Map<String, Object> medication;
+	 private Map<String, String> medication;
 	 private List<String> allergie;
 	 
-	 public MedicalRecord(String firstName, String lastName, String birthdate, Map<String, Object> medication, List<String> allergie) {
+	 public MedicalRecord(String firstName, String lastName, String birthdate, Map<String, String> medication, List<String> allergie) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthdate = birthdate;
@@ -43,11 +43,11 @@ public class MedicalRecord {
 		this.birthdate = birthdate;
 	}
 
-	public Map<String, Object> getMedication() {
+	public Map<String, String> getMedication() {
 		return medication;
 	}
 	
-	public void setMedication(Map<String, Object> medication) {
+	public void setMedication(Map<String, String> medication) {
 		this.medication = medication;
 	}
 

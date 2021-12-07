@@ -13,7 +13,7 @@ import com.safetynet.alerts.model.MedicalRecord;
 public class MedicalRecordRepository implements IMedicalRecordRepository {
 	
     private List<MedicalRecord> medicalRecordList = new ArrayList<>();
-    private Map<String, String> medicationMapList = new HashMap<>();
+    private Map<String, Object> medicationMapList = new HashMap<>();
     private List<String> allergieList = new ArrayList<>();
 
 	@Override
@@ -24,11 +24,13 @@ public class MedicalRecordRepository implements IMedicalRecordRepository {
 	@Override
 	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord) {
 		this.medicalRecordList.add(medicalRecord);
+		this.medicationMapList.putAll(medicationMapList);
+		this.allergieList.addAll(allergieList);
 		return medicalRecord;
 	}
 
 	@Override
-	public Map<String, String> addMedication(Map<String, String> medication) {
+	public Map<String, Object> addMedication(Map<String, Object> medication) {
 		this.medicationMapList.putAll(medication);
 		return medication;
 	}
