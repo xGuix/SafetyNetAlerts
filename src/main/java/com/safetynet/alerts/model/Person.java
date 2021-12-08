@@ -21,7 +21,7 @@ public class Person {
 	}
 
 	public Person() {
-		// use empty method
+		// Use Default method
 	}
 
 	public String getFirstName() {
@@ -78,5 +78,11 @@ public class Person {
 	
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		return "Person [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
+				+ ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
 	}
 }
