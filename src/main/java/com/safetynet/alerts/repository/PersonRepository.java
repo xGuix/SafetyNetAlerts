@@ -20,6 +20,13 @@ public class PersonRepository implements IPersonRepository {
 	public List<Person> getAllPerson() {
 		return this.personList;
 	}
+
+	@Override
+	public Person addPerson(Person person) {
+		this.personList.add(person);
+		logger.debug("Person {} add to the list", person);
+		return person;
+	}
 	
 	@Override
 	public Person getPersonByName(String firstName, String lastName) {
@@ -33,16 +40,15 @@ public class PersonRepository implements IPersonRepository {
     	return null;
     }
 
-	@Override
-	public Person addPerson(Person person) {
+	public Person updatePersonInfo(Person person) {
+		logger.debug("Person {} update info", person);
 		this.personList.add(person);
-		logger.info("Person {} add to the list", person);
 		return person;
 	}
-	
+
 	@Override
 	public void deletePerson(Person person) {
 		personList.remove(person);
-		logger.info("Person {} delete from the list", person);
+		logger.debug("Person {} delete from the list", person);
 	}
 }

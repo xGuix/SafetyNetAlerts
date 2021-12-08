@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,16 +35,6 @@ public class PersonsController {
 	}
 	
 	/**
-	 * Read - Get a person by name
-	 * @return - The person data
-	 */
-    @GetMapping("/person")
-    public Person getPersonByName(@RequestParam String firstName, @RequestParam String lastName ) {
-		logger.info("Person Infos found");
-        return personService.getPersonByName(firstName,lastName);
-    }
-	
-	/**
 	 * Create - Add a new person
 	 * @param Person Model as object
 	 * @return Person added
@@ -53,6 +44,26 @@ public class PersonsController {
 		logger.info("Person is added to the persons list");
 		return personService.addPerson(person);
 	}
+	
+	/**
+	 * Read - Get a person by name
+	 * @return - The person data
+	 */
+    @GetMapping("/person")
+    public Person getPersonByName(@RequestParam String firstName, @RequestParam String lastName) {
+		logger.info("Person info found");
+        return personService.getPersonByName(firstName,lastName);
+    }
+    
+	/**
+	 * Update Person - Modif a person by name
+	 * @return - New dat to person
+	 */
+    @PatchMapping("/person")
+    public Person modifyPersonInfo(@RequestParam String firstName, @RequestParam String lastName, @RequestBody Person person) {
+		logger.info("New person info updated");
+        return personService.updatePersonInfo(person);
+    }
 	
 	/**
 	 * Delete - Delete a person

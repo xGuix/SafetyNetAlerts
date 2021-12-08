@@ -10,7 +10,7 @@ public class AlertsController {
 	
 	private static Logger logger = LogManager.getLogger("AlertsController");
 		
-	@GetMapping("/")
+	@GetMapping("/Alerts")
 	public String index() {
 		logger.info("Index found");
 		return "Welcome to SafetyNet Alerts API";
