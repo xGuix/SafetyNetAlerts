@@ -8,8 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +40,7 @@ public class PersonsController {
 	
 	/**
 	 * Create - Add a new person
-	 * @param Person Model as object
+	 * @param Person - Model as object
 	 * @return Person added
 	 */
 	@PostMapping("/person")
@@ -47,29 +51,32 @@ public class PersonsController {
 	
 	/**
 	 * Read - Get a person by name
+	 * @param firstName & lastName
 	 * @return - The person data
 	 */
-    @GetMapping("/person")
+    @GetMapping(value ="/person")
     public Person getPersonByName(@RequestParam String firstName, @RequestParam String lastName) {
 		logger.info("Person info found");
         return personService.getPersonByName(firstName,lastName);
     }
     
 	/**
-	 * Update Person - Modif a person by name
-	 * @return - New dat to person
+	 * Update Person - Modif info of a person by name
+	 * @param firstName & lastName
+	 * @return - Update new data to person
 	 */
-    @PatchMapping("/person")
+    @PatchMapping(value = "/person")
     public Person modifyPersonInfo(@RequestParam String firstName, @RequestParam String lastName, @RequestBody Person person) {
 		logger.info("New person info updated");
+		personService.deletePerson(personService.getPersonByName(firstName, lastName));
         return personService.updatePersonInfo(person);
     }
 	
 	/**
 	 * Delete - Delete a person
-	 * @param {firstName} & {lastName} - Personto delete
+	 * @param {firstName} & {lastName} - Person to delete
 	 */
-	@DeleteMapping("/person")
+	@DeleteMapping(value = "/person")
 	public void deletePerson(@RequestParam String firstName, @RequestParam String lastName) {
 		personService.deletePerson(personService.getPersonByName(firstName, lastName));
 		logger.info("Persons is deleted from the list");
