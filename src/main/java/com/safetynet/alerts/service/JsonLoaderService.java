@@ -73,7 +73,7 @@ public class JsonLoaderService {
 			
 		Firestation firestation = new Firestation();
 		firestation.setAddress(nodeFirestation.path("address").asText());
-		firestation.setStation(nodeFirestation.path("station").asText());
+		firestation.setStation(nodeFirestation.path("station").asInt());
 		firestationRepository.addFirestation(firestation);
 		}
 	}

@@ -36,14 +36,14 @@ public class PersonService implements IPersonService {
 	}
 	
 	@Override
-	public void deletePerson(Person person) {
-		logger.info("Person : {} {} is delete", person.getFirstName(),person.getLastName());
-		personRepository.deletePerson(person);
-	}
-	
-	@Override
 	public Person updatePerson(Person person) {
 		logger.info("New person info : {} {} is update", person.getFirstName(),person.getLastName());
 		return personRepository.updatePerson(person);
+	}
+	
+	@Override
+	public void deletePerson(Person person) {
+		logger.info("Person : {} {} is delete", person.getFirstName(),person.getLastName());
+		personRepository.deletePerson(person);
 	}
 }

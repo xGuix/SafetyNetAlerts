@@ -39,7 +39,7 @@ public class PersonRepository implements IPersonRepository {
 			}
 		}
 		logger.info("No person found ! Please check if typing error occurred");
-    	return null;
+		return null;
     }
 
 	public Person updatePerson(Person person) {

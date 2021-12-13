@@ -10,7 +10,7 @@ public interface IPersonRepository {
 	public Person getPersonByName(String firstName, String lastName);
 	
 	public Person addPerson(Person person);
-	public void deletePerson(Person person);
-	
 	public Person updatePerson(Person person);
+	
+	public void deletePerson(Person person);
 }
