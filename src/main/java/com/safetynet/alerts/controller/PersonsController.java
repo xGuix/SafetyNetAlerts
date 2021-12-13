@@ -8,12 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,19 +30,8 @@ public class PersonsController {
 	 */
 	@GetMapping(value = "/persons")
 	public List<Person> getAllPersons(){
-		logger.info("Persons list found");
+		logger.info("Persons list to find");
 		return this.personService.getAllPersons();
-	}
-	
-	/**
-	 * Create - Add a new person
-	 * @param Person - Model as object
-	 * @return Person added
-	 */
-	@PostMapping("/person")
-	public Person addNewPerson(@RequestBody Person person) {
-		logger.info("Person is added to the persons list");
-		return personService.addPerson(person);
 	}
 	
 	/**
@@ -56,9 +41,20 @@ public class PersonsController {
 	 */
     @GetMapping(value ="/person")
     public Person getPersonByName(@RequestParam String firstName, @RequestParam String lastName) {
-		logger.info("Person info found");
+		logger.info("Person to find");
         return personService.getPersonByName(firstName,lastName);
     }
+	
+	/**
+	 * Create - Add a new person
+	 * @param Person - Model as object
+	 * @return Person added
+	 */
+	@PostMapping(value ="/person")
+	public Person addNewPerson(@RequestBody Person person) {
+		logger.info("Person to add in persons list");
+		return personService.addPerson(person);
+	}
     
 	/**
 	 * Update Person - Modif info of a person by name
@@ -66,10 +62,9 @@ public class PersonsController {
 	 * @return - Update new data to person
 	 */
     @PatchMapping(value = "/person")
-    public Person modifyPersonInfo(@RequestParam String firstName, @RequestParam String lastName, @RequestBody Person person) {
-		logger.info("New person info updated");
-		personService.deletePerson(personService.getPersonByName(firstName, lastName));
-        return personService.updatePersonInfo(person);
+    public Person updatePerson(@RequestParam  String firstName , @RequestParam String lastName, @RequestBody Person person ) {
+		logger.info("Person info to update");
+        return personService.updatePerson(person);
     }
 	
 	/**
@@ -78,7 +73,7 @@ public class PersonsController {
 	 */
 	@DeleteMapping(value = "/person")
 	public void deletePerson(@RequestParam String firstName, @RequestParam String lastName) {
-		personService.deletePerson(personService.getPersonByName(firstName, lastName));
-		logger.info("Persons is deleted from the list");
+		logger.info("Person to delete from the list");
+		personService.deletePerson(getPersonByName(firstName, lastName));
 	}
 }

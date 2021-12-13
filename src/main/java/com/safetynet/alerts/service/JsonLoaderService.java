@@ -1,5 +1,6 @@
 package com.safetynet.alerts.service;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
@@ -100,6 +102,18 @@ public class JsonLoaderService {
 		medicalRecord.setAllergie(allergieList);
 		
 		medicalRecordRepository.addMedicalRecord(medicalRecord);
+		}
+	}
+	
+	public void writeJsonData() {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectWriter writer = mapper.writerWithDefaultPrettyPrinter();
+		File dest = new File(dataFilePath);
+		try {
+			writer.writeValues(dest);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

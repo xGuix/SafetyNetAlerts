@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.service.JsonLoaderService;
 
 @Repository
 public class PersonRepository implements IPersonRepository {
@@ -15,6 +16,7 @@ public class PersonRepository implements IPersonRepository {
 	private static Logger logger = LogManager.getLogger("PersonRepository");
 	
     private List<Person> personList = new ArrayList<>();
+    JsonLoaderService writeValue;
 
 	@Override
 	public List<Person> getAllPerson() {
@@ -24,7 +26,7 @@ public class PersonRepository implements IPersonRepository {
 	@Override
 	public Person addPerson(Person person) {
 		this.personList.add(person);
-		logger.debug("Person {} add to the list", person);
+		logger.debug("Person {} is added to the list", person);
 		return person;
 	}
 	
@@ -32,7 +34,7 @@ public class PersonRepository implements IPersonRepository {
 	public Person getPersonByName(String firstName, String lastName) {
 		for (Person person : personList) {
 			if(person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
-				logger.info("Person found : {} {}" , firstName, lastName);
+				logger.info("Person found : {} {} is sent" , firstName, lastName);
 				return person;
 			}
 		}
@@ -40,15 +42,26 @@ public class PersonRepository implements IPersonRepository {
     	return null;
     }
 
-	public Person updatePersonInfo(Person person) {
-		logger.debug("Person {} update info", person);
-		this.personList.add(person);
-		return person;
+	public Person updatePerson(Person person) {
+		if (personList.contains(getPersonByName(person.getFirstName(), person.getLastName()))) {
+			personList.set(personList.indexOf(getPersonByName(person.getFirstName(), person.getLastName())), person);
+			logger.debug("Person infos {} is updated", person);
+			return person;
+		}
+		else {
+			logger.debug("Person {} does not existe!", person);
+			return person;
+		}
 	}
 
 	@Override
 	public void deletePerson(Person person) {
-		personList.remove(person);
-		logger.debug("Person {} delete from the list", person);
+		if (personList.contains(getPersonByName(person.getFirstName(), person.getLastName()))) {
+			personList.remove(person);
+			logger.debug("Person {} is deleted from the list", person);
+		}
+		else {
+			logger.debug("Person {} does not existe!", person);
+		}
 	}
 }

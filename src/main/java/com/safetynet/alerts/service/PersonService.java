@@ -19,31 +19,31 @@ public class PersonService implements IPersonService {
 	private PersonRepository personRepository;
     
 	public List<Person> getAllPersons(){
-		logger.info("Person list Send");
+		logger.info("Person list found");
 		return personRepository.getAllPerson();
 	}
 	
 	@Override
+    public Person getPersonByName(String firstName, String lastName) {
+		logger.info("Person : {} {} is found", firstName,lastName);
+    	return personRepository.getPersonByName(firstName,lastName);
+    }
+	
+	@Override
 	public Person addPerson(Person person) {
-		logger.info("Person add : {}", person);
+		logger.info("Person added : {}", person);
 		return personRepository.addPerson(person);
 	}
 	
 	@Override
-    public Person getPersonByName(String firstName, String lastName) {
-		logger.info("Request for : {} {} are sent", firstName,lastName);
-    	return personRepository.getPersonByName(firstName,lastName);
-    }
-
-	@Override
-	public Person updatePersonInfo(Person person) {
-		logger.info("New information for : {} {} are updated", person.getFirstName(),person.getLastName());
-		return personRepository.updatePersonInfo(person);
-	}
-
-	@Override
 	public void deletePerson(Person person) {
-		logger.info("Person : {} are  deleted ", person);
+		logger.info("Person : {} {} is delete", person.getFirstName(),person.getLastName());
 		personRepository.deletePerson(person);
+	}
+	
+	@Override
+	public Person updatePerson(Person person) {
+		logger.info("New person info : {} {} is update", person.getFirstName(),person.getLastName());
+		return personRepository.updatePerson(person);
 	}
 }

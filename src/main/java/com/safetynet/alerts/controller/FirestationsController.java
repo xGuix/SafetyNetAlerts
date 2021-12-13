@@ -18,7 +18,11 @@ public class FirestationsController {
 	
 	@Autowired
 	private IFirestationService firestationService;
-			
+	
+	/**
+	 * Read - Get all firestations
+	 * @return - Full firestations list
+	 */
     @GetMapping(value = "/firestations")
     public List<Firestation> getAllFirestations(){
 		logger.info("Firestations list found");
