@@ -8,15 +8,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.service.JsonLoaderService;
 
 @Repository
 public class PersonRepository implements IPersonRepository {
 	
 	private static Logger logger = LogManager.getLogger("PersonRepository");
-	
     private List<Person> personList = new ArrayList<>();
-    JsonLoaderService writeValue;
 
 	@Override
 	public List<Person> getAllPerson() {

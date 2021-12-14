@@ -28,15 +28,17 @@ public class FirestationRepository implements IFirestationRepository {
 	}	
 	
 	@Override
-	public Firestation getAddressByNumber(int station) {
-		for (Firestation firestation : firestationList) {
-			if(firestation.getStation()==station) {
+	public Firestation getAddressByNumber(String station) {
+		for (Firestation firestation: firestationList) {
+			firestation.getAddress();
+			if(firestation.getStation().equals(station)) {
 				logger.info("Person found : {} is sent" , station);
 				return firestation;
 			}
 		}
 		logger.info("No firestation found ! Please check if typing error occurred");
 		return null;
+		
 	}
 
 	@Override
@@ -61,6 +63,5 @@ public class FirestationRepository implements IFirestationRepository {
 		else {
 			logger.debug("Firestation {} does not existe!", firestation);
 		}
-		
 	}
 }

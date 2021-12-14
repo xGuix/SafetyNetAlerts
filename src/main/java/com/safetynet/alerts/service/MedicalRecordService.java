@@ -17,4 +17,24 @@ public class MedicalRecordService implements IMedicalRecordService {
 	public List<MedicalRecord> getAllMedicalRecords(){
 		return this.medicalRecordRepository.getAllMedicalRecord();
 	}
+
+	@Override
+	public MedicalRecord getMedicalRecordByName(String firstName, String lastName) {
+		return medicalRecordRepository.getMedicalRecordByName(firstName,lastName);
+	}
+
+	@Override
+	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord) {
+		return medicalRecordRepository.addMedicalRecord(medicalRecord);
+	}
+
+	@Override
+	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
+		return medicalRecordRepository.updateMedicalRecord(medicalRecord);
+	}
+
+	@Override
+	public void deleteMedicalRecord(MedicalRecord medicalRecord) {
+		medicalRecordRepository.deleteMedicalRecord(medicalRecord);	
+	}
 }

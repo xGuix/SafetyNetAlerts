@@ -30,7 +30,7 @@ public class FirestationsController {
 	 */
     @GetMapping(value = "/firestations")
     public List<Firestation> getAllFirestations(){
-		logger.info("Firestations list found");
+		logger.info("Firestations list to find");
 		return this.firestationService.getAllFirestations();
     }
     
@@ -40,7 +40,7 @@ public class FirestationsController {
 	 * @return - The person data
 	 */
     @GetMapping(value ="/firestation")
-    public Firestation getAddressByNumber(@RequestParam int station) {
+    public Firestation getAddressByNumber(@RequestParam String station) {
 		logger.info("Firestation address to find");
         return firestationService.getAddressByNumber(station);
     }
@@ -51,25 +51,25 @@ public class FirestationsController {
 	 * @return firestation added
 	 */
 	@PostMapping(value ="/firestation")
-	public Firestation addNewFirestation(@RequestBody Firestation firestation) {
+	public Firestation addFirestation(@RequestBody Firestation firestation) {
 		logger.info("Firestation to add in firestations list");
 		return firestationService.addFirestation(firestation);
 	}
     
 	/**
-	 * Update firestation - Modif address of a firestation by id
-	 * @param {id}
+	 * Update firestation - Modif address of a firestation by station
+	 * @param {station}
 	 * @return - Update new address to firestation
 	 */
     @PatchMapping(value = "/firestation")
-    public Firestation updateFirestationn(@RequestParam int station, @RequestBody Firestation firestation ) {
+    public Firestation updateFirestationn(@RequestParam String station, @RequestBody Firestation firestation ) {
 		logger.info("Firestation info to update");
         return firestationService.updateFirestation(firestation);
     }
 	
 	/**
 	 * Delete - Delete a firestation
-	 * @param {id} - Firestation to delete
+	 * @param {firstation} - Firestation to delete
 	 */
 	@DeleteMapping(value = "/firestation")
 	public void deleteFirestation(@RequestParam Firestation firestation) {
