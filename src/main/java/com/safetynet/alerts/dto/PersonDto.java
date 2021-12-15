@@ -1,26 +1,46 @@
-package com.safetynet.alerts.model;
+package com.safetynet.alerts.dto;
 
 public class PersonDto {
-		
+	
+	private String firstName;
+	private String lastName;
     private String address;
     private String city;
     private String zip;
     private String phone;
     private String email;
     
-	public PersonDto(String address, String city, String zip, String phone, String email) {
+	public PersonDto(String firstName, String lastName, String address, String city, String zip, String phone, String email) {
 		
-		this.setAddress(address);
-		this.setCity(city);
-		this.setZip(zip);
-		this.setPhone(phone);
-		this.setEmail(email);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.zip = zip;
+		this.phone = phone;
+		this.email = email;
 	}
 
 	public PersonDto() {
 		// Use Default method
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+	
+	public void setLasttName(String lastName) {
+		this.lastName = lastName;
+	}
+	
 	public String getAddress() {
 		return address;
 	}

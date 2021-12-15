@@ -7,7 +7,7 @@ import com.safetynet.alerts.model.Firestation;
 public interface IFirestationService {
 	
 	public List<Firestation> getAllFirestations();
-	public Firestation getAddressByNumber(String station);
+	public List<Firestation> getAddressByNumber(String station);
 
 	public Firestation addFirestation(Firestation firestation);
 	public Firestation updateFirestation(Firestation firestation);

@@ -7,8 +7,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,7 @@ import com.safetynet.alerts.service.IPersonService;
 @RestController
 public class PersonsController {
 	
-	private static Logger logger = LogManager.getLogger("PersonsController");
+	private static Logger logger = LogManager.getLogger("PersonController");
 	
 	@Autowired
 	private IPersonService personService;
@@ -29,8 +29,9 @@ public class PersonsController {
 	 * @return - Full persons list
 	 */
 	@GetMapping(value = "/persons")
-	public List<Person> getAllPersons(){
-		logger.info("Persons list to find");
+	public List<Person> getAllPersons()
+	{
+		logger.info("Show persons list");
 		return this.personService.getAllPersons();
 	}
 	
@@ -40,8 +41,9 @@ public class PersonsController {
 	 * @return - The person data
 	 */
     @GetMapping(value ="/person")
-    public Person getPersonByName(@RequestParam String firstName, @RequestParam String lastName) {
-		logger.info("Person to find");
+    public Person getPersonByName(@RequestParam String firstName, @RequestParam String lastName)
+    {
+		logger.info("Search for person ; {} {}", firstName,lastName);
         return personService.getPersonByName(firstName,lastName);
     }
 	
@@ -51,8 +53,9 @@ public class PersonsController {
 	 * @return Person added
 	 */
 	@PostMapping(value ="/person")
-	public Person addNewPerson(@RequestBody Person person) {
-		logger.info("Person to add in persons list");
+	public Person addNewPerson(@RequestBody Person person)
+	{
+		logger.info("Person to add in persons list : {}",person);
 		return personService.addPerson(person);
 	}
     
@@ -61,9 +64,10 @@ public class PersonsController {
 	 * @param firstName & lastName
 	 * @return - Update new data to person
 	 */
-    @PatchMapping(value = "/person")
-    public Person updatePerson(@RequestParam  String firstName , @RequestParam String lastName, @RequestBody Person person ) {
-		logger.info("Person info to update");
+    @PutMapping(value = "/person")
+    public Person updatePerson(@RequestBody Person person)
+    {
+		logger.info("Person info to update : {}",person);
         return personService.updatePerson(person);
     }
 	
@@ -72,8 +76,9 @@ public class PersonsController {
 	 * @param {firstName} & {lastName} - Person to delete
 	 */
 	@DeleteMapping(value = "/person")
-	public void deletePerson(@RequestParam String firstName, @RequestParam String lastName) {
-		logger.info("Person to delete from the list");
-		personService.deletePerson(getPersonByName(firstName, lastName));
+	public void deletePerson(@RequestParam String firstName, @RequestParam String lastName)
+	{
+		logger.info("Person to delete from the list : {} {}",firstName,lastName);
+		personService.deletePerson(getPersonByName(firstName,lastName));
 	}
 }

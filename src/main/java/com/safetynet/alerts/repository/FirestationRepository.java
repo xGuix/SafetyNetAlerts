@@ -28,12 +28,11 @@ public class FirestationRepository implements IFirestationRepository {
 	}	
 	
 	@Override
-	public Firestation getAddressByNumber(String station) {
+	public List<Firestation> getAddressByNumber(String station) {
 		for (Firestation firestation: firestationList) {
-			firestation.getAddress();
 			if(firestation.getStation().equals(station)) {
 				logger.info("Person found : {} is sent" , station);
-				return firestation;
+				return (List<Firestation>) firestation;
 			}
 		}
 		logger.info("No firestation found ! Please check if typing error occurred");

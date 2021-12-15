@@ -24,7 +24,7 @@ public class FirestationService implements IFirestationService {
 	}
 
 	@Override
-    public Firestation getAddressByNumber(String station) {
+    public List<Firestation> getAddressByNumber(String station) {
 		logger.info("Firestation : {} is found", station);
     	return firestationRepository.getAddressByNumber(station);
     }
