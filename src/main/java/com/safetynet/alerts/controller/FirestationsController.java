@@ -74,8 +74,9 @@ public class FirestationsController {
 	 * @param {firstation} - Firestation to delete
 	 */
 	@DeleteMapping(value = "/firestation")
-	public void deleteFirestation(@RequestParam Firestation firestation) {
+	public ResponseEntity<Void> deleteFirestation(@RequestParam Firestation firestation) {
 		logger.info("Firestation to delete from the list");
 		firestationService.deleteFirestation(firestation);
+		return new ResponseEntity<> (HttpStatus.ACCEPTED);
 	}
 }
