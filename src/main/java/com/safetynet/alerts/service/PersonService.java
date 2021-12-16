@@ -37,7 +37,7 @@ public class PersonService implements IPersonService
 					personToFind.getLastName().equals(lastName)) 
 			{
 				
-				return personRepository.getPersonByName(firstName, lastName);
+				return personRepository.getPersonByStation(firstName, lastName);
 			}
 		}
 		logger.info("No match! Person not Found.");

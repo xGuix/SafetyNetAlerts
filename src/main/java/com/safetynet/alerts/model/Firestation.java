@@ -1,32 +1,38 @@
 package com.safetynet.alerts.model;
 
-public class Firestation {
-	
+public class Firestation
+{
 	private String address;
 	private String station;
 	
-	public Firestation(String address, String station) {
+	public Firestation(String address, String station)
+	{
 		this.address = address;
 		this.station = station;
 	}
 	
-	public Firestation() {
+	public Firestation()
+	{
 		// use empty method
 	}
 	
-	public String getAddress() {
+	public String getAddress()
+	{
 		return address;
 	}
 	
-	public void setAddress(String address) {
+	public void setAddress(String address)
+	{
 		this.address = address;
 	}
 	
-	public String getStation() {
+	public String getStation()
+	{
 		return station;
 	}
 	
-	public void setStation(String station) {
+	public void setStation(String station)
+	{
 		this.station = station;
 	}
 }

@@ -14,7 +14,7 @@ public class PersonRepository implements IPersonRepository
 	@Override
 	public List<Person> getAllPerson() 
 	{
-		return personList;
+		return this.personList;
 	}
 	
 	@Override
@@ -25,11 +25,12 @@ public class PersonRepository implements IPersonRepository
 	}
 	
 	@Override
-	public Person getPersonByName(String firstName, String lastName) 
+	public Person getPersonByStation(String firstName, String lastName) 
 	{	
 		for (Person person : personList) {
 			if (person.getFirstName().equals(firstName) &&
-					person.getLastName().equals(lastName)) {
+					person.getLastName().equals(lastName))
+			{
 				return personList.get(personList.indexOf(person));
 			}
 		}
@@ -39,7 +40,7 @@ public class PersonRepository implements IPersonRepository
 	@Override
 	public Person updatePerson(Person person) 
 	{
-		personList.set(personList.indexOf(getPersonByName(
+		personList.set(personList.indexOf(getPersonByStation(
 				person.getFirstName(), person.getLastName())), person);
 		return person;
 	}

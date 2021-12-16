@@ -39,7 +39,7 @@ public class PersonsController {
 	
 	/**
 	 * Read - Get a person by name
-	 * @param firstName & lastName
+	 * @param {firstName} & {lastName}
 	 * @return - The person data
 	 */
     @GetMapping(value ="/person")
@@ -63,7 +63,7 @@ public class PersonsController {
     
 	/**
 	 * Update Person - Modif info of a person by name
-	 * @param firstName & lastName
+	 * @param Person Body
 	 * @return - Update new data to person
 	 */
     @PutMapping(value = "/person")
@@ -74,7 +74,7 @@ public class PersonsController {
     }
 	
 	/**
-	 * Delete - Delete a person
+	 * Delete - Person to delete
 	 * @param {firstName} & {lastName} - Person to delete
 	 */
 	@DeleteMapping(value = "/person")
