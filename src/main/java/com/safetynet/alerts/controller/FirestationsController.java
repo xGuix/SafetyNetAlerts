@@ -109,6 +109,9 @@ public class FirestationsController
 				firestation.getStation(),
 				firestation.getAddress());
 		
+		firestationService.deleteFirestation(
+				firestationService.getOneAddressOf(address,station));
+		
         return new ResponseEntity<> (
         		firestationService.updateFirestation(firestation),
         		HttpStatus.OK);

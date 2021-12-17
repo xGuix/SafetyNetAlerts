@@ -70,16 +70,7 @@ public class FirestationService implements IFirestationService
 	@Override
 	public Firestation updateFirestation(Firestation firestation)
 	{
-		for (Firestation stationToUpdate : firestationRepository.getAllFirestation()) 
-		{
-			if (stationToUpdate.getStation().equals(firestation.getStation()) &&
-					stationToUpdate.getAddress().equals(firestation.getAddress())) 
-			{
-				return firestationRepository.updateAnAddressStation(stationToUpdate);
-			}
-		}
-		logger.info("Firestation address does not exist! Please check typing issue.");
-		throw new NullPointerException("No Match found! : Firestation is null!");
+		return firestationRepository.updateAnAddressStation(firestation);
 	}
 
 	@Override

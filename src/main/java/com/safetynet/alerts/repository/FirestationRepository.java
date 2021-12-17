@@ -54,7 +54,7 @@ public class FirestationRepository implements IFirestationRepository
 	@Override
 	public Firestation updateAnAddressStation(Firestation firestation)
 	{	
-		firestationList.set(firestationList.indexOf(firestation), firestation);
+		addAFirestation(firestation);
 		return firestation;
 	}
 
