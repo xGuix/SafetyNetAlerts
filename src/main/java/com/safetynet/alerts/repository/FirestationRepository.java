@@ -34,37 +34,33 @@ public class FirestationRepository implements IFirestationRepository
 	}
 	
 	@Override
-	public Firestation getTheAddress(Firestation firestation)
+	public Firestation getOneAddress(Firestation firestation)
 	{
-		for (Firestation addressOfFirestation: firestationList)
-		{	
-			if(addressOfFirestation.getStation().equals(firestation.getStation()) &&
-					addressOfFirestation.getAddress().equals(firestation.getStation()))
-			{
-				firestationList.get(firestationList.indexOf(firestation));
-				return firestation;
-			}
+		if(firestationList.contains(firestation))
+		{
+			firestationList.get(firestationList.indexOf(firestation));
+			return firestation;
 		}
-		return null;
+		throw new NullPointerException("No Match found! : Firestation is null!");
 	}
 	
 	@Override
-	public Firestation addFirestation(Firestation firestation)
+	public Firestation addAFirestation(Firestation firestation)
 	{
 		firestationList.add(firestation);
 		return firestation;
 	}	
 	
 	@Override
-	public Firestation updateAddressStation(Firestation firestation)
+	public Firestation updateAnAddressStation(Firestation firestation)
 	{	
-		firestationList.set(firestationList.indexOf(getTheAddress(firestation)), firestation);
+		firestationList.set(firestationList.indexOf(firestation), firestation);
 		return firestation;
 	}
 
 	@Override
-	public void deleteStation(Firestation firestation)
+	public void deleteAStation(Firestation firestation)
 	{
-		firestationList.remove(getTheAddress(firestation));
+		firestationList.remove(firestation);
 	}
 }

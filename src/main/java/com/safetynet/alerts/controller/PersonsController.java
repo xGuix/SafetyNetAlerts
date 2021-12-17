@@ -34,7 +34,9 @@ public class PersonsController {
 	public  ResponseEntity<List<Person>> getAllPersons()
 	{
 		logger.info("Show persons list");
-		return new ResponseEntity<>(personService.getAllPersons(), HttpStatus.FOUND);
+		
+		return new ResponseEntity<>(personService.getAllPersons(),
+				HttpStatus.FOUND);
 	}
 	
 	/**
@@ -43,34 +45,44 @@ public class PersonsController {
 	 * @return - The person data
 	 */
     @GetMapping(value ="/person")
-    public  ResponseEntity<Person> getPersonByName(@RequestParam String firstName, @RequestParam String lastName)
+    public  ResponseEntity<Person> getPersonByName(
+    		@RequestParam String firstName,
+    		@RequestParam String lastName)
     {
 		logger.info("Search for person ; {} {}", firstName,lastName);
-        return new ResponseEntity<> (personService.getPersonByName(firstName,lastName), HttpStatus.FOUND);
+		
+        return new ResponseEntity<>(personService.getPersonByName(firstName,lastName),
+        		HttpStatus.FOUND);
     }
 	
 	/**
 	 * Create - Add a new person
-	 * @param Person - Model as object
+	 * @param {Person} - Model as object
 	 * @return Person added
 	 */
 	@PostMapping(value ="/person")
-	public ResponseEntity<Person> addNewPerson(@RequestBody Person person)
+	public ResponseEntity<Person> addNewPerson(
+			@RequestBody Person person)
 	{
 		logger.info("Person to add in persons list : {}", person);
-		return new ResponseEntity<> (personService.addPerson(person),HttpStatus.CREATED);
+		
+		return new ResponseEntity<>(personService.addPerson(person),
+				HttpStatus.CREATED);
 	}
     
 	/**
 	 * Update Person - Modif info of a person by name
-	 * @param Person Body
+	 * @param {Person} Body
 	 * @return - Update new data to person
 	 */
     @PutMapping(value = "/person")
-    public ResponseEntity<Person> updatePerson(@RequestBody Person person)
+    public ResponseEntity<Person> updatePerson(
+    		@RequestBody Person person)
     {
 		logger.info("Person info to update : {}", person);
-        return new ResponseEntity<> (personService.updatePerson(person),HttpStatus.OK);
+		
+        return new ResponseEntity<>(personService.updatePerson(person),
+        		HttpStatus.OK);
     }
 	
 	/**
@@ -78,10 +90,13 @@ public class PersonsController {
 	 * @param {firstName} & {lastName} - Person to delete
 	 */
 	@DeleteMapping(value = "/person")
-	public ResponseEntity<Void> deletePerson(@RequestParam String firstName, @RequestParam String lastName)
+	public ResponseEntity<Void> deletePerson(
+			@RequestParam String firstName,
+			@RequestParam String lastName)
 	{
 		logger.info("Person to delete from the list : {} {}", firstName, lastName);
 		personService.deletePerson(personService.getPersonByName(firstName, lastName));
-		return new ResponseEntity<> (HttpStatus.OK);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

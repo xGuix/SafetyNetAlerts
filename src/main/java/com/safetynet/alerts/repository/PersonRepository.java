@@ -34,7 +34,7 @@ public class PersonRepository implements IPersonRepository
 				return personList.get(personList.indexOf(person));
 			}
 		}
-		return null;
+		throw new NullPointerException("No Match found! : Person is null!");
 	}
 	
 	@Override

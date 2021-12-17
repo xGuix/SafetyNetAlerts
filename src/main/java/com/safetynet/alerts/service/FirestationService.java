@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.repository.FirestationRepository;
-import java.util.Collections;
 
 @Service
 public class FirestationService implements IFirestationService 
@@ -25,7 +24,7 @@ public class FirestationService implements IFirestationService
 	}
 
 	@Override
-    public List<Firestation> getAddressByStation(String station)
+    public List<Firestation> getAddressFor(String station)
 	{
 		for (Firestation addressStation : firestationRepository.getAllFirestation())
 		{
@@ -35,37 +34,37 @@ public class FirestationService implements IFirestationService
 			}
 		}
 		logger.info("Firestation N°{} does not exist! Please check typing issue.", station);
-		return Collections.emptyList();
+		throw new NullPointerException("No Match found! : Station is null!");
 	}
 	
 	@Override
-	public Firestation getTheAddress(String address, String station) {
+	public Firestation getOneAddressOf(String address, String station)
+	{
 		for (Firestation oneAddressOfStation : firestationRepository.getAllFirestation())
 		{
 			if(oneAddressOfStation.getStation().equals(station) &&
 					oneAddressOfStation.getAddress().equals(address)) 
 			{
-				Firestation firestation = new Firestation(address, station);
-				return firestationRepository.getTheAddress(firestation);
+				return firestationRepository.getOneAddress(oneAddressOfStation);
 			}
 		}
 		logger.info("Firestation address does not exist! Please check typing issue.");
-		return null;
+		throw new NullPointerException("No Match found! : Firestation is null!");
 	}
 	
 	@Override
 	public Firestation addFirestation(Firestation firestation)
 	{
-		for (Firestation stationToAdd : firestationRepository.getAllFirestation()) 
+		for (Firestation firestationIsIn : firestationRepository.getAllFirestation()) 
 		{
-			if (stationToAdd.getStation().equals(firestation.getStation()) &&
-					stationToAdd.getAddress().equals(firestation.getAddress()))
+			if (firestationIsIn.getStation().equals(firestation.getStation()) &&
+					firestationIsIn.getAddress().equals(firestation.getAddress()))
 			{
 				logger.info("Firestation address already exist! Please check typing issue.");
-				return null;
+				throw new NullPointerException("Already exist : match found for a Firestation");
 			}
 		}
-		return firestationRepository.addFirestation(firestation);
+		return firestationRepository.addAFirestation(firestation);
 	}
 
 	@Override
@@ -76,16 +75,18 @@ public class FirestationService implements IFirestationService
 			if (stationToUpdate.getStation().equals(firestation.getStation()) &&
 					stationToUpdate.getAddress().equals(firestation.getAddress())) 
 			{
-				return firestationRepository.updateAddressStation(firestation);
+				return firestationRepository.updateAnAddressStation(stationToUpdate);
 			}
 		}
 		logger.info("Firestation address does not exist! Please check typing issue.");
-		return null;
+		throw new NullPointerException("No Match found! : Firestation is null!");
 	}
 
 	@Override
 	public void deleteFirestation(Firestation firestation)
 	{
-		firestationRepository.deleteStation(firestation);
+		if(getOneAddressOf(firestation.getAddress(),firestation.getStation()).equals(firestation)) {
+			firestationRepository.deleteAStation(firestation);
+		}
 	}
 }

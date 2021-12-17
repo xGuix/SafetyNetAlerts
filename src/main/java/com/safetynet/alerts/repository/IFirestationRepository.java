@@ -8,8 +8,10 @@ public interface IFirestationRepository
 {
 	public List<Firestation> getAllFirestation();
 	public List<Firestation> getAddressByStation(String station);
-	public Firestation getTheAddress(Firestation firestation);
-	public Firestation addFirestation(Firestation firestation);
-	public Firestation updateAddressStation(Firestation firestation);
-	public void deleteStation(Firestation firestation);
+	public Firestation getOneAddress(Firestation firestation);
+	
+	public Firestation addAFirestation(Firestation firestation);
+	public Firestation updateAnAddressStation(Firestation firestation);
+	
+	public void deleteAStation(Firestation firestation);
 }

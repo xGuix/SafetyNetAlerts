@@ -34,56 +34,100 @@ public class FirestationsController
     public ResponseEntity<List<Firestation>> getAllFirestations()
     {
 		logger.info("Show Firestations list");
-		return new ResponseEntity<> (firestationService.getAllFirestations(), HttpStatus.FOUND);
+		
+		return new ResponseEntity<> (
+				firestationService.getAllFirestations(),
+				HttpStatus.FOUND);
     }
     
 	/**
 	 * Read - Get address by station
-	 * @param station - N° of station
+	 * @param {station} - N° of station
 	 * @return - The address list
 	 */
-    @GetMapping(value ="/firestation")
-    public ResponseEntity<List<Firestation>> getAddressByStation(@RequestParam String station)
+    @GetMapping(value ="/station")
+    public ResponseEntity<List<Firestation>> getAddressForStation(
+    		@RequestParam String station)
     {
-		logger.info("Search address list of firestation N°{}", station);
-        return new ResponseEntity<>(firestationService.getAddressByStation(station), HttpStatus.FOUND);
+		logger.info("Search address list of firestation N°{}",
+				station);
+		
+        return new ResponseEntity<>(
+        		firestationService.getAddressFor(station),
+        		HttpStatus.FOUND);
+    }
+    
+	/**
+	 * Read - Get One address of a station
+	 * @param {Address} & {Station}
+	 * @return - One address of station
+	 */
+    @GetMapping(value ="/firestation")
+    public ResponseEntity<Firestation> getOneAddressOfStation(
+    		@RequestParam String address,
+    		@RequestParam String station)
+    {
+		logger.info("Search address of firestation N°{} : {}",
+				station,
+				address);
+		
+        return new ResponseEntity<>(
+        		firestationService.getOneAddressOf(address,station),
+        		HttpStatus.FOUND);
     }
     
 	/**
 	 * Create - Add a new firestation
-	 * @param - Firestation Body
+	 * @param - {firestation} Body
 	 * @return - firestation added
 	 */
 	@PostMapping(value ="/firestation")
-	public ResponseEntity<Firestation> addFirestation(@RequestBody Firestation firestation)
+	public ResponseEntity<Firestation> addFirestation(
+			@RequestBody Firestation firestation)
 	{
-		logger.info("Address to add in firestations N°{} : {}", firestation.getStation() , firestation.getAddress());
-		return new ResponseEntity<> (firestationService.addFirestation(firestation), HttpStatus.OK);
+		logger.info("Address to add in firestations N°{} : {}", 
+				firestation.getStation(),
+				firestation.getAddress());
+		
+		return new ResponseEntity<> (
+				firestationService.addFirestation(firestation),
+				HttpStatus.OK);
 	}
     
 	/**
 	 * Update firestation - Modif address of firestation
-	 * @param - Firestation Body
+	 * @param - {firestation} Body
 	 * @return - Update address in the list
 	 */
     @PutMapping(value = "/firestation")
-    public ResponseEntity<Firestation> updateFirestationn(@RequestBody Firestation firestation)
+    public ResponseEntity<Firestation> updateFirestation(
+    		@RequestParam String address,
+    		@RequestParam String station,
+    		@RequestBody Firestation firestation)
     {
-		logger.info("Firestation N°{} address to update : {}", firestation.getStation(),firestation.getAddress());
-        return new ResponseEntity<> (firestationService.updateFirestation(firestation), HttpStatus.OK);
+		logger.info("Firestation N°{} address to update : {}",
+				firestation.getStation(),
+				firestation.getAddress());
+		
+        return new ResponseEntity<> (
+        		firestationService.updateFirestation(firestation),
+        		HttpStatus.OK);
     }
 	
 	/**
 	 * Delete - Firestation to delete
-	 * @param - Firestation Body
+	 * @param - {firestation} Body
 	 * @param - N° of station
 	 */
 	@DeleteMapping(value = "/firestation")
-	public ResponseEntity<Void> deleteFirestation(@RequestParam String address, String station)
+	public ResponseEntity<Void> deleteFirestation(@RequestParam String address, @RequestParam String station)
 	{
-		logger.info("Firestation address to delete from the Station N°{} : {}", address,station);
+		logger.info("Firestation address to delete from the Station N°{} : {}", station, address);
 		
-		firestationService.deleteFirestation(firestationService.getTheAddress(address,station));
-		return new ResponseEntity<> (HttpStatus.OK);
+		firestationService.deleteFirestation(
+				firestationService.getOneAddressOf(address,station));	
+		
+		return new ResponseEntity<> (
+				HttpStatus.OK);
 	}
 }
