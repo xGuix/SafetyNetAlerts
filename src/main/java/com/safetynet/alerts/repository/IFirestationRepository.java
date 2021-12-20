@@ -4,8 +4,14 @@ import java.util.List;
 
 import com.safetynet.alerts.model.Firestation;
 
-public interface IFirestationRepository {
-	
+public interface IFirestationRepository
+{
 	public List<Firestation> getAllFirestation();
-	public Firestation addFirestation(Firestation firestation);
+	public List<Firestation> getAddressByStation(String station);
+	public Firestation getOneAddress(Firestation firestation);
+	
+	public Firestation addAFirestation(Firestation firestation);
+	public Firestation updateAnAddressStation(Firestation firestation);
+	
+	public void deleteAStation(Firestation firestation);
 }

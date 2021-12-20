@@ -4,8 +4,13 @@ import java.util.List;
 
 import com.safetynet.alerts.model.MedicalRecord;
 
-public interface IMedicalRecordRepository {
+public interface IMedicalRecordRepository
+{
+	public List<MedicalRecord> getAllMedicalRecords();	
+	public MedicalRecord getMedicalRecordByName(String firstName, String lastName);
 	
-	public List<MedicalRecord> getAllMedicalRecord();
 	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord);
+	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord);
+	
+	public void deleteMedicalRecord(MedicalRecord medicalRecord);
 }
