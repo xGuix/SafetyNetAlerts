@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.safetynet.alerts.model.MedicalRecord;
 
-public interface IMedicalRecordRepository {
-	
-	public List<MedicalRecord> getAllMedicalRecord();	
+public interface IMedicalRecordRepository
+{
+	public List<MedicalRecord> getAllMedicalRecords();	
 	public MedicalRecord getMedicalRecordByName(String firstName, String lastName);
 	
 	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord);

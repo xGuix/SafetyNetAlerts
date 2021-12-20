@@ -7,11 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class SafetyNetAlertsApplication extends SpringBootServletInitializer {
-	
+public class SafetyNetAlertsApplication extends SpringBootServletInitializer
+{
 	private static Logger loggerMain = LogManager.getLogger("SafetyNetAlertsApplication");
 	
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		SpringApplication.run(SafetyNetAlertsApplication.class, args);
 		loggerMain.info("Application have start - Main is running");
 	}

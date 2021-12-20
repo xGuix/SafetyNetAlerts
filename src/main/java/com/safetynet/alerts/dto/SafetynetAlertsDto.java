@@ -2,12 +2,10 @@ package com.safetynet.alerts.dto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.safetynet.alerts.repository.PersonRepository;
-
 public class SafetynetAlertsDto {
 	
 	@Autowired
-	private PersonRepository personRepository;
+	//private IPersonService personService;
 	
 	
 	public PersonDto getFullFileForOnePerson(String firstName, String lastName) {

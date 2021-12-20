@@ -9,13 +9,13 @@ import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.repository.MedicalRecordRepository;
 
 @Service
-public class MedicalRecordService implements IMedicalRecordService {
-	
+public class MedicalRecordService implements IMedicalRecordService
+{
 	@Autowired
 	private MedicalRecordRepository medicalRecordRepository;
     
 	public List<MedicalRecord> getAllMedicalRecords(){
-		return this.medicalRecordRepository.getAllMedicalRecord();
+		return this.medicalRecordRepository.getAllMedicalRecords();
 	}
 
 	@Override
