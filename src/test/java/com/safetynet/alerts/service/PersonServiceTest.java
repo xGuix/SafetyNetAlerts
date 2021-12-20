@@ -7,8 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 class PersonServiceTest
 {	
 	@Test
-	void test() 
-	{
-		return;
-	}
+	void PersonServiceReadyForTest() {}
 }

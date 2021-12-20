@@ -7,8 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 class JsonLoaderServiceTest
 {
 	@Test
-	void test()
-	{
-		return;
-	}
+	void jsonLoaderReadyForTest() {}
 }

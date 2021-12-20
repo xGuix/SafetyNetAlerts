@@ -8,7 +8,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 class SafetyNetAlertsApplicationTests
 {
 	@Test
-	void MainIsRunning() {
-		return;
-	}
+	void MainIsRunning() {}
 }
