@@ -1,22 +1,22 @@
 package com.safetynet.alerts.controller;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.RETURNS_DEFAULTS;
-import static org.mockito.Mockito.RETURNS_MOCKS;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.PersonService;
 
@@ -25,6 +25,9 @@ class PersonsControllerTest
 {
 	@Autowired
 	MockMvc mockMvc;
+	
+	@Autowired
+	ObjectMapper objectMapper;
 	
 	@MockBean
 	PersonService personservice;
@@ -37,39 +40,59 @@ class PersonsControllerTest
 	}
 	
 	@Test
-	void whenReadPersonsList_returnJsonContent() throws Exception {
+	void whenReadPersons_returnJsonContent() throws Exception {
 		
-		when(personservice.getAllPersons()).then(RETURNS_MOCKS);
-	    mockMvc.perform(get("/persons"))
-	        .andExpect(status().isFound())
-			.andExpect(view().name("getAllPersons"))
-	    	.andDo(print());
+		when(personservice.getAllPersons()).then(RETURNS_DEFAULTS);
+	    mockMvc.perform(get("/persons")
+	    	.contentType(MediaType.APPLICATION_JSON))
+	        	.andExpect(status().isFound());
 	}
 	
     @Test
     void whenNoRequestParam_returnDefault() throws Exception 
     {
 		when(personservice.getPersonByName(null,null)).then(RETURNS_DEFAULTS);
-        mockMvc.perform(get("/person"))
-            .andExpect(status().isFound())
-			.andExpect(view().name("getPersonByName"))
-            .andExpect(content().string(containsString(null)));
-            
+        mockMvc.perform(get("/person")
+        	.contentType(MediaType.APPLICATION_JSON))
+            	.andExpect(status().isBadRequest());         
     }
  
     @Test
     void whenRequestParam_returnCustom() throws Exception
     {	    	
-	
         mockMvc.perform(get("/person")
-        	.param("firstName", "John")
-        	.param("lastName", "Boyd"))
-        	.andExpect(status().isFound())
-			.andExpect(view().name("getPersonByName"))
-        	.andExpect(content().string(containsString("Culver")))
-        	.andDo(print());
+        	.param("firstName", "Guix")
+        	.param("lastName", "DeBrens")
+        	.contentType(MediaType.APPLICATION_JSON))
+        		.andExpect(status().isFound())
+        		.andReturn();
     }
-   
-	@Test
-	void JustePourVoirTest() throws Exception {}
+    
+    @Test
+    void whenPostPerson_addNewOne() throws Exception
+    {	    	
+	    mockMvc.perform(post("/person")
+	        .content(objectMapper.writeValueAsString(objectMapper))
+	        .contentType(MediaType.APPLICATION_JSON))
+	        .andExpect(status().isCreated());
+    }
+    
+    @Test
+    void whenPutPerson_updatePerson() throws Exception
+    {	    	
+	    mockMvc.perform(put("/person")
+	        .content(objectMapper.writeValueAsString(objectMapper))
+	        .contentType(MediaType.APPLICATION_JSON))
+	        .andExpect(status().isOk());
+    }
+
+    @Test
+	void whenDeletePersonsContent() throws Exception
+    {	
+	    mockMvc.perform(delete("/person")
+	    	.param("firstName", "Guix")
+	        .param("lastName", "DeBrens")
+	        .contentType(MediaType.APPLICATION_JSON))
+	   			.andExpect(status().isOk());
+	}
 }
