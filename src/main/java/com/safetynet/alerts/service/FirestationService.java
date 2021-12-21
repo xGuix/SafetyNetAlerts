@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,15 +27,32 @@ public class FirestationService implements IFirestationService
 	@Override
     public List<Firestation> getAddressFor(String station)
 	{
-		for (Firestation addressStation : firestationRepository.getAllFirestation())
-		{
-			if(addressStation.getStation().equals(station)) 
-			{
-				return firestationRepository.getAddressByStation(station);
-			}
-		}
 		logger.info("Firestation N°{} does not exist! Please check typing issue.", station);
-		throw new NullPointerException("No Match found! : Station is null!");
+		return firestationRepository.getAllFirestation().stream()
+				.filter(f -> f.getStation().equals(station))
+				.collect(Collectors.toList());
+		/*
+		 * for (Firestation addressStation : firestationRepository.getAllFirestation())
+		 * { if(addressStation.getStation().equals(station)) { return
+		 * firestationRepository.getAddressByStation(station); } }
+		 */
+
+	}
+	
+
+    public List<String> getOnlyAddressesFor(String station)
+	{
+		logger.info("Firestation N°{} does not exist! Please check typing issue.", station);
+		return firestationRepository.getAllFirestation().stream()
+				.filter(f -> f.getStation().equals(station))
+				.map(Firestation::getAddress)
+				.collect(Collectors.toList());
+		/*
+		 * for (Firestation addressStation : firestationRepository.getAllFirestation())
+		 * { if(addressStation.getStation().equals(station)) { return
+		 * firestationRepository.getAddressByStation(station); } }
+		 */
+
 	}
 	
 	@Override

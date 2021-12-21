@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,20 +29,17 @@ public class PersonService implements IPersonService
 		return personRepository.addPerson(person);
 	}
 	
+	
 	@Override
     public Person getPersonByName(String firstName, String lastName) 
 	{
-		for (Person personToFind : personRepository.getAllPerson()) 
-		{
-			if(personToFind.getFirstName().equals(firstName) && 
-					personToFind.getLastName().equals(lastName)) 
-			{
-				
-				return personRepository.getPersonByStation(firstName, lastName);
-			}
-		}
 		logger.info("No match! Person not Found.");
-		return null;
+		return personRepository.getAllPerson().stream()
+				.filter(p -> {
+					p.getFirstName().equals(firstName);
+					p.getLastName().equals(lastName);
+					})
+				.collect(Collectors.toList());
     }
 	
 	@Override

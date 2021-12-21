@@ -1,5 +1,6 @@
 package com.safetynet.alerts.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.io.FileInputStream;
@@ -30,7 +31,6 @@ class JsonLoaderServiceTest
 		JsonNode root = mapper.readTree(new FileInputStream(Mockito.anyString()));
 		when(root).thenThrow(IOException.class);
 
-		// assertThrows(IOException.class,mapper);
-		
+		assertThat(root).isEmpty();
 	}
 }

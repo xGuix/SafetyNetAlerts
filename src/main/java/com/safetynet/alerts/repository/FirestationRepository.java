@@ -2,6 +2,7 @@ package com.safetynet.alerts.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -21,16 +22,9 @@ public class FirestationRepository implements IFirestationRepository
 	@Override
 	public List<Firestation> getAddressByStation(String station)
 	{
-	    final List<Firestation> stationAddressList = new ArrayList<>();
-	    
-		for (Firestation stationAddress : firestationList)
-		{
-			if(stationAddress.getStation().equals(station))
-			{
-				stationAddressList.add(stationAddress);
-			}
-		}
-		return stationAddressList;
+			return this.firestationList.stream()
+	    		.filter(f -> f.getStation().equals(station))
+	    		.collect(Collectors.toList());
 	}
 	
 	@Override
@@ -54,7 +48,11 @@ public class FirestationRepository implements IFirestationRepository
 	@Override
 	public Firestation updateAnAddressStation(Firestation firestation)
 	{	
-		addAFirestation(firestation);
+		//notre firestation a updater
+		Firestation firestationToUpdate = firestationList.stream()
+				.filter(f -> f.getAddress().equals(firestation.getAddress()))
+				.findAny().orElseThrow(null);
+		this.firestationList.set(firestationList.indexOf(firestationToUpdate), firestation);
 		return firestation;
 	}
 
