@@ -54,7 +54,7 @@ public class PersonRepository implements IPersonRepository
 	{	
 		Person personToUpdate = personList.stream()
 				.filter(p -> p.getLastName().equals(person.getLastName()))
-				.findAny().orElseThrow(() -> new NotFoundException("Person does not exist"));
+				.findAny().orElseThrow(() -> new NotFoundException("Person does not exists"));
 		this.personList.set(personList.indexOf(personToUpdate), person);
 		logger.info("Successfully updated to persons list!");
 		return person;

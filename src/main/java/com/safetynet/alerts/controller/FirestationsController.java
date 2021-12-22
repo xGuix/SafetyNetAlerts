@@ -57,7 +57,7 @@ public class FirestationsController
     @GetMapping(value ="/stationAddresses")
     public ResponseEntity<List<String>> getOnlyAddressesOfStation(@RequestParam String station)
     {
-		logger.info("Sending request to find list of station address N°{}", station);		
+		logger.info("Sending request to find addresses list of station N°{}", station);		
         return new ResponseEntity<>(firestationService.getOnlyAddressesFor(station), HttpStatus.FOUND);
     }
     
