@@ -43,72 +43,45 @@ public class PersonsController {
 	 * @return - The person data
 	 */
     @GetMapping(value ="/person")
-    public  ResponseEntity<Person> getPersonByName(
-    		@RequestParam String firstName,
-    		@RequestParam String lastName)
+    public  ResponseEntity<Person> getPersonByName(@RequestParam String firstName, @RequestParam String lastName)
     {
-		logger.info("Sending request to find person : '{} {}'", firstName,lastName);
+		logger.info("Sending request to find person :'{} {}'", firstName,lastName);
         return new ResponseEntity<>(personService.getPersonByName(firstName,lastName), HttpStatus.FOUND);
     }
 	
 	/**
 	 * Create - Add a new person
-	 * @param {Person} - Model as object
-	 * @return Person added
+	 * @param - {Person} - Model as object
+	 * @return - Person added
 	 */
 	@PostMapping(value ="/person")
-	public ResponseEntity<Person> addNewPerson(
-			@RequestBody Person person)
+	public ResponseEntity<Person> addNewPerson(@RequestBody Person person)
 	{
-		if(person!=null)
-		{
-			logger.info("Sending request to add : {}", person);
-			return new ResponseEntity<>(personService.addPerson(person), HttpStatus.CREATED);
-		}
-		else
-		{
-			logger.error("Person already exist! Please check and retry");
-	        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
+		logger.info("Sending request to add : {}", person);
+		return new ResponseEntity<>(personService.addPerson(person), HttpStatus.CREATED);
 	}
     
 	/**
 	 * Update Person - Modif info of a person by name
-	 * @param {Person} Body
+	 * @param - {Person} Body
 	 * @return - Update new data to person
 	 */
     @PutMapping(value = "/person")
     public ResponseEntity<Person> updatePerson(@RequestBody Person person)
     {
-		if(person!=null)
-		{
-			logger.info("Person Found! Sending Person to update : {} ", person);
-			return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
-	    }
-		else
-		{
-			logger.error("Person does not exist! Please check and retry");
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		logger.info("Sending Person to update : {}", person);
+		return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
     }
 	
 	/**
 	 * Delete - Person to delete
-	 * @param {firstName} & {lastName} - Person to delete
+	 * @param - {firstName} & {lastName} - Person to delete
 	 */
 	@DeleteMapping(value = "/person")
 	public ResponseEntity<Void> deletePerson(@RequestParam String firstName, @RequestParam String lastName)
 	{
-		if(firstName != null && lastName != null)
-		{
-			logger.info("Person Found! Sending Person to delete...");
-			personService.deletePerson(personService.getPersonByName(firstName, lastName));
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-		else
-		{
-			logger.error("Person does not exist! Please check and retry");
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		logger.info("Sending Person to delete :'{} {}’", firstName,lastName);
+		personService.deletePerson(personService.getPersonByName(firstName, lastName));
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
