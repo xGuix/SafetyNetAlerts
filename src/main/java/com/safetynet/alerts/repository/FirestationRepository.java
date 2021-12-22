@@ -22,20 +22,16 @@ public class FirestationRepository implements IFirestationRepository
 	@Override
 	public List<Firestation> getAddressByStation(String station)
 	{
-			return this.firestationList.stream()
-	    		.filter(f -> f.getStation().equals(station))
-	    		.collect(Collectors.toList());
+		return this.firestationList.stream()
+	    	.filter(f -> f.getStation().equals(station))
+	    	.collect(Collectors.toList());
 	}
 	
 	@Override
-	public Firestation getOneAddress(Firestation firestation)
+	public Firestation getOneFirestation(Firestation firestation)
 	{
-		if(firestationList.contains(firestation))
-		{
-			firestationList.get(firestationList.indexOf(firestation));
-			return firestation;
-		}
-		throw new NullPointerException("No Match found! : Firestation is null!");
+		firestationList.get(firestationList.indexOf(firestation));
+		return firestation;
 	}
 	
 	@Override
@@ -50,8 +46,8 @@ public class FirestationRepository implements IFirestationRepository
 	{	
 		//notre firestation a updater
 		Firestation firestationToUpdate = firestationList.stream()
-				.filter(f -> f.getAddress().equals(firestation.getAddress()))
-				.findAny().orElseThrow(null);
+			.filter(f -> f.getAddress().equals(firestation.getAddress()))
+			.findAny().orElseThrow(null);
 		this.firestationList.set(firestationList.indexOf(firestationToUpdate), firestation);
 		return firestation;
 	}

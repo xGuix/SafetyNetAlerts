@@ -25,21 +25,14 @@ public class FirestationService implements IFirestationService
 	}
 
 	@Override
-    public List<Firestation> getAddressFor(String station)
+    public List<Firestation> getFirestationsFor(String station)
 	{
 		logger.info("Firestation N°{} does not exist! Please check typing issue.", station);
 		return firestationRepository.getAllFirestation().stream()
 				.filter(f -> f.getStation().equals(station))
 				.collect(Collectors.toList());
-		/*
-		 * for (Firestation addressStation : firestationRepository.getAllFirestation())
-		 * { if(addressStation.getStation().equals(station)) { return
-		 * firestationRepository.getAddressByStation(station); } }
-		 */
-
 	}
 	
-
     public List<String> getOnlyAddressesFor(String station)
 	{
 		logger.info("Firestation N°{} does not exist! Please check typing issue.", station);
@@ -47,23 +40,17 @@ public class FirestationService implements IFirestationService
 				.filter(f -> f.getStation().equals(station))
 				.map(Firestation::getAddress)
 				.collect(Collectors.toList());
-		/*
-		 * for (Firestation addressStation : firestationRepository.getAllFirestation())
-		 * { if(addressStation.getStation().equals(station)) { return
-		 * firestationRepository.getAddressByStation(station); } }
-		 */
-
 	}
 	
 	@Override
-	public Firestation getOneAddressOf(String address, String station)
+	public Firestation getOneFirestation(String address, String station)
 	{
 		for (Firestation oneAddressOfStation : firestationRepository.getAllFirestation())
 		{
 			if(oneAddressOfStation.getStation().equals(station) &&
 					oneAddressOfStation.getAddress().equals(address)) 
 			{
-				return firestationRepository.getOneAddress(oneAddressOfStation);
+				return firestationRepository.getOneFirestation(oneAddressOfStation);
 			}
 		}
 		logger.info("Firestation address does not exist! Please check typing issue.");
@@ -94,7 +81,7 @@ public class FirestationService implements IFirestationService
 	@Override
 	public void deleteFirestation(Firestation firestation)
 	{
-		if(getOneAddressOf(firestation.getAddress(),firestation.getStation()).equals(firestation)) {
+		if(getOneFirestation(firestation.getAddress(),firestation.getStation()).equals(firestation)) {
 			firestationRepository.deleteAStation(firestation);
 		}
 	}
