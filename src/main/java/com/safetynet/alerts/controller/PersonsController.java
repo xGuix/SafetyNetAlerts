@@ -14,14 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.RequestAttributeMethodArgumentResolver;
-import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
-import com.fasterxml.jackson.databind.node.MissingNode;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.IPersonService;
-
-import groovyjarjarpicocli.CommandLine.MissingParameterException;
 
 @RestController
 public class PersonsController {
@@ -38,8 +33,7 @@ public class PersonsController {
 	@GetMapping(value = "/persons")
 	public  ResponseEntity<List<Person>> getAllPersons()
 	{
-		logger.info("Show persons list");
-		
+		logger.info("Sending request for persons list...");	
 		return new ResponseEntity<>(personService.getAllPersons(), HttpStatus.FOUND);
 	}
 	
@@ -53,8 +47,7 @@ public class PersonsController {
     		@RequestParam String firstName,
     		@RequestParam String lastName)
     {
-		logger.info("Search for person ; {} {}", firstName,lastName);
-		
+		logger.info("Sending request to find person : '{} {}'", firstName,lastName);
         return new ResponseEntity<>(personService.getPersonByName(firstName,lastName), HttpStatus.FOUND);
     }
 	
@@ -67,9 +60,16 @@ public class PersonsController {
 	public ResponseEntity<Person> addNewPerson(
 			@RequestBody Person person)
 	{
-		logger.info("Person to add in persons list : {}", person);
-		
-		return new ResponseEntity<>(personService.addPerson(person), HttpStatus.CREATED);
+		if(person!=null)
+		{
+			logger.info("Sending request to add : {}", person);
+			return new ResponseEntity<>(personService.addPerson(person), HttpStatus.CREATED);
+		}
+		else
+		{
+			logger.error("Person already exist! Please check and retry");
+	        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
 	}
     
 	/**
@@ -80,21 +80,16 @@ public class PersonsController {
     @PutMapping(value = "/person")
     public ResponseEntity<Person> updatePerson(@RequestBody Person person)
     {
-		logger.info("Search to update : {}", person);
-		if(person.getFirstName()==null && person.getLastName()==null)
+		if(person!=null)
 		{
-			logger.error("No body found! Please check your requestBody");
-	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			logger.info("Person Found! Sending Person to update : {} ", person);
+			return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
 	    }
-		else if (person != personService.getPersonByName(person.getFirstName(), person.getLastName()))
+		else
 		{
-			logger.error("Person does not exist! Pleace check and retry");
+			logger.error("Person does not exist! Please check and retry");
 	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		else
-	    {
-	        return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
-	    }
     }
 	
 	/**
@@ -104,22 +99,16 @@ public class PersonsController {
 	@DeleteMapping(value = "/person")
 	public ResponseEntity<Void> deletePerson(@RequestParam String firstName, @RequestParam String lastName)
 	{
-		logger.info("Person to delete from the list : {} {}", firstName, lastName);
-		personService.deletePerson(personService.getPersonByName(firstName, lastName));
-		
-		return new ResponseEntity<>(HttpStatus.OK);
+		if(firstName != null && lastName != null)
+		{
+			logger.info("Person Found! Sending Person to delete...");
+			personService.deletePerson(personService.getPersonByName(firstName, lastName));
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		else
+		{
+			logger.error("Person does not exist! Please check and retry");
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
-	/*********************************************************
-	@PutMapping(value="/person", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<String> editPerson(@RequestBody Person person) {
-        LOGGER.info("Requête Put reçue à /person");
-        if(person == null) {
-            LOGGER.error("pas de body fourni");
-            return new ResponseEntity<>("Content is empty", HttpStatus.NO_CONTENT);
-        }
-        else {
-            personService.editPerson(person);
-            return new ResponseEntity<>("Person updated successfully", HttpStatus.OK);
-        }
-     ****************************************************/
 }

@@ -1,19 +1,25 @@
 package com.safetynet.alerts.repository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+
 import com.safetynet.alerts.model.Person;
 
 @Repository
 public class PersonRepository implements IPersonRepository 
 {
+	private static Logger logger = LogManager.getLogger("PersonRepository");
+	
     private List<Person> personList = new ArrayList<>();
 
 	@Override
 	public List<Person> getAllPerson() 
 	{
+		logger.info("Person list found!");
 		return this.personList;
 	}
 	
@@ -21,33 +27,25 @@ public class PersonRepository implements IPersonRepository
 	public Person addPerson(Person person) 
 	{
 		personList.add(person);
+		logger.info("Successfully added to persons list!");	
 		return person;
 	}
 	
 	@Override
-	public Person getPersonByStation(String firstName, String lastName) 
-	{	
-		for (Person person : personList) {
-			if (person.getFirstName().equals(firstName) &&
-					person.getLastName().equals(lastName))
-			{
-				return personList.get(personList.indexOf(person));
-			}
-		}
-		throw new NullPointerException("No Match found! : Person is null!");
-	}
-	
-	@Override
 	public Person updatePerson(Person person) 
-	{
-		personList.set(personList.indexOf(getPersonByStation(
-				person.getFirstName(), person.getLastName())), person);
+	{	
+		Person personToUpdate = personList.stream()
+				.filter(p -> p.getLastName().equals(person.getLastName()))
+				.findAny().orElseThrow(null);
+		this.personList.set(personList.indexOf(personToUpdate), person);
+		logger.info("Successfully updated to persons list!");
 		return person;
 	}
 
 	@Override
 	public void deletePerson(Person person) 
 	{
+		logger.info("Successfully deleted from persons list!");
 		personList.remove(person);	
 	}
 }
