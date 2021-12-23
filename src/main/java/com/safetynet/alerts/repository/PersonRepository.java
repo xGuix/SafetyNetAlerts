@@ -39,7 +39,7 @@ public class PersonRepository implements IPersonRepository
 	public Person addPerson(Person person) 
 	{
 		personList.add(person);
-		logger.info("Successfully added to persons list! {}",person);	
+		logger.info("Successfully added to persons list");	
 		return person;
 	}
 	
@@ -56,7 +56,7 @@ public class PersonRepository implements IPersonRepository
 				.filter(p -> p.getLastName().equals(person.getLastName()))
 				.findAny().orElseThrow(() -> new NotFoundException("Person does not exists"));
 		this.personList.set(personList.indexOf(personToUpdate), person);
-		logger.info("Successfully updated to persons list!");
+		logger.info("Successfully updated to persons list : {}",person);
 		return person;
 	}
 	
@@ -67,7 +67,7 @@ public class PersonRepository implements IPersonRepository
 	@Override
 	public void deletePerson(Person person) 
 	{
-		logger.info("Successfully deleted from persons list!");
+		logger.info("Successfully deleted from persons list : {}",person);
 		personList.remove(person);	
 	}
 }

@@ -21,7 +21,7 @@ public class GlobalHandler
 	   */
 	@ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> aNotFoundException(NotFoundException e){
-        logger.error("Object Not Found. Cannot Proceed");
+        logger.error("Not Found Exception, cannot proceed! Please check for issues and retry");
         return new ResponseEntity<>(e, HttpStatus.NOT_FOUND);
     }
 	
@@ -34,7 +34,7 @@ public class GlobalHandler
 	   */
 	@ExceptionHandler(AlreadyExistingException.class)
 	public ResponseEntity<Object> anAlreadyExistingExceptionn(AlreadyExistingException e){
-		logger.error("Object already exists. Cannot Proceed");
+		logger.error("Already Exists Exception, cannot proceed! Please check for issues and retry");
 		return new ResponseEntity<>(e, HttpStatus.CONFLICT);
   }
 }

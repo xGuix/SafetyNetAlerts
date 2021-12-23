@@ -27,7 +27,9 @@ public class PersonsController {
 	private IPersonService personService;
 	
 	/**
-	 * Read - Get all persons
+	 * Read list :
+	 * Get all persons
+	 * 
 	 * @return - Full persons list
 	 */
 	@GetMapping(value = "/persons")
@@ -38,7 +40,9 @@ public class PersonsController {
 	}
 	
 	/**
-	 * Read - Get a person by name
+	 * Read person :
+	 * Get a person by name
+	 * 
 	 * @param {firstName} & {lastName}
 	 * @return - The person data
 	 */
@@ -50,7 +54,9 @@ public class PersonsController {
     }
 	
 	/**
-	 * Create - Add a new person
+	 * Create person :
+	 * Add a new person
+	 * 
 	 * @param - {Person} - Model as object
 	 * @return - Person added
 	 */
@@ -62,7 +68,9 @@ public class PersonsController {
 	}
     
 	/**
-	 * Update Person - Modif info of a person by name
+	 * Update Person :
+	 * Modif info of a person by name
+	 * 
 	 * @param - {Person} Body
 	 * @return - Update new data to person
 	 */
@@ -74,7 +82,9 @@ public class PersonsController {
     }
 	
 	/**
-	 * Delete - Person to delete
+	 * Delete Person :
+	 * Person to delete
+	 * 
 	 * @param - {firstName} & {lastName} - Person to delete
 	 */
 	@DeleteMapping(value = "/person")

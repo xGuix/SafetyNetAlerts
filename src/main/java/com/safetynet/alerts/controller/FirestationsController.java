@@ -55,7 +55,7 @@ public class FirestationsController
 	 * @return - One address of station
 	 */
     @GetMapping(value ="/stationAddresses")
-    public ResponseEntity<List<String>> getOnlyAddressesOfStation(@RequestParam String station)
+    public ResponseEntity <List<String>> getOnlyAddressesOfStation(@RequestParam String station)
     {
 		logger.info("Sending request to find addresses list of station N°{}", station);		
         return new ResponseEntity<>(firestationService.getOnlyAddressesFor(station), HttpStatus.FOUND);
@@ -67,7 +67,7 @@ public class FirestationsController
 	 * @return - One address of station
 	 */
     @GetMapping(value ="/firestation")
-    public ResponseEntity<Firestation> getOneFirestation(@RequestParam String address, @RequestParam String station)
+    public ResponseEntity <Firestation> getOneFirestation(@RequestParam String address, @RequestParam String station)
     {
 		logger.info("Sending request to find the firestation N°{} : {}", station, address);		
         return new ResponseEntity<>(firestationService.getOneFirestation(address,station), HttpStatus.FOUND);
@@ -79,7 +79,7 @@ public class FirestationsController
 	 * @return - firestation added
 	 */
 	@PostMapping(value ="/firestation")
-	public ResponseEntity<Firestation> addFirestation(@RequestBody Firestation firestation)
+	public ResponseEntity <Firestation> addFirestation(@RequestBody Firestation firestation)
 	{
 		logger.info("Sending request to add firestations N°{} : {}", firestation.getStation(), firestation.getAddress());	
 		return new ResponseEntity<> (firestationService.addFirestation(firestation), HttpStatus.OK);
@@ -91,7 +91,7 @@ public class FirestationsController
 	 * @return - Update address in the list
 	 */
     @PutMapping(value = "/firestation")
-    public ResponseEntity<Firestation> updateFirestation(
+    public ResponseEntity <Firestation> updateFirestation(
     		@RequestParam String address, @RequestParam String station, @RequestBody Firestation firestation)
     {
 		logger.info("Sending request to update firestation N°{} with address '{}'", station, address);

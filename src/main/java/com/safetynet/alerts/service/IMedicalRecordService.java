@@ -10,7 +10,7 @@ public interface IMedicalRecordService
 	public MedicalRecord getMedicalRecordByName(String firstName, String lastName);
 	
 	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord);
-	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord);
+	public MedicalRecord updateMedicalRecord(String firstName, String lastName, MedicalRecord medicalRecord);
 	
-	public void deleteMedicalRecord(MedicalRecord medicalRecord);
+	public void deleteMedicalRecord(String firstName, String lastName);
 }

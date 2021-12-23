@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,74 +27,76 @@ public class MedicalRecordsController
 	private IMedicalRecordService medicalRecordService;
 	
 	/**
-	 * Read - Get all medical records
+	 * Read List :
+	 * Get all medical records list
+	 * 
 	 * @return - Full medicalRecords list
 	 */
     @GetMapping(value = "/medicalRecords")
-    public List<MedicalRecord> getAllMedicalRecords()
+    public ResponseEntity <List<MedicalRecord>> getAllMedicalRecords()
     {
-		logger.info("Medical Records list found");
-		
-		return this.medicalRecordService.getAllMedicalRecords();
+		logger.info("Sending request to Medical Records list...");
+		return new ResponseEntity<> (medicalRecordService.getAllMedicalRecords(), HttpStatus.OK);
     }
     
 	/**
-	 * Read - Get medical record by name
+	 * Read Medical Record :
+	 * Get medical record of person by name
+	 * 
 	 * @param firstName & lastName
-	 * @return - The person medical records
+	 * @return - Medical record of person
 	 */
     @GetMapping(value = "/medicalRecord")
-    public MedicalRecord getMedicalRecordByName(
-    		@RequestParam String firstName,
-    		@RequestParam String lastName)
+    public ResponseEntity<MedicalRecord> getMedicalRecordByName(
+    		@RequestParam String firstName, @RequestParam String lastName)
     {
-		logger.info("Medical Record of {} {} found",firstName,lastName);
-		
-		return medicalRecordService.getMedicalRecordByName(firstName, lastName);
+		logger.info("Sending request to Medical Record of '{} {}'",firstName,lastName);
+		return new ResponseEntity<> (medicalRecordService.getMedicalRecordByName(firstName, lastName),HttpStatus.OK);
     }
     
 	/**
-	 * Create - Add a new person
-	 * @param Person - Model as object
-	 * @return Person added
+	 * Create Medical rRcord :
+	 * Add a new medical record
+	 * 
+	 * @param - medicalRecord {@link RequestBody} 
+	 * @return medicalRecord added
 	 */
 	@PostMapping(value ="/medicalRecord")
-	public MedicalRecord addMedicalRecord(
-			@RequestBody MedicalRecord medicalRecord)
+	public ResponseEntity<MedicalRecord> addMedicalRecord(@
+			RequestBody MedicalRecord medicalRecord)
 	{
 		logger.info("Person to add in persons list");
-		
-		return medicalRecordService.addMedicalRecord(medicalRecord);
+		return new ResponseEntity<> (medicalRecordService.addMedicalRecord(medicalRecord),HttpStatus.OK);
 	}
     
 	/**
-	 * Update - Modif Medical Record by name
-	 * @param firstName & lastName
-	 * @return - Update new data to person
+	 * Update Medical Record :
+	 * Setup a medical record by person name
+	 * 
+	 * @param - firstName & lastName
+	 * @param - medicalRecord {@link RequestBody} 
+	 * @return - New data of person updated
 	 */
     @PutMapping(value = "/medicalRecord")
-    public MedicalRecord updateMedicalRecord(
-    		@RequestParam  String firstName ,
-    		@RequestParam String lastName,
-    		@RequestBody MedicalRecord medicalRecord)
+    public ResponseEntity<MedicalRecord> updateMedicalRecord(
+    		@RequestParam String firstName ,@RequestParam String lastName, @RequestBody MedicalRecord medicalRecord)
     {
 		logger.info("Person MedicalRecord to update");
-		
-        return medicalRecordService.updateMedicalRecord(medicalRecord);
+        return new ResponseEntity<> (medicalRecordService.updateMedicalRecord(firstName,lastName,medicalRecord),HttpStatus.OK);
     }
 	
 	/**
-	 * Delete - Delete medical record
+	 * Delete Medical Record :
+	 * Delete a medical record of person
+	 * 
 	 * @param {firstName} & {lastName} - Person to delete
 	 */
 	@DeleteMapping(value = "/medicalRecord")
-	public void deleteMedicalRecordn(
-			@RequestParam String firstName,
-			@RequestParam String lastName)
+	public ResponseEntity<Void> deleteMedicalRecordn(
+			@RequestParam String firstName,@RequestParam String lastName)
 	{
 		logger.info("MedicalRecord to delete from the list");
-		
-		medicalRecordService.deleteMedicalRecord(
-				getMedicalRecordByName(firstName, lastName));
+		medicalRecordService.deleteMedicalRecord(firstName, lastName);
+		return new ResponseEntity<> (HttpStatus.OK);
 	}
 }

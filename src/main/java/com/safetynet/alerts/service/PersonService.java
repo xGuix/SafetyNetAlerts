@@ -21,6 +21,7 @@ public class PersonService implements IPersonService
 	
 	/**
 	 * Get all persons list from Repository
+	 * 
 	 * @return - Repository list
 	 */
 	public List<Person> getAllPersons()
@@ -30,9 +31,11 @@ public class PersonService implements IPersonService
 	}
 	
 	/**
-	 * Read Persons - Get one person with name
+	 * Read Persons :
+	 * Get one person with name
+	 * 
 	 * @return - Person in the list
-	 * @exception - NotFoundException
+	 * @exception - {@link NotFoundException}
 	 */
 	@Override
     public Person getPersonByName(String firstName, String lastName) 
@@ -44,7 +47,9 @@ public class PersonService implements IPersonService
     }
 	
 	/**
-	 * Add Person - Add one person to the list
+	 * Add Person :
+	 * Add one person to the list
+	 * 
 	 * @return - Person added
 	 */
 	@Override
@@ -54,7 +59,9 @@ public class PersonService implements IPersonService
 	}
 	
 	/**
-	 * Update Person - Add one person to the list
+	 * Update Person :
+	 * Setup one person from the list
+	 * 
 	 * @return - Person updated
 	 */
 	@Override
@@ -64,7 +71,9 @@ public class PersonService implements IPersonService
 	}
 	
 	/**
-	 * Delete Person - Remove person from the list
+	 * Delete Person :
+	 * Remove person from the list
+	 * 
 	 * @NoReturn
 	 */
 	@Override

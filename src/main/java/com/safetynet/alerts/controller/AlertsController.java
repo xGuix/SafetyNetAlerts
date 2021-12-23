@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AlertsController {
 	
 	private static Logger logger = LogManager.getLogger("AlertsController");
-		
+	
+	/**
+	 * Alerts Controller
+	 * 
+	 * @return - Welcome message 
+	 */
 	@GetMapping("/Alerts")
 	public String index() {
 		logger.info("Index found");
