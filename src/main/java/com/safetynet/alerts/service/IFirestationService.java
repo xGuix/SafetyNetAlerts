@@ -12,7 +12,7 @@ public interface IFirestationService
 	
 	public Firestation getOneFirestation(String address, String station);
 	public Firestation addFirestation(Firestation firestation);
-	public Firestation updateFirestation(Firestation firestation);
+	public Firestation updateFirestation(String address, Firestation firestation);
 
 	public void deleteFirestation(Firestation firestation);
 }

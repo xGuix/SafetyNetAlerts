@@ -94,8 +94,8 @@ public class FirestationsController
     public ResponseEntity<Firestation> updateFirestation(
     		@RequestParam String address, @RequestParam String station, @RequestBody Firestation firestation)
     {
-		logger.info("Sending request to update firestation N°{} with address '{}'", firestation.getStation(), firestation.getAddress());
-        return new ResponseEntity<> (firestationService.updateFirestation(firestation), HttpStatus.OK);
+		logger.info("Sending request to update firestation N°{} with address '{}'", station, address);
+        return new ResponseEntity<> (firestationService.updateFirestation(address,firestation), HttpStatus.OK);
     }
 	
 	/**

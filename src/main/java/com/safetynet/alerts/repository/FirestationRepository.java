@@ -27,10 +27,10 @@ public class FirestationRepository implements IFirestationRepository
 	}	
 	
 	@Override
-	public Firestation updateFirestation(Firestation firestation)
+	public Firestation updateFirestation(String address, Firestation firestation)
 	{	
 		Firestation firestationToUpdate = firestationList.stream()
-			.filter(f -> f.getAddress().equals(firestation.getAddress()))
+			.filter(f -> f.getAddress().equals(address))
 			.findAny().orElseThrow(() -> new NotFoundException("Firestation does not exist"));
 		this.firestationList.set(firestationList.indexOf(firestationToUpdate), firestation);
 		return firestation;

@@ -68,9 +68,9 @@ public class FirestationService implements IFirestationService
 	}
 
 	@Override
-	public Firestation updateFirestation(Firestation firestation)
+	public Firestation updateFirestation(String address, Firestation firestation)
 	{
-		return firestationRepository.updateFirestation(firestation);
+		return firestationRepository.updateFirestation(address, firestation);
 	}
 
 	@Override
