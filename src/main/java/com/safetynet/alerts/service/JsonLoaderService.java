@@ -21,8 +21,8 @@ import com.safetynet.alerts.repository.IMedicalRecordRepository;
 import com.safetynet.alerts.repository.IPersonRepository;
 
 @Service
-public class JsonLoaderService {
-	
+public class JsonLoaderService
+{
 	@Autowired
 	private IPersonRepository personRepository;
 	@Autowired
@@ -34,8 +34,8 @@ public class JsonLoaderService {
 	private String dataFilePath;
 		
 	@PostConstruct
-	public void readJsonData() {
-		
+	public void readJsonData()
+	{	
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode root;
 		try {
@@ -49,10 +49,12 @@ public class JsonLoaderService {
 		}
 	}
 	
-	public void loadPersonData(JsonNode root) {
+	public void loadPersonData(JsonNode root)
+	{
 	JsonNode persons = root.path("persons");
-	for (JsonNode nodePerson : persons) {
-		
+	
+	for (JsonNode nodePerson : persons)
+	{		
 	 	Person person = new Person();
 		person.setFirstName(nodePerson.path("firstName").asText());
 		person.setLastName(nodePerson.path("lastName").asText());
@@ -61,25 +63,31 @@ public class JsonLoaderService {
 		person.setZip(nodePerson.path("zip").asText());
 	 	person.setPhone(nodePerson.path("phone").asText());
 	 	person.setEmail(nodePerson.path("email").asText());
+	 	
 	 	personRepository.addPerson(person);
 		}
 	}
 		
-	public void loadFireStationData(JsonNode root) {
+	public void loadFireStationData(JsonNode root)
+	{
 	JsonNode firestations = root.path("firestations");
-	for (JsonNode nodeFirestation : firestations) {
-			
+	
+	for (JsonNode nodeFirestation : firestations)
+	{
 		Firestation firestation = new Firestation();
 		firestation.setAddress(nodeFirestation.path("address").asText());
 		firestation.setStation(nodeFirestation.path("station").asText());
+		
 		firestationRepository.addFirestation(firestation);
 		}
 	}
 		
-	public void loadMedicalRecordData(JsonNode root) {
+	public void loadMedicalRecordData(JsonNode root)
+	{
 	JsonNode medicalRecords = root.path("medicalrecords");
-	for (JsonNode nodeMedicalRecord : medicalRecords) {
-			
+	
+	for (JsonNode nodeMedicalRecord : medicalRecords)
+	{
 		MedicalRecord medicalRecord = new MedicalRecord();
 		medicalRecord.setFirstName(nodeMedicalRecord.path("firstName").asText());
 		medicalRecord.setLastName(nodeMedicalRecord.path("lastName").asText());
@@ -87,14 +95,18 @@ public class JsonLoaderService {
 		
 		JsonNode medications = nodeMedicalRecord.path("medications");
 		List<String >medicationList = new ArrayList<>();
-		for (JsonNode nodeMedication : medications) {
+		
+		for (JsonNode nodeMedication : medications)
+		{
 			medicationList.add(nodeMedication.asText());
 		}
 		medicalRecord.setMedication(medicationList);
 
 		JsonNode allergies = nodeMedicalRecord.path("allergies");
 		List<String> allergieList = new ArrayList<>();
-		for (JsonNode nodeAllergie : allergies) {
+		
+		for (JsonNode nodeAllergie : allergies)
+		{
 			allergieList.add(nodeAllergie.asText());
 		}
 		medicalRecord.setAllergie(allergieList);

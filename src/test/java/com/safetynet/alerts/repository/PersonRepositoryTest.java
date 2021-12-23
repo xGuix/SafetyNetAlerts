@@ -1,12 +1,11 @@
-package com.safetynet.alerts;
-
+package com.safetynet.alerts.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SafetyNetAlertsApplicationTests
+public class PersonRepositoryTest
 {
 	@Test
-	void contextLoads() {}
+	void PersonRepositoryReadyForTest() {}
 }

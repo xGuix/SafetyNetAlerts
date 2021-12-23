@@ -31,26 +31,22 @@ class FirestationsControllerTest
 	@Test
 	void whenReadPersons_returnJsonContent() throws Exception {
 		
-	    mockMvc.perform(get("/firestations")
-	    	.contentType(MediaType.APPLICATION_JSON))
+	    mockMvc.perform(get("/firestations").contentType(MediaType.APPLICATION_JSON))
 	        	.andExpect(status().isFound());
 	}
 	
     @Test
     void whenNoRequestParam_returnDefault() throws Exception 
     {
-        mockMvc.perform(get("/firestation")
-        	.contentType(MediaType.APPLICATION_JSON))
-            	.andExpect(status().isBadRequest());         
+        mockMvc.perform(get("/firestation").contentType(MediaType.APPLICATION_JSON))
+        		.andExpect(status().isBadRequest());         
     }
  
     @Test
     void whenRequestParam_returnCustom() throws Exception
     {	    	
-        mockMvc.perform(get("/firestation")
-        	.param("address", "")
-        	.param("station", "")
-        	.contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/firestation").param("address", "").param("station", "")
+        		.contentType(MediaType.APPLICATION_JSON))
         		.andExpect(status().isFound())
         		.andReturn();
     }
@@ -58,28 +54,24 @@ class FirestationsControllerTest
     @Test
     void whenPostPerson_addNewOne() throws Exception
     {	    	
-	    mockMvc.perform(post("/firestation")
-	        .content(objectMapper.writeValueAsString(objectMapper))
-	        .contentType(MediaType.APPLICATION_JSON))
-	        .andExpect(status().isCreated());
+	    mockMvc.perform(post("/firestation").content(objectMapper.writeValueAsString(objectMapper))
+	    		.contentType(MediaType.APPLICATION_JSON))
+	    		.andExpect(status().isCreated());
     }
     
     @Test
     void whenPutPerson_updatePerson() throws Exception
     {	    	
-	    mockMvc.perform(put("/firestation")
-	        .content(objectMapper.writeValueAsString(objectMapper))
-	        .contentType(MediaType.APPLICATION_JSON))
-	        .andExpect(status().isOk());
+	    mockMvc.perform(put("/firestation").content(objectMapper.writeValueAsString(objectMapper))
+	    		.contentType(MediaType.APPLICATION_JSON))
+	    		.andExpect(status().isOk());
     }
 
     @Test
 	void whenDeletePersonsContent() throws Exception
     {	
-	    mockMvc.perform(delete("/firestation")
-	    	.param("address", "1")
-	        .param("station", "")
-	        .contentType(MediaType.APPLICATION_JSON))
+	    mockMvc.perform(delete("/firestation").param("address", "1").param("station", "")
+	    		.contentType(MediaType.APPLICATION_JSON))
 	   			.andExpect(status().isOk());
 	}
 }
