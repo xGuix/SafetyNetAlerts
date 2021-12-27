@@ -28,6 +28,7 @@ public class FirestationsController
 	
 	/**
 	 * Read - Get all firestations
+	 * 
 	 * @return - Full firestations list
 	 */
     @GetMapping(value = "/firestations")
@@ -39,6 +40,7 @@ public class FirestationsController
     
 	/**
 	 * Read - Get address by station
+	 * 
 	 * @param {station} - N° of station
 	 * @return - The address list
 	 */
@@ -51,6 +53,7 @@ public class FirestationsController
     
 	/**
 	 * Read - Get One address of a station
+	 * 
 	 * @param {Address} & {Station}
 	 * @return - One address of station
 	 */
@@ -63,6 +66,7 @@ public class FirestationsController
     
 	/**
 	 * Read - Get One address of a station
+	 * 
 	 * @param {Address} & {Station}
 	 * @return - One address of station
 	 */
@@ -75,6 +79,7 @@ public class FirestationsController
     
 	/**
 	 * Create - Add a new firestation
+	 * 
 	 * @param - {firestation} Body
 	 * @return - firestation added
 	 */
@@ -82,24 +87,26 @@ public class FirestationsController
 	public ResponseEntity <Firestation> addFirestation(@RequestBody Firestation firestation)
 	{
 		logger.info("Sending request to add firestations N°{} : {}", firestation.getStation(), firestation.getAddress());	
-		return new ResponseEntity<> (firestationService.addFirestation(firestation), HttpStatus.OK);
+		return new ResponseEntity<> (firestationService.addFirestation(firestation), HttpStatus.CREATED);
 	}
     
 	/**
 	 * Update firestation - Modif address of firestation
+	 * 
 	 * @param - {firestation} Body
 	 * @return - Update address in the list
 	 */
     @PutMapping(value = "/firestation")
     public ResponseEntity <Firestation> updateFirestation(
-    		@RequestParam String address, @RequestParam String station, @RequestBody Firestation firestation)
+    		@RequestParam String address, @RequestBody Firestation firestation)
     {
-		logger.info("Sending request to update firestation N°{} with address '{}'", station, address);
+		logger.info("Sending request to update firestation address '{}'", address);
         return new ResponseEntity<> (firestationService.updateFirestation(address,firestation), HttpStatus.OK);
     }
 	
 	/**
 	 * Delete - Firestation to delete
+	 * 
 	 * @param - {firestation} Body
 	 * @param - N° of station
 	 */

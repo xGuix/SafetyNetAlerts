@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -50,16 +51,16 @@ class PersonsControllerTest
 	}
 	
     @Test
-    void whenNoRequestParam_returnDefault() throws Exception 
+    void whenSearchPersonWithNoRequestParam_returnDefault() throws Exception 
     {
-		when(personservice.getPersonByName("","")).then(RETURNS_SMART_NULLS);
+		when(personservice.getPersonByName(Mockito.isNull(),Mockito.isNull())).then(RETURNS_SMART_NULLS);
         mockMvc.perform(get("/person")
         	.contentType(MediaType.APPLICATION_JSON))
             	.andExpect(status().isBadRequest());         
     }
  
     @Test
-    void whenRequestParam_returnCustom() throws Exception
+    void whenSearchPersonWithRequestParam_returnCustom() throws Exception
     {	
     	when(personservice.getPersonByName("Guix","DeBrens")).thenReturn(personTest);
         mockMvc.perform(get("/person")

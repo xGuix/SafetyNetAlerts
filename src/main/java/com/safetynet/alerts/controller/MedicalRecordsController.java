@@ -36,7 +36,7 @@ public class MedicalRecordsController
     public ResponseEntity <List<MedicalRecord>> getAllMedicalRecords()
     {
 		logger.info("Sending request to Medical Records list...");
-		return new ResponseEntity<> (medicalRecordService.getAllMedicalRecords(), HttpStatus.OK);
+		return new ResponseEntity<> (medicalRecordService.getAllMedicalRecords(), HttpStatus.FOUND);
     }
     
 	/**
@@ -51,7 +51,7 @@ public class MedicalRecordsController
     		@RequestParam String firstName, @RequestParam String lastName)
     {
 		logger.info("Sending request to Medical Record of '{} {}'",firstName,lastName);
-		return new ResponseEntity<> (medicalRecordService.getMedicalRecordByName(firstName, lastName),HttpStatus.OK);
+		return new ResponseEntity<> (medicalRecordService.getMedicalRecordByName(firstName, lastName),HttpStatus.FOUND);
     }
     
 	/**
@@ -66,7 +66,7 @@ public class MedicalRecordsController
 			RequestBody MedicalRecord medicalRecord)
 	{
 		logger.info("Person to add in persons list");
-		return new ResponseEntity<> (medicalRecordService.addMedicalRecord(medicalRecord),HttpStatus.OK);
+		return new ResponseEntity<> (medicalRecordService.addMedicalRecord(medicalRecord),HttpStatus.CREATED);
 	}
     
 	/**
