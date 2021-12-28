@@ -43,7 +43,7 @@ public class PersonService implements IPersonService
 		logger.info("Searching match for Person with '{} {}'",firstName,lastName);
 		return personRepository.getAllPerson().stream()
 	    		.filter(p -> p.getFirstName().equals(firstName) && p.getLastName().equals(lastName))
-	    		.findAny().orElseThrow(() -> new NotFoundException("Person does not existss"));
+	    		.findAny().orElseThrow(() -> new NotFoundException("Person does not exists"));
     }
 	
 	/**

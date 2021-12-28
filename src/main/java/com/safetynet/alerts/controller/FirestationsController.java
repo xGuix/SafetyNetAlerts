@@ -70,7 +70,7 @@ public class FirestationsController
 	 * @param {Address} & {Station}
 	 * @return - One address of station
 	 */
-    @GetMapping(value ="/firestation")
+    @GetMapping(value ="/firestationUnique")
     public ResponseEntity <Firestation> getOneFirestation(@RequestParam String address, @RequestParam String station)
     {
 		logger.info("Sending request to find the firestation N°{} : {}", station, address);		

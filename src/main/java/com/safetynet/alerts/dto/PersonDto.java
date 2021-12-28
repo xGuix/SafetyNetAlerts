@@ -1,5 +1,9 @@
 package com.safetynet.alerts.dto;
 
+import java.util.List;
+
+import com.safetynet.alerts.model.MedicalRecord;
+
 public class PersonDto {
 	
 	private String firstName;
@@ -9,6 +13,9 @@ public class PersonDto {
     private String zip;
     private String phone;
     private String email;
+    private List<String> firestationAddress;
+    private List<MedicalRecord> medicalRecord;
+    
     
 	public PersonDto(String firstName, String lastName, String address, String city, String zip, String phone, String email) {
 		
