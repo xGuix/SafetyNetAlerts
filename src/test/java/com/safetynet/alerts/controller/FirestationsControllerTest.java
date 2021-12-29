@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -43,7 +42,7 @@ class FirestationsControllerTest
 	}
 	
 	@Test
-	void whenReadFirestations_returnJsonContent() throws Exception
+	void whenReadAllFirestations_returnJsonContent() throws Exception
 	{
 		when(firestationService.getAllFirestations()).then(RETURNS_DEFAULTS);
 	    mockMvc.perform(get("/firestations")
@@ -54,7 +53,7 @@ class FirestationsControllerTest
     @Test
     void whenSearchFirestationWithNoRequestParam_returnDefault() throws Exception 
     {
-		when(firestationService.getOneFirestation(Mockito.isNull(),Mockito.isNull())).then(RETURNS_SMART_NULLS);
+		when(firestationService.getOneFirestation(null,null)).then(RETURNS_SMART_NULLS);
         mockMvc.perform(get("/firestation")
         	.contentType(MediaType.APPLICATION_JSON))
         		.andExpect(status().isBadRequest());         

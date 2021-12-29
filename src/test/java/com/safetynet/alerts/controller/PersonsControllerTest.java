@@ -42,7 +42,7 @@ class PersonsControllerTest
 	}
 	
 	@Test
-	void whenReadPersons_returnJsonContent() throws Exception {
+	void whenReadAllPersons_returnJsonContent() throws Exception {
 		
 		when(personservice.getAllPersons()).then(RETURNS_DEFAULTS);
 	    mockMvc.perform(get("/persons")

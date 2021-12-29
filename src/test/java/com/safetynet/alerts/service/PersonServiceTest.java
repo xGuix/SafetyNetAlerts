@@ -54,7 +54,7 @@ class PersonServiceTest
 	@Test
 	void TestGetPersonWithNameWhenListContainsOnePerson()
 	{
-		personListTest.add(personTest);
+		personListTest.add(0,personTest);
 		when(personRepository.getAllPerson()).thenReturn(personListTest);
 		
 		Person personToTest = personService.getPersonByName("Guix","DeBrens");
