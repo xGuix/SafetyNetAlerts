@@ -1,7 +1,9 @@
 package com.safetynet.alerts.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.safetynet.alerts.exception.AlreadyExistingException;
 import com.safetynet.alerts.exception.NotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
@@ -31,22 +34,24 @@ class PersonServiceTest
     
 	List<Person> personListTest;
 	Person personTest;
-	Person personTestForFilter;
+	Person personTestForFirstName;
+	Person personTestForLastName;
 	
 	@BeforeEach
 	void setupTest()
 	{
 		personListTest = new ArrayList<>();
 		personTest = new Person("Guix","DeBrens","150 Rue Houdan","Sceaux,", "92330","0630031876","guix92@hotmail.com");
-		personTestForFilter = new Person("Guix","TestLastName",null,null,null,null,null);
+		personTestForFirstName = new Person("TestFirstName","TestLastName",null,null,null,null,null);
+		personTestForLastName = new Person("Guix","TestLastName",null,null,null,null,null);
 	}
 	
 	@Test
 	void TestIfGetAllPersonReturnPersonList()
 	{
 		when(personRepository.getAllPerson()).thenReturn(personListTest);
-		List<Person> newPersonListTest = personService.getAllPersons();
 		
+		List<Person> newPersonListTest = personService.getAllPersons();
 		assertEquals(newPersonListTest, personListTest);
 		verify(personRepository, Mockito.times(1)).getAllPerson();
 	}
@@ -54,7 +59,7 @@ class PersonServiceTest
 	@Test
 	void TestGetPersonWithNameWhenListContainsOnePerson()
 	{
-		personListTest.add(0,personTest);
+		personListTest.add(personTest);
 		when(personRepository.getAllPerson()).thenReturn(personListTest);
 		
 		Person personToTest = personService.getPersonByName("Guix","DeBrens");
@@ -72,7 +77,7 @@ class PersonServiceTest
 	@Test
 	void TestGetPersonWithNameWhenListContainsOnePersonButLastNameisNotGood()
 	{
-		personListTest.add(personTestForFilter);
+		personListTest.add(personTestForLastName);
 		when(personRepository.getAllPerson()).thenReturn(personListTest);
 		
 		assertThrows(NotFoundException.class, () -> personService.getPersonByName("Guix","DeBrens"));
@@ -81,19 +86,47 @@ class PersonServiceTest
 	@Test
 	void TestGetPersonWithNameWhenListContainsOnePersonButFistNameAndLastNameisNotGood()
 	{
-		personListTest.add(personTestForFilter);
+		personListTest.add(personTestForLastName);
 		when(personRepository.getAllPerson()).thenReturn(personListTest);
 		
 		assertThrows(NotFoundException.class, () -> personService.getPersonByName("bernard","DeBrens"));
 	}
 	
 	@Test
-	void TestIfAddPersonSendPerson()
+	void TestAddPersonWhenDoesNotExists()
 	{
 		when(personRepository.addPerson(personTest)).thenReturn(personTest);
 		
-		assertEquals(personService.addPerson(personTest), personRepository.addPerson(personTest));
+		Person personToAddTest = personService.addPerson(personTest);		
+		assertEquals(personToAddTest, personRepository.addPerson(personTest));
 		verify(personRepository, Mockito.times(2)).addPerson(personTest);
+	}
+	
+	@Test
+	void TestAddPersonWhenAlreadyExists()
+	{
+		personListTest.add(personTest);
+		when(personRepository.getAllPerson()).thenReturn(personListTest);
+		
+		assertThrows(AlreadyExistingException.class, () -> personService.addPerson(personTest));
+	}
+	
+	@Test
+	void TestAddPersonWhenWrongFirstName()
+	{
+		personListTest.add(personTest);
+		when(personRepository.getAllPerson()).thenReturn(personListTest);
+		
+		assertDoesNotThrow(() -> personService.addPerson(personTestForFirstName));
+	}
+	
+	@Test
+	void TestAddPersonWhenWrongLastName()
+	{
+		personListTest.add(personTest);
+		when(personRepository.getAllPerson()).thenReturn(personListTest);
+		
+		assertDoesNotThrow(() -> personService.addPerson(personTestForLastName));
 	}
 	
 	@Test
@@ -101,15 +134,38 @@ class PersonServiceTest
 	{
 		when(personRepository.updatePerson(personTest)).thenReturn(personTest);
 		
-		assertEquals(personService.updatePerson(personTest), personRepository.updatePerson(personTest));
+		Person personToUpdateTest = personService.updatePerson(personTest);
+		assertEquals(personToUpdateTest, personRepository.updatePerson(personTest));
 		verify(personRepository, Mockito.times(2)).updatePerson(personTest);
 	}
 	
 	@Test
-	void TestDeletePersonIsCall()
+	void TestDeletePersonIfExists()
 	{
+		personListTest.add(personTest);
+		when(personRepository.getAllPerson()).thenReturn(personListTest);
+		
 		personService.deletePerson(personTest);
 		
+		assertTrue(personListTest.remove(personTest));
 		verify(personRepository, Mockito.times(1)).deletePerson(personTest);
+	}
+	
+	@Test
+	void TestDeletePersonIfWrongFirstName()
+	{
+		personListTest.add(personTest);
+		when(personRepository.getAllPerson()).thenReturn(personListTest);	
+		
+		assertThrows(NotFoundException.class, () -> personService.deletePerson(personTestForFirstName));
+	}
+	
+	@Test
+	void TestDeletePersonIfWrongLastName()
+	{
+		personListTest.add(personTest);
+		when(personRepository.getAllPerson()).thenReturn(personListTest);	
+		
+		assertThrows(NotFoundException.class, () -> personService.deletePerson(personTestForLastName));
 	}
 }

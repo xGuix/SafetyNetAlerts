@@ -9,8 +9,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,11 +38,13 @@ class FirestationsControllerTest
 	FirestationService firestationService;
 	
 	static Firestation firestationTest;
+	static List<Firestation> firestationListTest;
 	
 	@BeforeEach
 	void setupTest()
 	{
 		firestationTest = new Firestation("Saint Omer sur Mer","1");
+		firestationListTest = new ArrayList<>();
 	}
 	
 	@Test
@@ -47,16 +53,40 @@ class FirestationsControllerTest
 		when(firestationService.getAllFirestations()).then(RETURNS_DEFAULTS);
 	    mockMvc.perform(get("/firestations")
 	    	.contentType(MediaType.APPLICATION_JSON))
-	        	.andExpect(status().isFound());
+	        	.andExpect(status().isFound())
+	        	.andReturn();
 	}
 	
     @Test
     void whenSearchFirestationWithNoRequestParam_returnDefault() throws Exception 
     {
-		when(firestationService.getOneFirestation(null,null)).then(RETURNS_SMART_NULLS);
+		when(firestationService.getOneFirestation(Mockito.isNull(),Mockito.isNull())).then(RETURNS_SMART_NULLS);
         mockMvc.perform(get("/firestation")
         	.contentType(MediaType.APPLICATION_JSON))
-        		.andExpect(status().isBadRequest());         
+        		.andExpect(status().isBadRequest())
+        		.andReturn();
+    }
+    
+    @Test
+    void whenSearchFirestationWithStation_returnFirestations() throws Exception
+    {	
+    	when(firestationService.getFirestationsFor("1")).thenReturn(firestationListTest);
+        mockMvc.perform(get("/firestationsStation")
+        	.param("station", "1")
+        	.contentType(MediaType.APPLICATION_JSON))
+        		.andExpect(status().isFound())
+        		.andReturn();
+    }
+    
+    @Test
+    void whenSearchFirestationWithStation_returnAdressesList() throws Exception
+    {	
+    	when(firestationService.getFirestationsFor("1")).thenReturn(firestationListTest);
+        mockMvc.perform(get("/stationAddresses")
+        	.param("station", "1")
+        	.contentType(MediaType.APPLICATION_JSON))
+        		.andExpect(status().isFound())
+        		.andReturn();
     }
  
     @Test

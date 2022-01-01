@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetynet.alerts.exception.AlreadyExistingException;
 import com.safetynet.alerts.exception.NotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
@@ -55,7 +56,16 @@ public class PersonService implements IPersonService
 	@Override
 	public Person addPerson(Person person) 
 	{
-		return personRepository.addPerson(person);
+		if (personRepository.getAllPerson().stream()
+				.anyMatch (p -> p.getFirstName().equals(person.getFirstName())
+						&& p.getLastName().equals(person.getLastName())))
+		{
+			throw new AlreadyExistingException("Person already exists");
+		}
+		else {
+			this.personRepository.addPerson(person);
+		}		
+		return person;
 	}
 	
 	/**
@@ -79,6 +89,14 @@ public class PersonService implements IPersonService
 	@Override
 	public void deletePerson(Person person) 
 	{	
-		personRepository.deletePerson(person);
+		if (personRepository.getAllPerson().stream()
+				.anyMatch (p -> p.getFirstName().equals(person.getFirstName())
+						&& p.getLastName().equals(person.getLastName())))
+		{
+			this.personRepository.deletePerson(person);
+		}
+		else {
+		    throw new NotFoundException("Firestation does not exists");
+		}
 	}
 }

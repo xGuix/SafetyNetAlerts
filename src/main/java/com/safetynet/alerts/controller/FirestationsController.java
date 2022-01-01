@@ -29,7 +29,7 @@ public class FirestationsController
 	/**
 	 * Read - Get all firestations
 	 * 
-	 * @return - Full firestations list
+	 * @return - All firestations list
 	 */
     @GetMapping(value = "/firestations")
     public ResponseEntity<List<Firestation>> getAllFirestations()
@@ -39,12 +39,12 @@ public class FirestationsController
     }
     
 	/**
-	 * Read - Get address by station
+	 * Read - Get Firestations by station
 	 * 
 	 * @param {station} - N° of station
-	 * @return - The address list
+	 * @return - Firestations list
 	 */
-    @GetMapping(value ="/firestationsNumber")
+    @GetMapping(value ="/firestationsStation")
     public ResponseEntity<List<Firestation>> getAllFirestationsForStation(@RequestParam String station)
     {
 		logger.info("Sending request to find list of firestation N°{}", station);
@@ -52,10 +52,10 @@ public class FirestationsController
     }
     
 	/**
-	 * Read - Get One address of a station
+	 * Read - Get addresses lis of a station
 	 * 
-	 * @param {Address} & {Station}
-	 * @return - One address of station
+	 * @param {Station}
+	 * @return - Addresses list
 	 */
     @GetMapping(value ="/stationAddresses")
     public ResponseEntity <List<String>> getOnlyAddressesOfStation(@RequestParam String station)
@@ -70,7 +70,7 @@ public class FirestationsController
 	 * @param {Address} & {Station}
 	 * @return - One address of station
 	 */
-    @GetMapping(value ="/firestationUnique")
+    @GetMapping(value ="/firestation")
     public ResponseEntity <Firestation> getOneFirestation(@RequestParam String address, @RequestParam String station)
     {
 		logger.info("Sending request to find the firestation N°{} : {}", station, address);		
