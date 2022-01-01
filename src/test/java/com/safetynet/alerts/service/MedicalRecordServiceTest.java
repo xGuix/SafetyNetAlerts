@@ -1,5 +1,6 @@
 package com.safetynet.alerts.service;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -36,7 +37,8 @@ class MedicalRecordServiceTest
 	List<String> medicationUD;
 	List<String> allergieUD;
 	MedicalRecord medicalRecordTest;
-	MedicalRecord medicalRecordTestForFilter;
+	MedicalRecord medicalRecordTestFirstName;
+	MedicalRecord medicalRecordTestLastName;
 	
 	@BeforeEach
 	void setupTest()
@@ -45,7 +47,8 @@ class MedicalRecordServiceTest
 		medicationUD = Arrays.asList("Alcohol: 2 bottles of Whisky","Tabacco: 5 packets","Doner-kebbab: 3 times a day");
 		allergieUD = Arrays.asList("Liar","Storyteller");
 		medicalRecordTest = new MedicalRecord("Guix","DeBrens", "22/10/1982",medicationUD,allergieUD);
-		medicalRecordTestForFilter = new MedicalRecord(null,null,null,null,null);
+		medicalRecordTestFirstName = new MedicalRecord("TestFirstName","TestLastName", null,null,null);
+		medicalRecordTestLastName = new MedicalRecord("Guix","TestLastName", null,null,null);
 	}
 	
 	@Test
@@ -77,6 +80,24 @@ class MedicalRecordServiceTest
 	}
 	
 	@Test
+	void TestGetMedicalRecordWithWrongName()
+	{
+		medicalRecordListTest.add(medicalRecordTest);
+		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);
+		
+		assertThrows(NotFoundException.class, () -> medicalRecordService.getMedicalRecordByName("FirstNameTest","LastNameTest"));
+	}
+	
+	@Test
+	void TestGetMedicalRecordWithWrongLastName()
+	{
+		medicalRecordListTest.add(medicalRecordTest);
+		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);
+		
+		assertThrows(NotFoundException.class, () -> medicalRecordService.getMedicalRecordByName("Guix","LastNameTest"));
+	}
+	
+	@Test
 	void TestAddMedicalRecordWhenDoesNotExists()
 	{
 		when(medicalRecordRepository.addMedicalRecord(medicalRecordTest)).thenReturn(medicalRecordTest);
@@ -93,6 +114,24 @@ class MedicalRecordServiceTest
 		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);
 		
 		assertThrows(AlreadyExistingException.class, () -> medicalRecordService.addMedicalRecord(medicalRecordTest));
+	}
+	
+	@Test
+	void TestAddMedicalRecordWhenWrongFirstName()
+	{
+		medicalRecordListTest.add(medicalRecordTest);
+		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);
+		
+		assertDoesNotThrow(() -> medicalRecordService.addMedicalRecord(medicalRecordTestFirstName));
+	}
+	
+	@Test
+	void TestAddMedicalRecordWhenWrongLastName()
+	{
+		medicalRecordListTest.add(medicalRecordTest);
+		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);
+		
+		assertDoesNotThrow(() -> medicalRecordService.addMedicalRecord(medicalRecordTestLastName));
 	}
 	
 	@Test
@@ -115,6 +154,24 @@ class MedicalRecordServiceTest
 		
 		assertTrue(medicalRecordListTest.remove(medicalRecordTest));
 		verify(medicalRecordRepository, Mockito.times(1)).deleteMedicalRecord(medicalRecordTest);
+	}
+	
+	@Test
+	void TestDeleteMedicalRecordWhenWrongFirstName()
+	{
+		medicalRecordListTest.add(medicalRecordTest);
+		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);	
+		
+		assertThrows(NotFoundException.class, () -> medicalRecordService.deleteMedicalRecord("TestFirstName","TestLastName"));
+	}
+	
+	@Test
+	void TestDeleteMedicalRecordWhenWrongLastName()
+	{
+		medicalRecordListTest.add(medicalRecordTest);
+		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);	
+		
+		assertThrows(NotFoundException.class, () -> medicalRecordService.deleteMedicalRecord("Guix","TestLastName"));
 	}
 	
 	@Test
