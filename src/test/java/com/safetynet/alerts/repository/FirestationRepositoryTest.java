@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.safetynet.alerts.exception.NotFoundException;
 import com.safetynet.alerts.model.Firestation;
-import com.safetynet.alerts.model.Person;
 
 @SpringBootTest
 class FirestationRepositoryTest
