@@ -64,7 +64,7 @@ class PersonRepositoryTest
 	void TestUpdatePersonWhenExists()
 	{
 		personListTest.add(personTest);
-		assertThrows(NotFoundException.class, () -> personRepository.updatePerson(personTestForLastName));
+		assertThrows(NotFoundException.class,() -> personRepository.updatePerson(personTestForLastName));
 	}
 	
 	@Test

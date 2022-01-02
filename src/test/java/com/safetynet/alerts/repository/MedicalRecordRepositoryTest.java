@@ -70,33 +70,16 @@ class MedicalRecordRepositoryTest
 	{
 		medicalRecordListTest.add(medicalRecordTest);
 		
-		assertDoesNotThrow(() -> medicalRecordRepository.updateMedicalRecord("Guix","DeBrens", medicalRecordTest));
+		assertThrows(NotFoundException.class,() -> medicalRecordRepository.updateMedicalRecord("Guix","DeBrens", medicalRecordTest));
 	}
 	
 	@Test
-	void TestUpdatePersonWhenSomethingWrong()
-	{
-		medicalRecordListTest.add(medicalRecordTestForFirstName);
-		
-		assertThrows(NotFoundException.class, () -> medicalRecordRepository.updateMedicalRecord("Guix","DeBrens",medicalRecordTest));
-	}
-
-	@Test
-	void TestUpdatePersonWhenIsWrongFirstName()
-	{	
-		medicalRecordListTest.add(medicalRecordTest);
-
-		assertThrows(NotFoundException.class,() -> medicalRecordRepository.updateMedicalRecord("Belzebuth","DeBrens",medicalRecordTestForFirstName));
-	}
-	
-	@Test
-	void TestUpdatePersonWhenIsWrongLastName()
+	void TestUpdatePersonWhenIsWrong()
 	{
 		medicalRecordListTest.add(medicalRecordTest);
 
-		assertThrows(NotFoundException.class, () -> medicalRecordRepository.updateMedicalRecord("Guix","Belzebuth",medicalRecordTestForLastName));
+		assertDoesNotThrow(() -> medicalRecordRepository.updateMedicalRecord("Guix","DeBrens",medicalRecordTestForLastName));
 	}
-	
 	
 	@Test
 	void TestDeletePersonRemovePersonFromList()

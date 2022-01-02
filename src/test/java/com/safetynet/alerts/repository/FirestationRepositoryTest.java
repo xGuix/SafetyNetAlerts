@@ -49,7 +49,6 @@ class FirestationRepositoryTest
 		List <Firestation> newFirestationListTest = firestationRepository.getAllFirestation();
 		
 		assertEquals(newFirestationListTest, firestationRepository.getAllFirestation());
-
 	}
 	
 	@Test
@@ -68,22 +67,12 @@ class FirestationRepositoryTest
 	}
 	
 	@Test
-	void TestUpdateFirestationWhenSomethingWrong()
+	void TestUpdateFirestationWhenIsWrongAddress()
 	{
 		firestationListTest.add(firestationTest);
 		assertThrows(NotFoundException.class, () -> firestationRepository.updateFirestation("TestAddress",firestationTestAddress));
 	}
 
-	
-	@Test
-	void TestUpdateFirestationWhenIsWrongLastName()
-	{
-		firestationListTest.add(firestationTest);
-
-		assertThrows(NotFoundException.class, () -> firestationRepository.updateFirestation("Saint Omer sur Mer",firestationTestStation));
-	}
-	
-	
 	@Test
 	void TestDeleteFirestationRemovePersonFromList()
 	{
