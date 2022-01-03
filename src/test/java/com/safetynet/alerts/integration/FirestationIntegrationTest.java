@@ -1,4 +1,4 @@
-package com.safetynet.alerts;
+package com.safetynet.alerts.integration;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -8,14 +8,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.safetynet.alerts.controller.FirestationsController;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.repository.FirestationRepository;
 import com.safetynet.alerts.service.FirestationService;
 
-@SpringBootTest
 class FirestationIntegrationTest
 {
     FirestationsController firestationsController= new FirestationsController();

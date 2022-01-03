@@ -1,4 +1,4 @@
-package com.safetynet.alerts;
+package com.safetynet.alerts.integration;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -8,14 +8,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.safetynet.alerts.controller.PersonsController;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
 import com.safetynet.alerts.service.PersonService;
 
-@SpringBootTest
 class PersonIntegrationTest
 {
     PersonsController personsController= new PersonsController();

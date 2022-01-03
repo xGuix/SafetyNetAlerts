@@ -1,4 +1,4 @@
-package com.safetynet.alerts;
+package com.safetynet.alerts.integration;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -9,14 +9,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.safetynet.alerts.controller.MedicalRecordsController;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.repository.MedicalRecordRepository;
 import com.safetynet.alerts.service.MedicalRecordService;
 
-@SpringBootTest
 class MedicalRecordsIntegrationTest
 {
 	MedicalRecordsController medicalRecordsController= new MedicalRecordsController();
