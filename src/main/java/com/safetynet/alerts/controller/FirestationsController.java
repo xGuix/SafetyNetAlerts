@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.model.Firestation;
+import com.safetynet.alerts.service.FirestationService;
 import com.safetynet.alerts.service.IFirestationService;
 
 @RestController
@@ -26,6 +27,16 @@ public class FirestationsController
 	@Autowired
 	private IFirestationService firestationService;
 	
+	/**
+	 * Set Firestation list for integrationTest
+	 * 
+	 * @param - {firestationService}
+	 */
+	public void setFirestationsService(FirestationService firestationService)
+	{
+		this.firestationService = firestationService;
+	}
+
 	/**
 	 * Read - Get all firestations
 	 * 

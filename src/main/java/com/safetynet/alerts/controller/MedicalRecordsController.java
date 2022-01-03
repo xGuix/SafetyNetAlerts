@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.service.IMedicalRecordService;
+import com.safetynet.alerts.service.MedicalRecordService;
 
 @RestController
 public class MedicalRecordsController
@@ -25,6 +26,16 @@ public class MedicalRecordsController
 	
 	@Autowired
 	private IMedicalRecordService medicalRecordService;
+	
+	/**
+	 * Set Medical record list for integrationTest
+	 * 
+	 * @param - {personService}
+	 */
+	public void setMedicalRecordsService(MedicalRecordService medicalRecordService)
+	{
+		this.medicalRecordService = medicalRecordService;
+	}
 	
 	/**
 	 * Read List :
@@ -92,7 +103,7 @@ public class MedicalRecordsController
 	 * @param {firstName} & {lastName} - Person to delete
 	 */
 	@DeleteMapping(value = "/medicalRecord")
-	public ResponseEntity<Void> deleteMedicalRecordn(
+	public ResponseEntity<Void> deleteMedicalRecord(
 			@RequestParam String firstName,@RequestParam String lastName)
 	{
 		logger.info("MedicalRecord to delete from the list");

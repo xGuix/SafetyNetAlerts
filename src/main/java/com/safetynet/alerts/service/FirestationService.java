@@ -22,6 +22,16 @@ public class FirestationService implements IFirestationService
 	private static Logger logger = LogManager.getLogger("FirestationService");
 	
 	/**
+	 * Setter Firestation for integrationTest
+	 * 
+	 * @param - {firestationRepository}
+	 */
+	public void setFirestationRepository(FirestationRepository firestationRepository)
+	{
+		this.firestationRepository = firestationRepository;
+	}
+	
+	/**
 	 * Get all list of firestation from Repository
 	 * 
 	 * @return - Repositorylist

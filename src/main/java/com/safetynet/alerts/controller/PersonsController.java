@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.IPersonService;
+import com.safetynet.alerts.service.PersonService;
 
 @RestController
 public class PersonsController {
@@ -26,6 +27,16 @@ public class PersonsController {
 	@Autowired
 	private IPersonService personService;
 	
+	/**
+	 * Set Person list for integrationTest
+	 * 
+	 * @param - {personService}
+	 */
+	public void setPersonsService(PersonService personService)
+	{
+		this.personService = personService;
+	}
+
 	/**
 	 * Read list :
 	 * Get all persons

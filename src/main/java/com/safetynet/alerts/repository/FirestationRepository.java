@@ -20,6 +20,26 @@ public class FirestationRepository implements IFirestationRepository
     private List<Firestation> firestationList = new ArrayList<>();
     
     /**
+	 * Getter Firestation for integrationTest
+	 * 
+	 * @return - {firestationList}
+	 */
+    public List<Firestation> getFirestationList()
+    {
+        return firestationList;
+    }
+
+    /**
+	 * Setter Firestation for integrationTest
+	 * 
+	 * @param - {firestationList}
+	 */
+    public void setFirestationList(List<Firestation> firestationList)
+    {
+        this.firestationList = firestationList;
+    }
+    
+    /**
 	 * Full Firestation in the List
 	 * @return - {firestationList} 
 	 */

@@ -21,6 +21,26 @@ public class MedicalRecordRepository implements IMedicalRecordRepository
     private List<MedicalRecord> medicalRecordList = new ArrayList<>();
 
     /**
+	 * Getter Medical Records for integrationTest
+	 * 
+	 * @return - {medicalRecordList}
+	 */
+    public List<MedicalRecord> getMedicalRecordList()
+    {
+        return medicalRecordList;
+    }
+
+    /**
+	 * Setter Medical Records for integrationTest
+	 * 
+	 * @param - {medicalRecordList}
+	 */
+    public void setMedicalRecordList(List<MedicalRecord> medicalRecordList)
+    {
+        this.medicalRecordList = medicalRecordList;
+    }
+    
+    /**
 	 * Full Medical Record in List
 	 * @return - {medicalRecordList} 
 	 */

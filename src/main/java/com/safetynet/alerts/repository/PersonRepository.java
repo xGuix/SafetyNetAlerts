@@ -19,7 +19,27 @@ public class PersonRepository implements IPersonRepository
 	 * Person List in memory
 	 */
     private List<Person> personList = new ArrayList<>();
+    
+    /**
+	 * Getter Person for integrationTest
+	 * 
+	 * @return - {personList}
+	 */
+    public List<Person> getPersonList()
+    {
+        return personList;
+    }
 
+    /**
+	 * Setter Person for integrationTest
+	 * 
+	 * @param - {personList}
+	 */
+    public void setPersonList(List<Person> personList)
+    {
+        this.personList = personList;
+    }
+    
 	/**
 	 * Full List in memory
 	 * @return - {personList} 

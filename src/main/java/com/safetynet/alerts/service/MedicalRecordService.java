@@ -21,6 +21,16 @@ public class MedicalRecordService implements IMedicalRecordService
 	private static Logger logger = LogManager.getLogger("MedicalRecordService");
     
 	/**
+	 * Setter MedicalRecord for integrationTest
+	 * 
+	 * @param - {medicalRecordRepository}
+	 */
+	public void setMedicalRecordRepository(MedicalRecordRepository medicalRecordRepository)
+	{
+		this.medicalRecordRepository = medicalRecordRepository;
+	}
+	
+	/**
 	 * Get all list of medical record from Repository
 	 * 
 	 * @return - Repositorylist
