@@ -5,9 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.IPersonService;
 
-import groovy.transform.Generated;
-
-@Generated
 public class WrapperDto
 {
 	@Autowired

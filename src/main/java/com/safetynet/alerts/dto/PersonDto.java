@@ -4,9 +4,6 @@ import java.util.List;
 
 import com.safetynet.alerts.model.MedicalRecord;
 
-import groovy.transform.Generated;
-
-@Generated
 public class PersonDto
 {	
 	private String firstName;

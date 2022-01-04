@@ -11,11 +11,8 @@ import com.safetynet.alerts.dto.PersonDto;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
 
-import groovy.transform.Generated;
-
 import java.util.ArrayList;
 
-@Generated
 @Service
 public class AlertService implements IAlertService
 {

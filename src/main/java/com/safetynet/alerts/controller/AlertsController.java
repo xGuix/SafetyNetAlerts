@@ -16,9 +16,6 @@ import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.AlertService;
 
-import groovy.transform.Generated;
-
-@Generated
 @RestController
 public class AlertsController
 {	
