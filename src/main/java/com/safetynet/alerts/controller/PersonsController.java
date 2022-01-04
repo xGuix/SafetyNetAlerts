@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.IPersonService;
+import com.safetynet.alerts.service.PersonService;
 
 @RestController
 public class PersonsController {
@@ -27,76 +28,81 @@ public class PersonsController {
 	private IPersonService personService;
 	
 	/**
-	 * Read - Get all persons
+	 * Set Person list for integrationTest
+	 * 
+	 * @param - {personService}
+	 */
+	public void setPersonsService(PersonService personService)
+	{
+		this.personService = personService;
+	}
+
+	/**
+	 * Read list :
+	 * Get all persons
+	 * 
 	 * @return - Full persons list
 	 */
 	@GetMapping(value = "/persons")
 	public  ResponseEntity<List<Person>> getAllPersons()
 	{
-		logger.info("Show persons list");
-		
-		return new ResponseEntity<>(personService.getAllPersons(),
-				HttpStatus.FOUND);
+		logger.info("Sending request for persons list...");	
+		return new ResponseEntity<>(personService.getAllPersons(), HttpStatus.FOUND);
 	}
 	
 	/**
-	 * Read - Get a person by name
+	 * Read person :
+	 * Get a person by name
+	 * 
 	 * @param {firstName} & {lastName}
 	 * @return - The person data
 	 */
     @GetMapping(value ="/person")
-    public  ResponseEntity<Person> getPersonByName(
-    		@RequestParam String firstName,
-    		@RequestParam String lastName)
+    public  ResponseEntity<Person> getPersonByName(@RequestParam String firstName, @RequestParam String lastName)
     {
-		logger.info("Search for person ; {} {}", firstName,lastName);
-		
-        return new ResponseEntity<>(personService.getPersonByName(firstName,lastName),
-        		HttpStatus.FOUND);
+		logger.info("Sending request to find person :'{} {}'", firstName,lastName);
+        return new ResponseEntity<>(personService.getPersonByName(firstName,lastName), HttpStatus.FOUND);
     }
 	
 	/**
-	 * Create - Add a new person
-	 * @param {Person} - Model as object
-	 * @return Person added
+	 * Create person :
+	 * Add a new person
+	 * 
+	 * @param - {Person} - Model as object
+	 * @return - Person added
 	 */
 	@PostMapping(value ="/person")
-	public ResponseEntity<Person> addNewPerson(
-			@RequestBody Person person)
+	public ResponseEntity<Person> addNewPerson(@RequestBody Person person)
 	{
-		logger.info("Person to add in persons list : {}", person);
-		
-		return new ResponseEntity<>(personService.addPerson(person),
-				HttpStatus.CREATED);
+		logger.info("Sending request to add : {}", person);
+		return new ResponseEntity<>(personService.addPerson(person), HttpStatus.CREATED);
 	}
     
 	/**
-	 * Update Person - Modif info of a person by name
-	 * @param {Person} Body
+	 * Update Person :
+	 * Modif info of a person by name
+	 * 
+	 * @param - {Person} Body
 	 * @return - Update new data to person
 	 */
     @PutMapping(value = "/person")
-    public ResponseEntity<Person> updatePerson(
-    		@RequestBody Person person)
+    public ResponseEntity<Person> updatePerson(@RequestBody Person person)
     {
-		logger.info("Person info to update : {}", person);
-		
-        return new ResponseEntity<>(personService.updatePerson(person),
-        		HttpStatus.OK);
+		logger.info("Sending Person to update : {}", person);
+		return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
     }
 	
 	/**
-	 * Delete - Person to delete
-	 * @param {firstName} & {lastName} - Person to delete
+	 * Delete Person :
+	 * Person to delete
+	 * 
+	 * @param - {firstName} & {lastName} - Person to delete
 	 */
 	@DeleteMapping(value = "/person")
-	public ResponseEntity<Void> deletePerson(
-			@RequestParam String firstName,
-			@RequestParam String lastName)
+	public ResponseEntity<Void> deletePerson(@RequestParam String firstName, @RequestParam String lastName)
 	{
-		logger.info("Person to delete from the list : {} {}", firstName, lastName);
+		logger.info("Sending Person to delete :'{} {}’", firstName,lastName);
 		personService.deletePerson(personService.getPersonByName(firstName, lastName));
-		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

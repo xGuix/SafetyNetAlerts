@@ -6,6 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.safetynet.alerts.exception.AlreadyExistingException;
+import com.safetynet.alerts.exception.NotFoundException;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.PersonRepository;
 
@@ -17,53 +20,93 @@ public class PersonService implements IPersonService
 	
 	private static Logger logger = LogManager.getLogger("PersonService");
 	
+	/**
+	 * Setter Person for integrationTest
+	 * 
+	 * @param - {personRepository}
+	 */
+	public void setPersonRepository(PersonRepository personRepository)
+	{
+		this.personRepository = personRepository;
+	}
+
+	/**
+	 * Get all persons list from Repository
+	 * 
+	 * @return - Repository list
+	 */
 	public List<Person> getAllPersons()
 	{
+		logger.info("Getting persons list...");
 		return personRepository.getAllPerson();
 	}
 	
-	@Override
-	public Person addPerson(Person person) 
-	{
-		return personRepository.addPerson(person);
-	}
-	
+	/**
+	 * Read Persons :
+	 * Get one person with name
+	 * 
+	 * @return - Person in the list
+	 * @exception - {@link NotFoundException}
+	 */
 	@Override
     public Person getPersonByName(String firstName, String lastName) 
 	{
-		for (Person personToFind : personRepository.getAllPerson()) 
-		{
-			if(personToFind.getFirstName().equals(firstName) && 
-					personToFind.getLastName().equals(lastName)) 
-			{
-				
-				return personRepository.getPersonByStation(firstName, lastName);
-			}
-		}
-		logger.info("No match! Person not Found.");
-		return null;
+		logger.info("Searching match for Person with '{} {}'",firstName,lastName);
+		return personRepository.getAllPerson().stream()
+	    		.filter(p -> p.getFirstName().equals(firstName) && p.getLastName().equals(lastName))
+	    		.findAny().orElseThrow(() -> new NotFoundException("Person does not exists"));
     }
 	
+	/**
+	 * Add Person :
+	 * Add one person to the list
+	 * 
+	 * @return - Person added
+	 */
+	@Override
+	public Person addPerson(Person person) 
+	{
+		if (personRepository.getAllPerson().stream()
+				.anyMatch (p -> p.getFirstName().equals(person.getFirstName())
+						&& p.getLastName().equals(person.getLastName())))
+		{
+			throw new AlreadyExistingException("Person already exists");
+		}
+		else {
+			this.personRepository.addPerson(person);
+		}		
+		return person;
+	}
+	
+	/**
+	 * Update Person :
+	 * Setup one person from the list
+	 * 
+	 * @return - Person updated
+	 */
 	@Override
 	public Person updatePerson(Person person) 
 	{
-		for (Person personToUpdate : personRepository.getAllPerson()) 
-		{
-			if (personToUpdate.getFirstName().equals(person.getFirstName()) &&
-					personToUpdate.getLastName().equals(person.getLastName())) 
-			{
-				return personRepository.updatePerson(person);
-			}
-		}
-		return null;
+		return personRepository.updatePerson(person);
 	}
 	
+	/**
+	 * Delete Person :
+	 * Remove person from the list
+	 * 
+	 * @NoReturn
+	 */
 	@Override
 	public void deletePerson(Person person) 
-	{
-		if (personRepository.getAllPerson().contains(person)) 
+	{	
+		if (personRepository.getAllPerson().stream()
+				.anyMatch (p -> p.getFirstName().equals(person.getFirstName())
+						&& p.getLastName().equals(person.getLastName())))
 		{
-			personRepository.deletePerson(person);
+			this.personRepository.deletePerson(person);
+		}
+		else {
+		    throw new NotFoundException("Firestation does not exists");
 		}
 	}
 }

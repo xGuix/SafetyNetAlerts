@@ -3,64 +3,86 @@ package com.safetynet.alerts.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
+import com.safetynet.alerts.exception.NotFoundException;
 import com.safetynet.alerts.model.Firestation;
 
 @Repository
 public class FirestationRepository implements IFirestationRepository
 {
+	private static Logger logger = LogManager.getLogger("FirestationRepository");
+	/**
+	 * Firestation List in memory
+	 */
     private List<Firestation> firestationList = new ArrayList<>();
     
+    /**
+	 * Getter Firestation for integrationTest
+	 * 
+	 * @return - {firestationList}
+	 */
+    public List<Firestation> getFirestationList()
+    {
+        return firestationList;
+    }
+
+    /**
+	 * Setter Firestation for integrationTest
+	 * 
+	 * @param - {firestationList}
+	 */
+    public void setFirestationList(List<Firestation> firestationList)
+    {
+        this.firestationList = firestationList;
+    }
+    
+    /**
+	 * Full Firestation in the List
+	 * @return - {firestationList} 
+	 */
 	@Override
 	public List<Firestation> getAllFirestation()
 	{
 		return this.firestationList;
 	}
 	
+	/**
+	 * Add firestation to the List
+	 * @return - {firestation} added
+	 */
 	@Override
-	public List<Firestation> getAddressByStation(String station)
+	public Firestation addFirestation(Firestation firestation)
 	{
-	    final List<Firestation> stationAddressList = new ArrayList<>();
-	    
-		for (Firestation stationAddress : firestationList)
-		{
-			if(stationAddress.getStation().equals(station))
-			{
-				stationAddressList.add(stationAddress);
-			}
-		}
-		return stationAddressList;
-	}
-	
-	@Override
-	public Firestation getOneAddress(Firestation firestation)
-	{
-		if(firestationList.contains(firestation))
-		{
-			firestationList.get(firestationList.indexOf(firestation));
-			return firestation;
-		}
-		throw new NullPointerException("No Match found! : Firestation is null!");
-	}
-	
-	@Override
-	public Firestation addAFirestation(Firestation firestation)
-	{
+		logger.info("Successfully added to firestation list");
 		firestationList.add(firestation);
 		return firestation;
 	}	
-	
+	/**
+	 * Update firestation to the List
+	 * @return - {firestation} updated
+	 */
 	@Override
-	public Firestation updateAnAddressStation(Firestation firestation)
+	public Firestation updateFirestation(String address, Firestation firestation)
 	{	
-		addAFirestation(firestation);
+		Firestation firestationToUpdate = firestationList.stream()
+			.filter(f -> f.getAddress().equals(address))
+			.findAny().orElseThrow(() -> new NotFoundException("Firestation does not exist"));
+		logger.info("Successfully updated to firestation list");
+		this.firestationList.set(firestationList.indexOf(firestationToUpdate), firestation);
 		return firestation;
 	}
-
+	
+	/**
+	 * Delete firestation from the List
+	 * @NoReturn
+	 */
 	@Override
-	public void deleteAStation(Firestation firestation)
+	public void deleteFirestation(Firestation firestation)
 	{
+		logger.info("Successfully deleted from firestation list");
 		firestationList.remove(firestation);
 	}
 }
