@@ -8,6 +8,7 @@ public interface IMedicalRecordService
 {
 	public List<MedicalRecord> getAllMedicalRecords();
 	public MedicalRecord getMedicalRecordByName(String firstName, String lastName);
+	public int getHowOld(String firstName, String lastName);
 	
 	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord);
 	public MedicalRecord updateMedicalRecord(String firstName, String lastName, MedicalRecord medicalRecord);

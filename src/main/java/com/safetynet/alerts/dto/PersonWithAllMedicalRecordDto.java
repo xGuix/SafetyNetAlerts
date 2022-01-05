@@ -2,9 +2,10 @@ package com.safetynet.alerts.dto;
 
 import java.util.List;
 
+import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.MedicalRecord;
 
-public class PersonDto
+public class PersonWithAllMedicalRecordDto
 {	
 	private String firstName;
 	private String lastName;
@@ -14,14 +15,14 @@ public class PersonDto
     private String zip;
     private String phone;
     private String email;
-    private List<String> firestationAddress;
+    private Firestation firestation;
     private List<MedicalRecord> medicalRecord;
       
-	public PersonDto(
+	public PersonWithAllMedicalRecordDto(
 			String firstName, String lastName,String birthdate,
 			String address, String city, String zip,
 			String phone, String email,
-			List<String>firestationAddress,
+			Firestation firestation,
 			List <MedicalRecord>medicalRecord)
 	{	
 		this.firstName = firstName;
@@ -32,11 +33,11 @@ public class PersonDto
 		this.zip = zip;
 		this.phone = phone;
 		this.email = email;
-		this.setFirestationAddress(firestationAddress);
+		this.firestation= firestation;
 		this.setMedicalRecord(medicalRecord);
 	}
 
-	public PersonDto()
+	public PersonWithAllMedicalRecordDto()
 	{
 		// Use Default method
 	}
@@ -120,14 +121,14 @@ public class PersonDto
 		this.email = email;
 	}
 
-	public List<String> getFirestationAddress()
+	public Firestation getFirestationAddress()
 	{
-		return firestationAddress;
+		return firestation;
 	}
 
-	public void setFirestationAddress(List<String> firestationAddress)
+	public void setFirestationAddress(Firestation firestation)
 	{
-		this.firestationAddress = firestationAddress;
+		this.firestation = firestation;
 	}
 
 	public List<MedicalRecord> getMedicalRecord()

@@ -7,8 +7,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.safetynet.alerts.dto.PersonDto;
+import com.safetynet.alerts.dto.ListOfPersonsWithChildrenDto;
+import com.safetynet.alerts.dto.PersonAgeDto;
+import com.safetynet.alerts.dto.PersonWithAllMedicalRecordDto;
 import com.safetynet.alerts.model.Firestation;
+import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 
 import java.util.ArrayList;
@@ -25,7 +28,7 @@ public class AlertService implements IAlertService
     @Autowired
     IMedicalRecordService medicalRecordService;
 	
-	private static Logger logger = LogManager.getLogger("AlertsController");
+	private static Logger logger = LogManager.getLogger("AlertService");
     
     public void setPersonService(PersonService personService) {
         this.personService = personService;
@@ -40,11 +43,36 @@ public class AlertService implements IAlertService
     }
 	
 	@Override
-	public List<Person> getPersonsListForStation(String station)
+	public ListOfPersonsWithChildrenDto getPersonsListWithChildrenNumberForStation(String station)
 	{
-		List<Person> listOfPersonsForStation = new ArrayList<>();
-		logger.info("get list of persons");
-		return listOfPersonsForStation;
+        int childrenNumber = 0;
+        int adultsNumber = 0;
+        List<String> firestationAddress = firestationService.getOnlyAddressesFor(station);
+        List<PersonAgeDto> personToAdd = new ArrayList<>();
+
+        for(Person person : personService.getAllPersons())
+        {
+            if (firestationAddress.toString().contains(person.getAddress()))
+            {
+            	MedicalRecord mrForBirthdate = medicalRecordService.getMedicalRecordByName(person.getFirstName(), person.getLastName());
+            	
+            	personToAdd.add(new PersonAgeDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone(),
+            			mrForBirthdate.getBirthdate(), medicalRecordService.getHowOld(person.getFirstName(), person.getLastName())));
+            	
+                if (medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()) < 18)
+                {
+                	childrenNumber ++;
+                    logger.info("Add {} children to count", childrenNumber);
+                }
+                else if(medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()) > 18)
+                {
+                	adultsNumber ++;
+                    logger.info("Add {} adults to count", adultsNumber);
+                }
+            }
+        }
+        logger.info("List and count set...");
+        return new ListOfPersonsWithChildrenDto(personToAdd, adultsNumber,childrenNumber);		
 	}
 
 	@Override
@@ -80,9 +108,9 @@ public class AlertService implements IAlertService
 	}
 
 	@Override
-	public List<PersonDto> getAllInfoPerson(String lastName)
+	public List<PersonWithAllMedicalRecordDto> getAllInfoPerson(String lastName)
 	{
-		List<PersonDto> fullPersonInfo = new ArrayList<>();
+		List<PersonWithAllMedicalRecordDto> fullPersonInfo = new ArrayList<>();
 		logger.info("get all info of person by last name");
 		return fullPersonInfo;
 	}

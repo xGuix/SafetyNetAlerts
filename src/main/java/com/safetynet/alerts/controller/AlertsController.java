@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.safetynet.alerts.dto.PersonDto;
+import com.safetynet.alerts.dto.ListOfPersonsWithChildrenDto;
+import com.safetynet.alerts.dto.PersonWithAllMedicalRecordDto;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.AlertService;
@@ -25,17 +26,25 @@ public class AlertsController
 	private static Logger logger = LogManager.getLogger("AlertsController");
 	
 	/**
-	 * Alerts Controller
+	 * Firestation Person Alert :
+	 * Get the list of persons covered by a firestation
 	 * 
-	 * @return - Welcome message 
+	 * @return - {PersonListForStation}
 	 */
 	@GetMapping(value = "/firestationPersonAlert")
-	public ResponseEntity<List<Person>> personsListCoveredByFirestation(@RequestParam String station)
+	public ResponseEntity <ListOfPersonsWithChildrenDto> personsListCoveredByFirestation(@RequestParam String station)
 	{
 		logger.info("Get persons list covered by station N°{}",station);
-		return new ResponseEntity<>(alertService.getPersonsListForStation(station), HttpStatus.OK);
+		return new ResponseEntity<>(alertService.getPersonsListWithChildrenNumberForStation(station), HttpStatus.OK);
 	}
 	
+	/**
+	 * Child Alert :
+	 * Get the list of children with their famillies
+	 * for a specific addresss
+	 * 
+	 * @return - {PersonListForStation}
+	 */
 	@GetMapping(value = "/childAlert")
     public ResponseEntity<List<Person>> childrensWithFamilyByAddress(@RequestParam String address)
 	{
@@ -65,11 +74,10 @@ public class AlertsController
 	}
 	 
 	@GetMapping(value = "/personInfo")
-	public ResponseEntity <List<PersonDto>> personInfoByLastName(@RequestParam String lastName)
+	public ResponseEntity <List<PersonWithAllMedicalRecordDto>> personInfoByLastName(@RequestParam String lastName)
 	{
 	    logger.info("Get informations list about a family name");
 	    return new ResponseEntity<>(alertService.getAllInfoPerson(lastName), HttpStatus.OK);
-	  
 	}
 	
 	@GetMapping(value = "/communityEmail")

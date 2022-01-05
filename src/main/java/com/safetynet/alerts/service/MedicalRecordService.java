@@ -1,5 +1,8 @@
 package com.safetynet.alerts.service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -37,7 +40,7 @@ public class MedicalRecordService implements IMedicalRecordService
 	 */
 	public List<MedicalRecord> getAllMedicalRecords()
 	{
-		logger.info("Getting medical records list...");
+		logger.debug("Getting medical records list...");
 		return medicalRecordRepository.getAllMedicalRecords();
 	}
 	
@@ -56,6 +59,27 @@ public class MedicalRecordService implements IMedicalRecordService
 		return medicalRecordRepository.getAllMedicalRecords().stream()
 	    		.filter(mr -> mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName))
 	    		.findAny().orElseThrow(() -> new NotFoundException("Medical Record does not exists"));
+	}
+	
+	/**
+	 * Get How Old is this Person
+	 * Get birthdate from medical records
+	 * then calculate the age of person
+	 * 
+	 * @return - int YearsOld
+	 */
+	public int getHowOld(String firstName, String lastName)
+	{
+		MedicalRecord personToFind = getAllMedicalRecords().stream()
+	           .filter(mr -> mr.getFirstName().equals(firstName) && mr.getLastName().equals(lastName))
+	           .findAny().orElseThrow(()-> new NotFoundException("Person does not exists"));
+		
+		String birthdate = personToFind.getBirthdate();	
+		DateTimeFormatter setupDate = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        Period yearsOld = LocalDate.parse(birthdate, setupDate).until(LocalDate.now());
+        
+		logger.debug("Calculating age of {} {}",firstName,lastName);
+	    return yearsOld.getYears();
 	}
 	
 	/**
