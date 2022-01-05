@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetynet.alerts.dto.ChildWithFamilyDto;
 import com.safetynet.alerts.dto.ListOfPersonsWithChildrenDto;
 import com.safetynet.alerts.dto.PersonAgeDto;
 import com.safetynet.alerts.dto.PersonWithAllMedicalRecordDto;
@@ -42,13 +43,25 @@ public class AlertService implements IAlertService
         this.medicalRecordService = medicalRecordService;
     }
 	
+	/**
+	 * Read Person List for a Station :
+	 * 
+	 * Search firestation with N°Station and
+	 * get list of person at station addresses
+	 * then count children.
+	 * 
+	 * @return - List of Person with children count
+	 * 			 {personListAtAddress}
+	 *  		 {adultsNumber}
+	 *   		 {childrenNumber}
+	 */
 	@Override
 	public ListOfPersonsWithChildrenDto getPersonsListWithChildrenNumberForStation(String station)
 	{
         int childrenNumber = 0;
         int adultsNumber = 0;
         List<String> firestationAddress = firestationService.getOnlyAddressesFor(station);
-        List<PersonAgeDto> personToAdd = new ArrayList<>();
+        List<PersonAgeDto> personListAtAddress = new ArrayList<>();
 
         for(Person person : personService.getAllPersons())
         {
@@ -56,7 +69,7 @@ public class AlertService implements IAlertService
             {
             	MedicalRecord mrForBirthdate = medicalRecordService.getMedicalRecordByName(person.getFirstName(), person.getLastName());
             	
-            	personToAdd.add(new PersonAgeDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone(),
+            	personListAtAddress.add(new PersonAgeDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone(),
             			mrForBirthdate.getBirthdate(), medicalRecordService.getHowOld(person.getFirstName(), person.getLastName())));
             	
                 if (medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()) < 18)
@@ -72,17 +85,55 @@ public class AlertService implements IAlertService
             }
         }
         logger.info("List and count set...");
-        return new ListOfPersonsWithChildrenDto(personToAdd, adultsNumber,childrenNumber);		
+        return new ListOfPersonsWithChildrenDto(personListAtAddress, adultsNumber,childrenNumber);		
 	}
 
+	/**
+	 * Read Person List for an address :
+	 * 
+	 * Search all children < 18
+	 * get familly list with lastName
+	 * then get children list with their parents.
+	 * 
+	 * @return - List of children with family
+	 * {Child} {FamilyMember}
+	 */
 	@Override
-	public List<Person> getChildrenAtAddress(String address)
+	public List<ChildWithFamilyDto> getChildrenWithFamilyListAtAddress(String address)
 	{
-		List<Person> listOfChildrenAtAddress = new ArrayList<>();
-		logger.info("get list of children");
-		return listOfChildrenAtAddress;
+		List<ChildWithFamilyDto> listOfChildrenWithFamily = new ArrayList<>();
+		List<PersonAgeDto> listOfAdult = new ArrayList<>();
+		
+		for(Person person : personService.getAllPersons())
+		{ 
+			if(person.getAddress().equals(address))
+			{
+				MedicalRecord mrForBirthdate = medicalRecordService.getMedicalRecordByName(person.getFirstName(), person.getLastName());
+				if(medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()) < 18)
+				{
+					listOfChildrenWithFamily.add(new ChildWithFamilyDto(person.getFirstName(),person.getLastName(), person.getAddress(),
+							medicalRecordService.getHowOld(person.getFirstName(),person.getLastName()), null));
+				} 
+				else
+				{
+					listOfAdult.add(new PersonAgeDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone(),
+	            			mrForBirthdate.getBirthdate(), medicalRecordService.getHowOld(person.getFirstName(), person.getLastName())));
+				}
+			}
+		}
+		listOfChildrenWithFamily.forEach(child -> child.setFamilyList(listOfAdult));
+		return listOfChildrenWithFamily;
 	}
 
+	/**
+	 * Read Person List for a Station :
+	 * 
+	 * Search persons with addresses of station and
+	 * get phone numbers list of person at addresses
+	 * 
+	 * @return - List of persons phone Number
+	 * 			 {listOfPhoneNumberOfStation}
+	 */
 	@Override
 	public List<String> getPhoneNumberOfStation(String station)
 	{

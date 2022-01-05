@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetynet.alerts.dto.ChildWithFamilyDto;
 import com.safetynet.alerts.dto.ListOfPersonsWithChildrenDto;
 import com.safetynet.alerts.dto.PersonWithAllMedicalRecordDto;
 import com.safetynet.alerts.model.Firestation;
@@ -41,16 +42,17 @@ public class AlertsController
 	/**
 	 * Child Alert :
 	 * Get the list of children with their famillies
-	 * for a specific addresss
+	 * for a specific address
 	 * 
 	 * @return - {PersonListForStation}
 	 */
 	@GetMapping(value = "/childAlert")
-    public ResponseEntity<List<Person>> childrensWithFamilyByAddress(@RequestParam String address)
+    public ResponseEntity <List<ChildWithFamilyDto>> childrensWithFamilyByAddress(@RequestParam String address)
 	{
         logger.info("Get Childrens list at this address : {}",address);
-        return new ResponseEntity<>(alertService.getChildrenAtAddress(address), HttpStatus.OK);
+        return new ResponseEntity<>(alertService.getChildrenWithFamilyListAtAddress(address), HttpStatus.OK);
     }
+	
 	
 	@GetMapping(value = "/phoneAlert")
     public ResponseEntity<List<String>> phoneNumberListByStation(@RequestParam String station)
