@@ -68,7 +68,7 @@ public class AlertsController
         return new ResponseEntity<>(alertService.getPersonsListAndFirestationOfStation(address), HttpStatus.OK);
     }
 	
-	@GetMapping(value="/flood/stations")
+	@GetMapping(value="/floodAlert")
 	public ResponseEntity<List<Person>> familliesListByFirestation(@RequestParam Firestation firestation)
 	{
 	    logger.info("Get family list at this addres");
@@ -76,10 +76,10 @@ public class AlertsController
 	}
 	 
 	@GetMapping(value = "/personInfo")
-	public ResponseEntity <List<PersonWithAllMedicalRecordDto>> personInfoByLastName(@RequestParam String lastName)
+	public ResponseEntity <List<PersonWithAllMedicalRecordDto>> personInfoByLastName(@RequestParam String firstName,@RequestParam String lastName)
 	{
 	    logger.info("Get informations list about a family name");
-	    return new ResponseEntity<>(alertService.getAllInfoPerson(lastName), HttpStatus.OK);
+	    return new ResponseEntity<>(alertService.getAllInfoPerson(firstName,lastName), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/communityEmail")

@@ -66,7 +66,7 @@ public class FirestationService implements IFirestationService
 	 */
     public List<String> getOnlyAddressesFor(String station)
 	{
-		logger.info("Firestation N°{} Check matches.", station);
+		logger.info("Firestation N°{} - Check matches.", station);
 		return firestationRepository.getAllFirestation().stream()
 				.filter(f -> f.getStation().equals(station))
 				.map(Firestation::getAddress)
@@ -81,9 +81,9 @@ public class FirestationService implements IFirestationService
 	 * @return - Firestation
 	 */
 	@Override
-	public Firestation getOneFirestation(String address, String station)
+	public Firestation getOneFirestation(String address)
 	{
-		logger.info("Searching match address for Firestation N°{} with '{}'", station, address);
+		logger.info("Searching match for Firestation at '{}'", address);
 		return firestationRepository.getAllFirestation().stream()
 	    		.filter(f -> f.getAddress().equals(address))
 	    		.findAny().orElseThrow(() -> new NotFoundException("Address does not exists"));

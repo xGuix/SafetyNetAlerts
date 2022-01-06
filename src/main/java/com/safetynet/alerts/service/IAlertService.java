@@ -13,8 +13,10 @@ public interface IAlertService
 	ListOfPersonsWithChildrenDto getPersonsListWithChildrenNumberForStation(String station);
 	List<ChildWithFamilyDto> getChildrenWithFamilyListAtAddress(String address);
 	List<String> getPhoneNumberOfStation(String station);
+	
 	List<Person> getPersonsListAndFirestationOfStation(String address);
 	List<Person> getAllPersonsOfTheFirestation(Firestation firestation);
-	List<PersonWithAllMedicalRecordDto> getAllInfoPerson(String lastName);
+	List<PersonWithAllMedicalRecordDto> getAllInfoPerson(String firstName, String lastName);
+	
 	List<String> getAllEmailsListByCity(String city);
 }

@@ -60,7 +60,7 @@ class FirestationsControllerTest
     @Test
     void whenSearchFirestationWithNoRequestParam_returnDefault() throws Exception 
     {
-		when(firestationService.getOneFirestation(Mockito.isNull(),Mockito.isNull())).then(RETURNS_SMART_NULLS);
+		when(firestationService.getOneFirestation(Mockito.isNull())).then(RETURNS_SMART_NULLS);
         mockMvc.perform(get("/firestation")
         	.contentType(MediaType.APPLICATION_JSON))
         		.andExpect(status().isBadRequest())
@@ -92,10 +92,9 @@ class FirestationsControllerTest
     @Test
     void whenSearchFirestationWithRequestParam_returnOneFirestation() throws Exception
     {	
-    	when(firestationService.getOneFirestation("Saint Omer sur Mer","1")).thenReturn(firestationTest);
+    	when(firestationService.getOneFirestation("Saint Omer sur Mer")).thenReturn(firestationTest);
         mockMvc.perform(get("/firestation")
         	.param("address", "Saint Omer Sur Mer")
-        	.param("station", "1")
         	.contentType(MediaType.APPLICATION_JSON))
         		.andExpect(status().isFound())
         		.andReturn();

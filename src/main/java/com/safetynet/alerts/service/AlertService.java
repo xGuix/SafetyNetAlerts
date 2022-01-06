@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -103,7 +104,7 @@ public class AlertService implements IAlertService
 	{
 		List<ChildWithFamilyDto> listOfChildrenWithFamily = new ArrayList<>();
 		List<PersonAgeDto> listOfAdult = new ArrayList<>();
-		
+
 		for(Person person : personService.getAllPersons())
 		{ 
 			if(person.getAddress().equals(address))
@@ -131,21 +132,33 @@ public class AlertService implements IAlertService
 	 * Search persons with addresses of station and
 	 * get phone numbers list of person at addresses
 	 * 
-	 * @return - List of persons phone Number
-	 * 			 {listOfPhoneNumberOfStation}
+	 * @return - {listOfPhoneNumberForStation}
 	 */
 	@Override
 	public List<String> getPhoneNumberOfStation(String station)
 	{
-		List<String> listOfPhoneNumberOfStation = new ArrayList<>();
-		logger.info("get list of phone number for station");
-		return listOfPhoneNumberOfStation;
+		List<String> firestationAddress = firestationService.getOnlyAddressesFor(station);
+		logger.info("get list of phone number for station N°{}",station);
+		return personService.getAllPersons().stream()
+				.filter(pAddress -> firestationAddress.toString().contains(pAddress.getAddress()))
+				.map(pPhone -> pPhone.getFirstName()+" "+ pPhone.getLastName()+" : "+pPhone.getPhone())
+				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Read Person List for a Station :
+	 * 
+	 * Search persons with addresses of station and
+	 * get phone numbers list of person at addresses
+	 * 
+	 * @return - {listOfPhoneNumberForStation}
+	 */
 	@Override
 	public List<Person> getPersonsListAndFirestationOfStation(String address)
 	{
 		List<Person> listOfPersonAndFirestationOfStation = new ArrayList<>();
+		Firestation firestationAddress = firestationService.getOneFirestation(address);
+		
 		logger.info("get list of person for address");
 		return listOfPersonAndFirestationOfStation;
 	}
@@ -159,18 +172,28 @@ public class AlertService implements IAlertService
 	}
 
 	@Override
-	public List<PersonWithAllMedicalRecordDto> getAllInfoPerson(String lastName)
+	public List<PersonWithAllMedicalRecordDto> getAllInfoPerson(String firstName, String lastName)
 	{
 		List<PersonWithAllMedicalRecordDto> fullPersonInfo = new ArrayList<>();
 		logger.info("get all info of person by last name");
 		return fullPersonInfo;
 	}
 
+	/**
+	 * Read Person List for a City:
+	 * 
+	 * Search persons with the city and
+	 * get emails list of person for all city
+	 * 
+	 * @return - {listOfEmailForCity}
+	 */
 	@Override
 	public List<String> getAllEmailsListByCity(String city)
 	{
-		List<String> allEmailsListOfCity = new ArrayList<>();
-		logger.info("get all emails of person by city");
-		return allEmailsListOfCity;
+		logger.info("get all person emails list for {}",city);
+		return personService.getAllPersons().stream()
+				.filter(p -> p.getCity().equals(city))
+				.map(pEmail -> pEmail.getFirstName()+" "+ pEmail.getLastName()+" : "+pEmail.getEmail())
+				.collect(Collectors.toList());
 	}
 }

@@ -82,10 +82,10 @@ public class FirestationsController
 	 * @return - One address of station
 	 */
     @GetMapping(value ="/firestation")
-    public ResponseEntity <Firestation> getOneFirestation(@RequestParam String address, @RequestParam String station)
+    public ResponseEntity <Firestation> getOneFirestation(@RequestParam String address)
     {
-		logger.info("Sending request to find the firestation N°{} : {}", station, address);		
-        return new ResponseEntity<>(firestationService.getOneFirestation(address,station), HttpStatus.FOUND);
+		logger.info("Sending request to find the firestation of '{}'", address);		
+        return new ResponseEntity<>(firestationService.getOneFirestation(address), HttpStatus.FOUND);
     }
     
 	/**
@@ -108,7 +108,7 @@ public class FirestationsController
 	 * @return - Update address in the list
 	 */
     @PutMapping(value = "/firestation")
-    public ResponseEntity <Firestation> updateFirestation(
+    public ResponseEntity <Firestation> updateFirestation( 		
     		@RequestParam String address, @RequestBody Firestation firestation)
     {
 		logger.info("Sending request to update firestation address '{}'", address);
@@ -122,11 +122,10 @@ public class FirestationsController
 	 * @param - N° of station
 	 */
 	@DeleteMapping(value = "/firestation")
-	public ResponseEntity<Void> deleteFirestation(
-			@RequestParam String address, @RequestParam String station)
+	public ResponseEntity<Void> deleteFirestation(@RequestParam String address)
 	{
-		logger.info("Sending request to delete firestation N°{} : {}", station, address);	
-		firestationService.deleteFirestation(firestationService.getOneFirestation(address,station));	
+		logger.info("Sending request to delete firestation of '{}'", address);	
+		firestationService.deleteFirestation(firestationService.getOneFirestation(address));	
 		return new ResponseEntity<> (HttpStatus.OK);
 	}
 }
