@@ -27,10 +27,10 @@ public class AlertsController
 	private static Logger logger = LogManager.getLogger("AlertsController");
 	
 	/**
-	 * Firestation Person Alert :
+	 * FIRESTATION PERSON ALERT
 	 * Get the list of persons covered by a firestation
 	 * 
-	 * @return - {PersonListForStation}
+	 * @return - List of person with Children & Adult count for station
 	 */
 	@GetMapping(value = "/firestationPersonAlert")
 	public ResponseEntity <ListOfPersonsWithChildrenDto> personsListCoveredByFirestation(@RequestParam String station)
@@ -40,11 +40,11 @@ public class AlertsController
 	}
 	
 	/**
-	 * Child Alert :
+	 * CHILD ALERT
 	 * Get the list of children with their famillies
 	 * for a specific address
 	 * 
-	 * @return - {PersonListForStation}
+	 * @return - List of Children with Family members for address
 	 */
 	@GetMapping(value = "/childAlert")
     public ResponseEntity <List<ChildWithFamilyDto>> childrensWithFamilyByAddress(@RequestParam String address)
@@ -53,7 +53,13 @@ public class AlertsController
         return new ResponseEntity<>(alertService.getChildrenWithFamilyListAtAddress(address), HttpStatus.OK);
     }
 	
-	
+	/**
+	 * PHONE ALERT
+	 * Get the list of phone number with name
+	 * for a specific station
+	 * 
+	 * @return - List of phone numbers with name for station
+	 */
 	@GetMapping(value = "/phoneAlert")
     public ResponseEntity<List<String>> phoneNumberListByStation(@RequestParam String station)
 	{
@@ -61,6 +67,14 @@ public class AlertsController
         return new ResponseEntity<>(alertService.getPhoneNumberOfStation(station), HttpStatus.OK);
     }
 	
+	/**
+	 * FIRE ALERT
+	 * Get the list of person with medicals records living at address :
+	 * name, phone, age and medicals records: medication and allergie
+	 * and the firestation in charge for a specific address
+	 * 
+	 * @return - List of phone with name for station}
+	 */
 	@GetMapping(value = "fireAlert")
     public ResponseEntity<List<Person>> personsListAndFirestationByAddress(@RequestParam String address)
 	{
@@ -68,13 +82,28 @@ public class AlertsController
         return new ResponseEntity<>(alertService.getPersonsListAndFirestationOfStation(address), HttpStatus.OK);
     }
 	
+	/**
+	 * FLOOD ALERT
+	 * Get the list of family home with all members :
+	 * name, phone, age and medicals records: medication and allergie
+	 * for a specific firestation
+	 * 
+	 * @return - List of family home with members
+	 */
 	@GetMapping(value="/floodAlert")
 	public ResponseEntity<List<Person>> familliesListByFirestation(@RequestParam Firestation firestation)
 	{
 	    logger.info("Get family list at this addres");
 	    return new ResponseEntity<>(alertService.getAllPersonsOfTheFirestation(firestation), HttpStatus.OK);
 	}
-	 
+	
+	/**
+	 * PERSON INFO
+	 * Get the full info person with medical record
+	 * for a specific firstName and lastName
+	 * 
+	 * @return - Full Person with medical record
+	 */
 	@GetMapping(value = "/personInfo")
 	public ResponseEntity <List<PersonWithAllMedicalRecordDto>> personInfoByLastName(@RequestParam String firstName,@RequestParam String lastName)
 	{
@@ -82,6 +111,13 @@ public class AlertsController
 	    return new ResponseEntity<>(alertService.getAllInfoPerson(firstName,lastName), HttpStatus.OK);
 	}
 	
+	/**
+	 * COMMUNITY EMAIL
+	 * Get the list of phone number with name
+	 * for a specific city
+	 * 
+	 * @return - List of emails with name for city
+	 */
 	@GetMapping(value = "/communityEmail")
     public ResponseEntity<List<String>> emailsListByCity(@RequestParam String city)
 	{

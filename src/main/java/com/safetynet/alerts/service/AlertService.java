@@ -146,18 +146,21 @@ public class AlertService implements IAlertService
 	}
 
 	/**
-	 * Read Person List for a Station :
+	 * Read Person List for an address :
 	 * 
-	 * Search persons with addresses of station and
-	 * get phone numbers list of person at addresses
+	 * Search all persons with address and
+	 * get list of persons with firestation in charge
 	 * 
-	 * @return - {listOfPhoneNumberForStation}
+	 * @return - {listOfPersonsWithFirestation}
 	 */
 	@Override
 	public List<Person> getPersonsListAndFirestationOfStation(String address)
 	{
 		List<Person> listOfPersonAndFirestationOfStation = new ArrayList<>();
 		Firestation firestationAddress = firestationService.getOneFirestation(address);
+		List<Person> personToAdd = personService.getAllPersons().stream()
+				.filter(pAddress -> firestationAddress.equals(pAddress.getAddress()))
+				.collect(Collectors.toList());
 		
 		logger.info("get list of person for address");
 		return listOfPersonAndFirestationOfStation;
