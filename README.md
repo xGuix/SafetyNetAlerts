@@ -315,4 +315,3 @@ Give for each person the name follow by phone number
 ```html
 localhost:8080/communityEmail?city=<city>
 ```
-
