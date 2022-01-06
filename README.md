@@ -120,44 +120,43 @@ https://localhost:8080/
 
 ## APIRest controllers
 
-* ** Person: ** Manage endpoints to entitie "Person"
-* ** Firestation: ** Manage endpoints to entitie "Firestation"
-* ** MedicalRecord: ** Manage endpoints to entitie "MedicalRecord"
-
-* ** Alerts: ** Manage all endpoints relative to URLS
+- ** Person: ** Manage endpoints to entitie "Person"
+- ** Firestation: ** Manage endpoints to entitie "Firestation"
+- ** MedicalRecord: ** Manage endpoints to entitie "MedicalRecord"
+- ** Alerts: ** Manage all endpoints relative to URLS
 
 
 ## Endpoints /person
 
-** GET{persons} **
+- ** GET{persons} **
 Get list of all persons in files
 
 ```html
 localhost:8080/persons
 ```
 
-** GET{person} **
+- ** GET{person} **
 Get person with firstName and lastName
 
 ```html
 localhost:8080/person?firstName=<firstName>&lastName=<lastName>
 ```
 
-** POST{person} **
+- ** POST{person} **
 Add person with full body "Person"
 
 ```html
 localhost:8080/person
 ```
 
-** PUT{person} **
+- ** PUT{person} **
 Update person with full body "Person"
 
 ```html
 localhost:8080/person
 ```
 
-** DEL{person} **
+- ** DEL{person} **
 Delete person with firstName and lastName
 
 ```html
@@ -167,42 +166,42 @@ localhost:8080/person?firstName=<firstName>&lastName=<lastName>
 
 ## Endpoints /firestation
 
-** GET{firestations} **
+- ** GET{firestations} **
 Get list of all firestations in files
 
 ```html
 localhost:8080/firestations
 ```
 
-** GET{firestation} **
+- ** GET{firestation} **
 Get one firestation with address and station
 
 ```html
 localhost:8080/firestation?address=<address>&station=<station>
 ```
 
-** GET{firestationsStation} **
+- ** GET{firestationsStation} **
 Get firestations list for station number
 
 ```html
 localhost:8080/stationAddresses?station=<station>
 ```
 
-** GET{stationAddresses} **
+- ** GET{stationAddresses} **
 Get firestation addresses with station number
 
 ```html
 localhost:8080/stationAddresses?station=<station>
 ```
 
-** POST{firestation} **
+- ** POST{firestation} **
 Add firestation with full body "firestation"
 
 ```html
 localhost:8080/firestation
 ```
 
-** PUT{firestation} **
+- ** PUT{firestation} **
 Update firestation with address and station for check matches.</br>
 The full body of the new "firestation" to update.
 
@@ -210,7 +209,7 @@ The full body of the new "firestation" to update.
 localhost:8080/firestation
 ```
 
-** DEL{firestation} **
+- ** DEL{firestation} **
 Delete firestation with address and station
 
 ```html
@@ -220,28 +219,28 @@ localhost:8080/firestation?address=<address>&station=<station>
 
 ## Endpoints /medicalRecord
 
-** GET{medicalRecords} **
+- ** GET{medicalRecords} **
 Get list of all medicalRecord in files
 
 ```html
 localhost:8080/medicalRecords
 ```
 
-** GET{medicalRecord} **
+- ** GET{medicalRecord} **
 Get medicalRecord with firstName and lastName
 
 ```html
 localhost:8080/medicalRecord?firstName=<firstName>&lastName=<lastName>
 ```
 
-** POST{medicalRecord} **
+- ** POST{medicalRecord} **
 Add medicalRecord with full body "medicalRecord"
 
 ```html
 localhost:8080/medicalRecord
 ```
 
-** PUT{medicalRecord} **
+- ** PUT{medicalRecord} **
 Update medicalRecord with firstName and lastName for check matches.</br>
 The full body of the new "medicalRecord" to update.
 
@@ -249,7 +248,7 @@ The full body of the new "medicalRecord" to update.
 localhost:8080/medicalRecord?firstName=<firstName>&lastName=<lastName>
 ```
 
-** DEL{medicalRecord} **
+- ** DEL{medicalRecord} **
 Delete medicalRecord with firstName and lastName
 
 ```html
@@ -259,7 +258,7 @@ localhost:8080/medicalRecord?firstName=<firstName>&lastName=<lastName>
 
 ## URLS Alerts
 
-** GET{firestationPersonAlert} **
+- ** GET{firestationPersonAlert} **
 Get list of all Persons at station addresses.</br>
 Give the count of children and adults
 
@@ -267,7 +266,7 @@ Give the count of children and adults
 localhost:8080/firestationPersonAlert?station=<station>
 ```
 
-** GET{childAlert} **
+- ** GET{childAlert} **
 Get list of all children at address.</br>
 Each child contains a list with family adults
 
@@ -275,7 +274,7 @@ Each child contains a list with family adults
 localhost:8080/childAlert?address=<address>
 ```
 
-** GET{phoneAlert} **
+- ** GET{phoneAlert} **
 Get list of all phone number at addresses station.</br>
 Give for each person the name follow by phone number
 
@@ -283,7 +282,7 @@ Give for each person the name follow by phone number
 localhost:8080/phoneAlert?station=<station>
 ```
 
-** GET{fireAlert} **
+- ** GET{fireAlert} **
 Get list of all Persons living at address and the firestation in charge.</br>
 Give for each person :</br>
 name, phone, age and medicals records : medication and allergie
@@ -292,7 +291,7 @@ name, phone, age and medicals records : medication and allergie
 localhost:8080/fireAlert?address=<address>
 ```
 
-** GET{floodAlert} **
+- ** GET{floodAlert} **
 Get list of all family home at addresses station.</br>
 Give for each family home list, the persons details :</br>
 name, phone, age and medicals records: medication and allergie
@@ -301,7 +300,7 @@ name, phone, age and medicals records: medication and allergie
 localhost:8080/floodAlert?station=<station>
 ```
 
-** GET{personInfo} **
+- ** GET{personInfo} **
 Geta full info of a person with firstName and lastName.</br>
 Give a person and its medical record : medication and allergie
 
@@ -309,7 +308,7 @@ Give a person and its medical record : medication and allergie
 localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
 ```
 
-** GET{communityEmail} **
+- ** GET{communityEmail} **
 Get list of all emails at city.</br>
 Give for each person the name follow by phone number
 
