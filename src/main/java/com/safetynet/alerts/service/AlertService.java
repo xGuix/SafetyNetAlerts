@@ -1,7 +1,9 @@
 package com.safetynet.alerts.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -187,25 +189,33 @@ public class AlertService implements IAlertService
 	@Override
 	public List<FloodAlertDto> getHomeFamilyforStation (String station)
 	{
-		List<FloodAlertDto> homeFamilySet = new ArrayList<>(); 
+		List<FloodAlertDto> homeFamilyList = new ArrayList<>(); 	
 		List<String> addresses = firestationService.getOnlyAddressesFor(station);
-		List<PersonInfoDto> familyList = new ArrayList<>();
+		List<PersonInfoDto> matchingPersons = new ArrayList<>();
+		
+		List<PersonInfoDto> homeFamily = new ArrayList<>();
 	
 		for(Person person : personService.getAllPersons())
-		{
-
-			
+		{	
 			if (addresses.toString().contains(person.getAddress()))
 			{
-				familyList.add(new PersonInfoDto(person.getFirstName(),person.getLastName(),
+				matchingPersons.add(new PersonInfoDto(person.getFirstName(),person.getLastName(),
 				medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()),
 				person.getAddress(),person.getPhone(), person.getEmail(),
 				medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName())));
 			}
-			homeFamilySet.add(new FloodAlertDto(person.getAddress(),familyList));
+		}	
+		
+		for (PersonInfoDto familyMembers : matchingPersons)
+		{
+			if (matchingPersons.stream().anyMatch(pi -> pi.getLastName().equals(familyMembers.getLastName())))
+			{
+				homeFamily.add(familyMembers);
+			}
+			homeFamilyList.add(new FloodAlertDto(familyMembers.getAddress() ,homeFamily));
 		}
 		logger.info("Get list of famillies with address covered by Station");
-		return homeFamilySet;
+		return homeFamilyList;
 	}
 	
 	/**
