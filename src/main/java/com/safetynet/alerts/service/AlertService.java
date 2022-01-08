@@ -33,20 +33,23 @@ public class AlertService implements IAlertService
 	
 	private static Logger logger = LogManager.getLogger("AlertService");
     
-    public void setPersonService(PersonService personService) {
+    public void setPersonService(PersonService personService)
+    {
         this.personService = personService;
     }
 
-    public void setFirestationService(FirestationService firestationService) {
+    public void setFirestationService(FirestationService firestationService)
+    {
         this.firestationService = firestationService;
     }
 
-    public void setMedicalRecordService(MedicalRecordService medicalRecordService) {
+    public void setMedicalRecordService(MedicalRecordService medicalRecordService)
+    {
         this.medicalRecordService = medicalRecordService;
     }
 	
 	/**
-	 * Read Person List for a station:
+	 * Get persons list with children count for a station:
 	 * 
 	 * Search firestation with N°Station and
 	 * get list of person at station addresses
@@ -87,7 +90,7 @@ public class AlertService implements IAlertService
 	}
 
 	/**
-	 * Read Person List for an address:
+	 * Get children with their family list for an address:
 	 * 
 	 * Search all children under 18 years old
 	 * get familly list with lastName
@@ -124,7 +127,7 @@ public class AlertService implements IAlertService
 	}
 
 	/**
-	 * Read Person List for a Station:
+	 * Get phone persons list for a Station:
 	 * 
 	 * Search persons with addresses of station and
 	 * get phone numbers list of person at addresses
@@ -136,7 +139,7 @@ public class AlertService implements IAlertService
 	public List<String> getPhoneNumberOfStation(String station)
 	{
 		List<String> addresses = firestationService.getOnlyAddressesFor(station);
-		logger.info("get list of phone number for station N°{}",station);
+		logger.info("Get list of phone number for station N°{}",station);
 		return personService.getAllPersons().stream()
 				.filter(p -> addresses.toString().contains(p.getAddress()))
 				.map(phone -> phone.getFirstName()+" "+ phone.getLastName()+" : "+phone.getPhone())
@@ -144,7 +147,8 @@ public class AlertService implements IAlertService
 	}
 
 	/**
-	 * Read Person List for an address:
+	 * Get persons list and the firestation for an address:
+	 * 
 	 * Search all persons with address and
 	 * get list of persons with firestation in charge
 	 * 
@@ -167,12 +171,13 @@ public class AlertService implements IAlertService
 						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName())));
 			}
 		}
-		logger.info("list of person info with the firestation in charge of: {}",address);
+		logger.info("List of person info with the firestation in charge of: {}",address);
 		return new FireAlertDto(firestation, personInfoListAtAddress);
 	}
 
 	/**
-	 * Read Person List for a station:
+	 * Get home family list for a station:
+	 * 
 	 * Search all persons by address and
 	 * get list of home family sorted by address 
 	 * 
@@ -188,21 +193,24 @@ public class AlertService implements IAlertService
 	
 		for(Person person : personService.getAllPersons())
 		{
-			if (addresses.toString().contains(person.getAddress())) {
+
+			
+			if (addresses.toString().contains(person.getAddress()))
+			{
 				familyList.add(new PersonInfoDto(person.getFirstName(),person.getLastName(),
 				medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()),
 				person.getAddress(),person.getPhone(), person.getEmail(),
 				medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName())));
 			}
-
+			homeFamilySet.add(new FloodAlertDto(person.getAddress(),familyList));
 		}
-		homeFamilySet.add(new FloodAlertDto(addresses.toString(),familyList));
-		logger.info("get list of famillies covered by Station");
+		logger.info("Get list of famillies with address covered by Station");
 		return homeFamilySet;
 	}
 	
 	/**
-	 * Read Person List by name:
+	 * Get all persons infos with a name:
+	 * 
 	 * Search all persons with name and
 	 * get list of persons if multiple answers
 	 * 
@@ -224,12 +232,12 @@ public class AlertService implements IAlertService
 						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName())));
 			}
 		}
-		logger.info("get all person info of {} {}", firstName,lastName);
+		logger.info("Get all person infos of {} {}", firstName,lastName);
 		return personInfoList;
 	}
 
 	/**
-	 * Read Person List for a City:
+	 * Get emails list for a City:
 	 * 
 	 * Search persons with the city and
 	 * get emails list of person for all city
@@ -240,7 +248,7 @@ public class AlertService implements IAlertService
 	@Override
 	public List<String> getEmailsListByCity(String city)
 	{
-		logger.info("get all person emails list of {}",city);
+		logger.info("Get all person emails list of {}",city);
 		return personService.getAllPersons().stream()
 				.filter(p -> p.getCity().equals(city))
 				.map(pEmail -> pEmail.getFirstName()+" "+ pEmail.getLastName()+" : "+	pEmail.getEmail())

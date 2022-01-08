@@ -7,7 +7,6 @@ public class FloodAlertDto
 	private String address;
 	private List <PersonInfoDto> homeFamily;
 
-      
 	public FloodAlertDto(String address,List<PersonInfoDto> homeFamily)
 	{	
 		this.address = address;
