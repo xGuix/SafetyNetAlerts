@@ -26,7 +26,7 @@ public class MedicalRecordService implements IMedicalRecordService
 	/**
 	 * Setter MedicalRecord for integrationTest
 	 * 
-	 * @param - {medicalRecordRepository}
+	 * @param medicalRecordRepository Class MedicalRecordRepository
 	 */
 	public void setMedicalRecordRepository(MedicalRecordRepository medicalRecordRepository)
 	{
@@ -36,7 +36,7 @@ public class MedicalRecordService implements IMedicalRecordService
 	/**
 	 * Get all list of medical record from Repository
 	 * 
-	 * @return - Repositorylist
+	 * @return Repositorylist Data in memory
 	 */
 	public List<MedicalRecord> getAllMedicalRecords()
 	{
@@ -49,8 +49,10 @@ public class MedicalRecordService implements IMedicalRecordService
 	 * Search of person existing and
 	 * Get the person with his name
 	 * 
-	 * @return - MedicalRecord of Person
-	 * @exception -{@link NotFoundException}
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @return MedicalRecord For one Person
+	 * @exception NotFoundException Throws when not found
 	 */
 	@Override
 	public MedicalRecord getMedicalRecordByName(String firstName, String lastName)
@@ -66,7 +68,9 @@ public class MedicalRecordService implements IMedicalRecordService
 	 * Get birthdate from medical records
 	 * then calculate the age of person
 	 * 
-	 * @return - int YearsOld
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @return YearsOld int age
 	 */
 	public int getHowOld(String firstName, String lastName)
 	{
@@ -87,8 +91,9 @@ public class MedicalRecordService implements IMedicalRecordService
 	 * Search if file existing and
 	 * Add the Medical record to the list
 	 * 
-	 * @return - MedicalRecord added
-	 * @exception - {@link AlreadyExistingException}
+	 * @param medicalRecord Full medical record body
+	 * @return MedicalRecord added
+	 * @exception AlreadyExistingException Throws when exists
 	 */
 	@Override
 	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord)
@@ -111,7 +116,9 @@ public class MedicalRecordService implements IMedicalRecordService
 	 * Update Medical Record :
 	 * Send parameter to the repository for checking
 	 * 
-	 * @return  - medicalRecord udated
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @return medicalRecord udated
 	 */
 	@Override
 	public MedicalRecord updateMedicalRecord(String firstName, String lastName, MedicalRecord medicalRecord)
@@ -123,7 +130,9 @@ public class MedicalRecordService implements IMedicalRecordService
 	 * Delete Medical Record :
 	 * Search file by name and remove it from the list
 	 * 
-	 * @exception -{@link NotFoundException}
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @exception NotFoundException Throws when not found
 	 */
 	@Override
 	public void deleteMedicalRecord(String firstName, String lastName)

@@ -23,7 +23,7 @@ public class PersonService implements IPersonService
 	/**
 	 * Setter Person for integrationTest
 	 * 
-	 * @param - {personRepository}
+	 * @param personRepository Setter repository
 	 */
 	public void setPersonRepository(PersonRepository personRepository)
 	{
@@ -33,7 +33,7 @@ public class PersonService implements IPersonService
 	/**
 	 * Get all persons list from Repository
 	 * 
-	 * @return - Repository list
+	 * @return Repositorylist List of all person
 	 */
 	public List<Person> getAllPersons()
 	{
@@ -45,8 +45,10 @@ public class PersonService implements IPersonService
 	 * Read Persons :
 	 * Get one person with name
 	 * 
-	 * @return - Person in the list
-	 * @exception - {@link NotFoundException}
+	 * @param firstName Person first name
+	 * @param lastName Person last name
+	 * @return Person One person
+	 * @exception NotFoundException Throws when not found
 	 */
 	@Override
     public Person getPersonByName(String firstName, String lastName) 
@@ -61,7 +63,9 @@ public class PersonService implements IPersonService
 	 * Add Person :
 	 * Add one person to the list
 	 * 
-	 * @return - Person added
+	 * @param person Person to add
+	 * @return Person added
+	 * @throws AlreadyExistingException Throws when exist
 	 */
 	@Override
 	public Person addPerson(Person person) 
@@ -82,7 +86,8 @@ public class PersonService implements IPersonService
 	 * Update Person :
 	 * Setup one person from the list
 	 * 
-	 * @return - Person updated
+	 * @param person Person to update
+	 * @return Person updated
 	 */
 	@Override
 	public Person updatePerson(Person person) 
@@ -94,7 +99,8 @@ public class PersonService implements IPersonService
 	 * Delete Person :
 	 * Remove person from the list
 	 * 
-	 * @NoReturn
+	 * @param person Person to delete
+	 * @throws NotFoundException Throws when not found
 	 */
 	@Override
 	public void deletePerson(Person person) 

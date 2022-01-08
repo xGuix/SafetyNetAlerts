@@ -6,7 +6,8 @@ public class NotFoundException extends RuntimeException
 
 	/**
 	 * Super constructor
-	 * @param - {notFound} message 
+	 * 
+	 * @param notFound message 
 	 */
 	public NotFoundException(String notFound) 
 	{

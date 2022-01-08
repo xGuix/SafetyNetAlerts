@@ -8,10 +8,10 @@ public class ChildWithFamilyDto
 	private String lastName;
     private String address;
 	private Integer age;
-	private List<PersonAgeDto> familyList;
+	private List<PersonWithAgeDto> familyList;
       
-	public ChildWithFamilyDto(String firstName, String lastName, String address,
-			Integer age, List<PersonAgeDto> familyList)
+	public ChildWithFamilyDto(String firstName, String lastName,
+			String address,	Integer age, List<PersonWithAgeDto> familyList)
 	{	
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -65,12 +65,12 @@ public class ChildWithFamilyDto
 		this.age = age;
 	}
 
-	public List<PersonAgeDto> getFamilyList()
+	public List<PersonWithAgeDto> getFamilyList()
 	{
 		return familyList;
 	}
 
-	public void setFamilyList(List<PersonAgeDto> familyList)
+	public void setFamilyList(List<PersonWithAgeDto> familyList)
 	{
 		this.familyList = familyList;
 	}

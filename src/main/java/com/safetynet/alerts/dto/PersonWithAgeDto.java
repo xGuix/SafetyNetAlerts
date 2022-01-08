@@ -1,28 +1,24 @@
 package com.safetynet.alerts.dto;
 
-public class PersonAgeDto
+public class PersonWithAgeDto
 {	
 	private String firstName;
 	private String lastName;
     private String address;
     private String phone;
-    private String birthdate;
 	private Integer age;
       
-	public PersonAgeDto(
-			String firstName, String lastName,
-			String address,String phone ,
-			String birthdate, Integer age)
+	public PersonWithAgeDto(String firstName, String lastName,
+			String address,String phone , Integer age)
 	{	
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
 		this.phone = phone;
-		this.birthdate= birthdate;
 		this.age = age;
 	}
 
-	public PersonAgeDto()
+	public PersonWithAgeDto()
 	{
 		// Use Default method
 	}
@@ -67,16 +63,6 @@ public class PersonAgeDto
 		this.phone = phone;
 	}
 
-	public String getBirthdate()
-	{
-		return birthdate;
-	}
-
-	public void setBirthdate(String birthdate)
-	{
-		this.birthdate = birthdate;
-	}
-	
 	public Integer getAge()
 	{
 		return age;

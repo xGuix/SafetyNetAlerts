@@ -9,11 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetynet.alerts.dto.ChildWithFamilyDto;
-import com.safetynet.alerts.dto.ListOfPersonsWithChildrenDto;
-import com.safetynet.alerts.dto.PersonAgeDto;
-import com.safetynet.alerts.dto.PersonWithAllMedicalRecordDto;
+import com.safetynet.alerts.dto.FireAlertDto;
+import com.safetynet.alerts.dto.FirestationPersonAlertDto;
+import com.safetynet.alerts.dto.FloodAlertDto;
+import com.safetynet.alerts.dto.PersonWithAgeDto;
+import com.safetynet.alerts.dto.PersonInfoDto;
 import com.safetynet.alerts.model.Firestation;
-import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 
 import java.util.ArrayList;
@@ -45,33 +46,29 @@ public class AlertService implements IAlertService
     }
 	
 	/**
-	 * Read Person List for a Station :
+	 * Read Person List for a station:
 	 * 
 	 * Search firestation with N°Station and
 	 * get list of person at station addresses
 	 * then count children.
 	 * 
-	 * @return - List of Person with children count
-	 * 			 {personListAtAddress}
-	 *  		 {adultsNumber}
-	 *   		 {childrenNumber}
+	 * @param station The station number to match
+	 * @return List of Person with children count
 	 */
 	@Override
-	public ListOfPersonsWithChildrenDto getPersonsListWithChildrenNumberForStation(String station)
+	public FirestationPersonAlertDto getPersonsListWithChildrenNumberForStation(String station)
 	{
         int childrenNumber = 0;
         int adultsNumber = 0;
-        List<String> firestationAddress = firestationService.getOnlyAddressesFor(station);
-        List<PersonAgeDto> personListAtAddress = new ArrayList<>();
+        List<String> fAddresses = firestationService.getOnlyAddressesFor(station);
+        List<PersonWithAgeDto> personListAtAddress = new ArrayList<>();
 
         for(Person person : personService.getAllPersons())
         {
-            if (firestationAddress.toString().contains(person.getAddress()))
+            if (fAddresses.toString().contains(person.getAddress()))
             {
-            	MedicalRecord mrForBirthdate = medicalRecordService.getMedicalRecordByName(person.getFirstName(), person.getLastName());
-            	
-            	personListAtAddress.add(new PersonAgeDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone(),
-            			mrForBirthdate.getBirthdate(), medicalRecordService.getHowOld(person.getFirstName(), person.getLastName())));
+            	personListAtAddress.add(new PersonWithAgeDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone(),
+            			medicalRecordService.getHowOld(person.getFirstName(), person.getLastName())));
             	
                 if (medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()) < 18)
                 {
@@ -85,31 +82,30 @@ public class AlertService implements IAlertService
                 }
             }
         }
-        logger.info("List and count set...");
-        return new ListOfPersonsWithChildrenDto(personListAtAddress, adultsNumber,childrenNumber);		
+        logger.info("Persons with count of children covered by station {}",station);
+        return new FirestationPersonAlertDto(personListAtAddress, adultsNumber,childrenNumber);		
 	}
 
 	/**
-	 * Read Person List for an address :
+	 * Read Person List for an address:
 	 * 
-	 * Search all children < 18
+	 * Search all children under 18 years old
 	 * get familly list with lastName
 	 * then get children list with their parents.
 	 * 
-	 * @return - List of children with family
-	 * {Child} {FamilyMember}
+	 * @param address The address to match
+	 * @return List of children with family
 	 */
 	@Override
 	public List<ChildWithFamilyDto> getChildrenWithFamilyListAtAddress(String address)
 	{
 		List<ChildWithFamilyDto> listOfChildrenWithFamily = new ArrayList<>();
-		List<PersonAgeDto> listOfAdult = new ArrayList<>();
+		List<PersonWithAgeDto> listOfAdult = new ArrayList<>();
 
 		for(Person person : personService.getAllPersons())
 		{ 
 			if(person.getAddress().equals(address))
 			{
-				MedicalRecord mrForBirthdate = medicalRecordService.getMedicalRecordByName(person.getFirstName(), person.getLastName());
 				if(medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()) < 18)
 				{
 					listOfChildrenWithFamily.add(new ChildWithFamilyDto(person.getFirstName(),person.getLastName(), person.getAddress(),
@@ -117,69 +113,119 @@ public class AlertService implements IAlertService
 				} 
 				else
 				{
-					listOfAdult.add(new PersonAgeDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone(),
-	            			mrForBirthdate.getBirthdate(), medicalRecordService.getHowOld(person.getFirstName(), person.getLastName())));
+					listOfAdult.add(new PersonWithAgeDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone(),
+	            			medicalRecordService.getHowOld(person.getFirstName(), person.getLastName())));
 				}
 			}
 		}
 		listOfChildrenWithFamily.forEach(child -> child.setFamilyList(listOfAdult));
+		logger.info("List of children with their family at {}",address);
 		return listOfChildrenWithFamily;
 	}
 
 	/**
-	 * Read Person List for a Station :
+	 * Read Person List for a Station:
 	 * 
 	 * Search persons with addresses of station and
 	 * get phone numbers list of person at addresses
 	 * 
-	 * @return - {listOfPhoneNumberForStation}
+	 * @param station The station number to match
+	 * @return list of phone number
 	 */
 	@Override
 	public List<String> getPhoneNumberOfStation(String station)
 	{
-		List<String> firestationAddress = firestationService.getOnlyAddressesFor(station);
+		List<String> addresses = firestationService.getOnlyAddressesFor(station);
 		logger.info("get list of phone number for station N°{}",station);
 		return personService.getAllPersons().stream()
-				.filter(pAddress -> firestationAddress.toString().contains(pAddress.getAddress()))
-				.map(pPhone -> pPhone.getFirstName()+" "+ pPhone.getLastName()+" : "+pPhone.getPhone())
+				.filter(p -> addresses.toString().contains(p.getAddress()))
+				.map(phone -> phone.getFirstName()+" "+ phone.getLastName()+" : "+phone.getPhone())
 				.collect(Collectors.toList());
 	}
 
 	/**
-	 * Read Person List for an address :
-	 * 
+	 * Read Person List for an address:
 	 * Search all persons with address and
 	 * get list of persons with firestation in charge
 	 * 
-	 * @return - {listOfPersonsWithFirestation}
+	 * @param address The address to match
+	 * @return List of personInfo with the firestation
 	 */
 	@Override
-	public List<Person> getPersonsListAndFirestationOfStation(String address)
-	{
-		List<Person> listOfPersonAndFirestationOfStation = new ArrayList<>();
-		Firestation firestationAddress = firestationService.getOneFirestation(address);
-		List<Person> personToAdd = personService.getAllPersons().stream()
-				.filter(pAddress -> firestationAddress.equals(pAddress.getAddress()))
-				.collect(Collectors.toList());
-		
-		logger.info("get list of person for address");
-		return listOfPersonAndFirestationOfStation;
+	public FireAlertDto getPersonsListAndFirestationForAddress(String address)
+	{	
+		Firestation firestation = firestationService.getOneFirestation(address);
+		List<PersonInfoDto> personInfoListAtAddress = new ArrayList<>();
+			
+		for(Person person : personService.getAllPersons())
+		{ 
+			if(person.getAddress().equals(address))
+			{
+				personInfoListAtAddress.add(new PersonInfoDto(person.getFirstName(),person.getLastName(),
+						medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()),
+						person.getAddress(),person.getPhone(), person.getEmail(),
+						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName())));
+			}
+		}
+		logger.info("list of person info with the firestation in charge of: {}",address);
+		return new FireAlertDto(firestation, personInfoListAtAddress);
 	}
 
+	/**
+	 * Read Person List for a station:
+	 * Search all persons by address and
+	 * get list of home family sorted by address 
+	 * 
+	 * @param station The station number to match
+	 * @return list of the Address and all HomeFamily
+	 */
 	@Override
-	public List<Person> getAllPersonsOfTheFirestation (Firestation firestation)
+	public List<FloodAlertDto> getHomeFamilyforStation (String station)
 	{
-		List<Person> listOfAllPersonOfFirestation = new ArrayList<>();
-		logger.info("get list of famillies covered by Firestation");
-		return listOfAllPersonOfFirestation;
-	}
+		List<FloodAlertDto> homeFamilySet = new ArrayList<>(); 
+		List<String> addresses = firestationService.getOnlyAddressesFor(station);
+		List<PersonInfoDto> familyList = new ArrayList<>();
+	
+		for(Person person : personService.getAllPersons())
+		{
+			if (addresses.toString().contains(person.getAddress())) {
+				familyList.add(new PersonInfoDto(person.getFirstName(),person.getLastName(),
+				medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()),
+				person.getAddress(),person.getPhone(), person.getEmail(),
+				medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName())));
+			}
 
+		}
+		homeFamilySet.add(new FloodAlertDto(addresses.toString(),familyList));
+		logger.info("get list of famillies covered by Station");
+		return homeFamilySet;
+	}
+	
+	/**
+	 * Read Person List by name:
+	 * Search all persons with name and
+	 * get list of persons if multiple answers
+	 * 
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @return list of person in PersonInfo format
+	 */
 	@Override
-	public List<PersonWithAllMedicalRecordDto> getAllInfoPerson(String firstName, String lastName)
+	public List<PersonInfoDto> getPersonInfo(String firstName, String lastName)
 	{
-		List<PersonWithAllMedicalRecordDto> fullPersonInfo = new ArrayList<>();
-		logger.info("get all info of person by last name");
-		return fullPersonInfo;
+		List<PersonInfoDto> personInfoList= new ArrayList<>();
+		for(Person person : personService.getAllPersons())
+		{ 
+			if(person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
+			{
+				personInfoList.add(new PersonInfoDto(person.getFirstName(),person.getLastName(),
+						medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()),
+						person.getAddress(),person.getPhone(), person.getEmail(),
+						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName())));
+			}
+		}
+		logger.info("get all person info of {} {}", firstName,lastName);
+		return personInfoList;
 	}
 
 	/**
@@ -188,15 +234,16 @@ public class AlertService implements IAlertService
 	 * Search persons with the city and
 	 * get emails list of person for all city
 	 * 
-	 * @return - {listOfEmailForCity}
+	 * @param city City to match
+	 * @return list of emails for all city
 	 */
 	@Override
-	public List<String> getAllEmailsListByCity(String city)
+	public List<String> getEmailsListByCity(String city)
 	{
-		logger.info("get all person emails list for {}",city);
+		logger.info("get all person emails list of {}",city);
 		return personService.getAllPersons().stream()
 				.filter(p -> p.getCity().equals(city))
-				.map(pEmail -> pEmail.getFirstName()+" "+ pEmail.getLastName()+" : "+pEmail.getEmail())
+				.map(pEmail -> pEmail.getFirstName()+" "+ pEmail.getLastName()+" : "+	pEmail.getEmail())
 				.collect(Collectors.toList());
 	}
 }

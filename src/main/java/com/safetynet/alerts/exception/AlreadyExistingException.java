@@ -6,7 +6,8 @@ public class AlreadyExistingException extends RuntimeException
 
 	/**
 	 * Super constructor
-	 * @param - {alreadyExists} message 
+	 * 
+	 * @param alreadyExists message 
 	 */
 	public AlreadyExistingException(String alreadyExists) 
 	{

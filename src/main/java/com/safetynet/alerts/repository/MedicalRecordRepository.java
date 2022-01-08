@@ -23,7 +23,7 @@ public class MedicalRecordRepository implements IMedicalRecordRepository
     /**
 	 * Getter Medical Records for integrationTest
 	 * 
-	 * @return - {medicalRecordList}
+	 * @return medicalRecordList Getter list
 	 */
     public List<MedicalRecord> getMedicalRecordList()
     {
@@ -33,7 +33,7 @@ public class MedicalRecordRepository implements IMedicalRecordRepository
     /**
 	 * Setter Medical Records for integrationTest
 	 * 
-	 * @param - {medicalRecordList}
+	 * @param medicalRecordList Setter list
 	 */
     public void setMedicalRecordList(List<MedicalRecord> medicalRecordList)
     {
@@ -42,7 +42,8 @@ public class MedicalRecordRepository implements IMedicalRecordRepository
     
     /**
 	 * Full Medical Record in List
-	 * @return - {medicalRecordList} 
+	 * 
+	 * @return medicalRecordList List of all medicals recordss
 	 */
 	@Override
 	public List<MedicalRecord> getAllMedicalRecords()
@@ -52,7 +53,9 @@ public class MedicalRecordRepository implements IMedicalRecordRepository
 
 	/**
 	 * Add medical record to the List
-	 * @return - {medicalRecord} added
+	 * 
+	 * @param medicalRecord Full body
+	 * @return medicalRecord added
 	 */
 	@Override
 	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord)
@@ -64,7 +67,11 @@ public class MedicalRecordRepository implements IMedicalRecordRepository
 	
 	/**
 	 * Update medical record from the List
-	 * @return - {medicalRecord} updated
+	 * 
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @param medicalRecord Medical record to update
+	 * @return medicalRecord updated
 	 */
 	public MedicalRecord updateMedicalRecord(String firstName, String lastName, MedicalRecord medicalRecord)
 	{
@@ -78,7 +85,6 @@ public class MedicalRecordRepository implements IMedicalRecordRepository
 
 	/**
 	 * Delete medical record from the List
-	 * @NoReturn
 	 */
 	public void deleteMedicalRecord(MedicalRecord medicalRecord)
 	{

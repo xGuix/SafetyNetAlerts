@@ -22,7 +22,7 @@ public class FirestationRepository implements IFirestationRepository
     /**
 	 * Getter Firestation for integrationTest
 	 * 
-	 * @return - {firestationList}
+	 * @return firestationList Getter list 
 	 */
     public List<Firestation> getFirestationList()
     {
@@ -32,7 +32,7 @@ public class FirestationRepository implements IFirestationRepository
     /**
 	 * Setter Firestation for integrationTest
 	 * 
-	 * @param - {firestationList}
+	 * @param firestationList  Firestaion list
 	 */
     public void setFirestationList(List<Firestation> firestationList)
     {
@@ -41,7 +41,8 @@ public class FirestationRepository implements IFirestationRepository
     
     /**
 	 * Full Firestation in the List
-	 * @return - {firestationList} 
+	 * 
+	 * @return firestationList All firestations list
 	 */
 	@Override
 	public List<Firestation> getAllFirestation()
@@ -51,7 +52,9 @@ public class FirestationRepository implements IFirestationRepository
 	
 	/**
 	 * Add firestation to the List
-	 * @return - {firestation} added
+	 * 
+	 * @param firestation Full firestation body 
+	 * @return firestation added
 	 */
 	@Override
 	public Firestation addFirestation(Firestation firestation)
@@ -62,7 +65,10 @@ public class FirestationRepository implements IFirestationRepository
 	}	
 	/**
 	 * Update firestation to the List
-	 * @return - {firestation} updated
+	 * 
+	 * @param address Firestation address to update
+	 * @param firestation Full firestation body 
+	 * @return firestation updated
 	 */
 	@Override
 	public Firestation updateFirestation(String address, Firestation firestation)
@@ -77,7 +83,6 @@ public class FirestationRepository implements IFirestationRepository
 	
 	/**
 	 * Delete firestation from the List
-	 * @NoReturn
 	 */
 	@Override
 	public void deleteFirestation(Firestation firestation)
