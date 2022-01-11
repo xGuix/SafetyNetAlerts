@@ -41,7 +41,7 @@ class PersonServiceTest
 	void setupTest()
 	{
 		personListTest = new ArrayList<>();
-		personTest = new Person("Guix","DeBrens","150 Rue Houdan","Sceaux,", "92330","0630031876","guix92@hotmail.com");
+		personTest = new Person("Guix","DeBrens","150 Rue Houdan","Sceaux", "92330","0630031876","guix92@hotmail.com");
 		personTestForFirstName = new Person("TestFirstName","TestLastName",null,null,null,null,null);
 		personTestForLastName = new Person("Guix","TestLastName",null,null,null,null,null);
 	}

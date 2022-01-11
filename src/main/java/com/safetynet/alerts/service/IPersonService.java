@@ -19,6 +19,11 @@ public interface IPersonService
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Person> getFamilyWithLastName(String address,String lastName);
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public Person addPerson(Person person);
 	
 	/**

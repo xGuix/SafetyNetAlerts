@@ -79,7 +79,7 @@ public class AlertsController
 	 * @param address The address to match
 	 * @return List of phone with name for station}
 	 */
-	@GetMapping(value = "fireAlert")
+	@GetMapping(value = "/fireAlert")
     public ResponseEntity <FireAlertDto> personsListAndFirestationByAddress(@RequestParam String address)
 	{
         logger.info("Get persons list at this address : {}",address);      

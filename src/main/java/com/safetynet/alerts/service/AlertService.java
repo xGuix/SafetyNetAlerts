@@ -1,9 +1,7 @@
 package com.safetynet.alerts.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,21 +33,6 @@ public class AlertService implements IAlertService
 	
 	private static Logger logger = LogManager.getLogger("AlertService");
     
-    public void setPersonService(PersonService personService)
-    {
-        this.personService = personService;
-    }
-
-    public void setFirestationService(FirestationService firestationService)
-    {
-        this.firestationService = firestationService;
-    }
-
-    public void setMedicalRecordService(MedicalRecordService medicalRecordService)
-    {
-        this.medicalRecordService = medicalRecordService;
-    }
-	
 	/**
 	 * Get persons list with children count for a station:
 	 * 
@@ -189,33 +172,30 @@ public class AlertService implements IAlertService
 	@Override
 	public List<FloodAlertDto> getHomeFamilyforStation (String station)
 	{
-		List<FloodAlertDto> homeFamilyList = new ArrayList<>(); 	
+		List<FloodAlertDto> homeFamilliesList = new ArrayList<>(); 	
 		List<String> addresses = firestationService.getOnlyAddressesFor(station);
-		List<PersonInfoDto> matchingPersons = new ArrayList<>();
 		
-		List<PersonInfoDto> homeFamily = new ArrayList<>();
-	
-		for(Person person : personService.getAllPersons())
-		{	
-			if (addresses.toString().contains(person.getAddress()))
-			{
-				matchingPersons.add(new PersonInfoDto(person.getFirstName(),person.getLastName(),
-				medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()),
-				person.getAddress(),person.getPhone(), person.getEmail(),
-				medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName())));
-			}
-		}	
-		
-		for (PersonInfoDto familyMembers : matchingPersons)
+		for (String address : addresses)
 		{
-			if (matchingPersons.stream().anyMatch(pi -> pi.getLastName().equals(familyMembers.getLastName())))
-			{
-				homeFamily.add(familyMembers);
-			}
-			homeFamilyList.add(new FloodAlertDto(familyMembers.getAddress() ,homeFamily));
+			List<PersonInfoDto> homeFamily = new ArrayList<>();
+			
+			for (Person person : personService.getAllPersons())
+			{		
+				PersonInfoDto personToMatch = new PersonInfoDto(person.getFirstName(),person.getLastName(),
+						medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()),
+						person.getAddress(),person.getPhone(), person.getEmail(),
+						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName()));
+				
+				if (address.equals(person.getAddress()))
+				{		
+					homeFamily.add(personToMatch);
+				}	
+				//homeFamily.stream().anyMatch(hf -> hf.getLastName().matches(person.getLastName()));
+			}		
+			homeFamilliesList.add(new FloodAlertDto(address,homeFamily));
 		}
-		logger.info("Get list of famillies with address covered by Station");
-		return homeFamilyList;
+		logger.info("Get list of famillies with address covered by station");
+		return homeFamilliesList;
 	}
 	
 	/**

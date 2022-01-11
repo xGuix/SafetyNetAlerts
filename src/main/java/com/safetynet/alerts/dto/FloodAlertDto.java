@@ -5,7 +5,7 @@ import java.util.List;
 public class FloodAlertDto
 {	
 	private String address;
-	private List <PersonInfoDto> homeFamily;
+	private List<PersonInfoDto> homeFamily;
 
 	public FloodAlertDto(String address,List<PersonInfoDto> homeFamily)
 	{	
@@ -33,7 +33,7 @@ public class FloodAlertDto
 		return homeFamily;
 	}
 
-	public void sethomeFamilyList(List<PersonInfoDto> homeFamily)
+	public void sethomeFamilyList (List<PersonInfoDto> homeFamily)
 	{
 		this.homeFamily = homeFamily;
 	}
