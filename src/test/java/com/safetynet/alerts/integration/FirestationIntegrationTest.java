@@ -49,7 +49,7 @@ class FirestationIntegrationTest
     @Test
     void getOneFirestationWithAddressAndStationTest()
     {
-    	Firestation expected = firestationService.getOneFirestation("Saint Omer sur Mer");
+    	Firestation expected = firestation;
         Firestation result;
         
         result = firestationsController.getOneFirestation("Saint Omer sur Mer").getBody();

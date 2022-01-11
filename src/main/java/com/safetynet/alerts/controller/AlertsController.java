@@ -1,6 +1,7 @@
 package com.safetynet.alerts.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.safetynet.alerts.dto.ChildWithFamilyDto;
+import com.safetynet.alerts.dto.ChildAlertDto;
 import com.safetynet.alerts.dto.FireAlertDto;
 import com.safetynet.alerts.dto.FirestationPersonAlertDto;
 import com.safetynet.alerts.dto.FloodAlertDto;
@@ -49,7 +50,7 @@ public class AlertsController
 	 * @return List of Children with Family members for address
 	 */
 	@GetMapping(value = "/childAlert")
-    public ResponseEntity <List<ChildWithFamilyDto>> childrensWithFamilyByAddress(@RequestParam String address)
+    public ResponseEntity <List<ChildAlertDto>> childrensWithFamilyByAddress(@RequestParam String address)
 	{
         logger.info("Get Childrens list at this address : {}",address);
         return new ResponseEntity<>(alertService.getChildrenWithFamilyListAtAddress(address), HttpStatus.OK);
@@ -64,7 +65,7 @@ public class AlertsController
 	 * @return List of phone numbers with name for station
 	 */
 	@GetMapping(value = "/phoneAlert")
-    public ResponseEntity<List<String>> phoneNumberListByStation(@RequestParam String station)
+    public ResponseEntity<Set<String>> phoneNumberListByStation(@RequestParam String station)
 	{
         logger.info("Get phone number list of family covered by station N°{}",station);
         return new ResponseEntity<>(alertService.getPhoneNumberOfStation(station), HttpStatus.OK);
@@ -127,7 +128,7 @@ public class AlertsController
 	 * @return List of emails with name for city
 	 */
 	@GetMapping(value = "/communityEmail")
-    public ResponseEntity<List<String>> emailsListByCity(@RequestParam String city)
+    public ResponseEntity<Set<String>> emailsListByCity(@RequestParam String city)
 	{
         logger.info("Get emails list of the city");
         return new ResponseEntity<>(alertService.getEmailsListByCity(city), HttpStatus.OK);

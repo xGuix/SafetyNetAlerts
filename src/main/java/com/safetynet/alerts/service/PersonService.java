@@ -1,7 +1,6 @@
 package com.safetynet.alerts.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,24 +57,6 @@ public class PersonService implements IPersonService
 		return personRepository.getAllPerson().stream()
 	    		.filter(p -> p.getFirstName().equals(firstName) && p.getLastName().equals(lastName))
 	    		.findAny().orElseThrow(() -> new NotFoundException("Person does not exists"));
-    }
-	
-	/**
-	 * Read Persons :
-	 * Get one family with last name
-	 * 
-	 * @param lastName Person last name
-	 * @param address Home address
-	 * @return Homefamily List of family members
-	 * @exception NotFoundException Throws when not found
-	 */
-	@Override
-    public List <Person> getFamilyWithLastName(String address, String lastName) 
-	{
-		logger.info("Searching match for family name: '{}'",lastName);
-		return personRepository.getAllPerson().stream()
-	    		.filter(p -> p.getAddress().equals(address) && p.getLastName().equals(lastName))
-				.collect(Collectors.toList());
     }
 	
 	/**

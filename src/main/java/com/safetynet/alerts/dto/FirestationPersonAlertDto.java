@@ -4,13 +4,13 @@ import java.util.List;
 
 public class FirestationPersonAlertDto
 {	
-	private List <PersonWithAgeDto> personsWithAgeList;
+	private List <FirestationPersonsDto> personsCoveredList;
 	private Integer adultNumber;
 	private Integer childrenNumber;
       
-	public FirestationPersonAlertDto(List<PersonWithAgeDto> personsWithAgeList,Integer adultNumber,Integer childrenNumber)
+	public FirestationPersonAlertDto(List<FirestationPersonsDto> personsCoveredList, Integer adultNumber,Integer childrenNumber)
 	{	
-		this.personsWithAgeList = personsWithAgeList;
+		this.personsCoveredList = personsCoveredList;
 		this.adultNumber = adultNumber;
 		this.childrenNumber = childrenNumber;
 	}
@@ -20,14 +20,14 @@ public class FirestationPersonAlertDto
 		// Use Default method
 	}
 
-	public List<PersonWithAgeDto> getPersonWithAgeList()
+	public List<FirestationPersonsDto> getPersonWithAgeList()
 	{
-		return personsWithAgeList;
+		return personsCoveredList;
 	}
 
-	public void setPersonWithAgeList(List<PersonWithAgeDto> personsWithAgeList)
+	public void setPersonWithAgeList(List<FirestationPersonsDto> personsCoveredList)
 	{
-		this.personsWithAgeList = personsWithAgeList;
+		this.personsCoveredList = personsCoveredList;
 	}
 
 	public Integer getAdultNumber()

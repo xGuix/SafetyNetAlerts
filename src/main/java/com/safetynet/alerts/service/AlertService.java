@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -8,11 +9,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.safetynet.alerts.dto.ChildWithFamilyDto;
+import com.safetynet.alerts.dto.ChildAlertDto;
 import com.safetynet.alerts.dto.FireAlertDto;
 import com.safetynet.alerts.dto.FirestationPersonAlertDto;
 import com.safetynet.alerts.dto.FloodAlertDto;
-import com.safetynet.alerts.dto.PersonWithAgeDto;
+import com.safetynet.alerts.dto.FirestationPersonsDto;
 import com.safetynet.alerts.dto.PersonInfoDto;
 import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
@@ -49,14 +50,13 @@ public class AlertService implements IAlertService
         int childrenNumber = 0;
         int adultsNumber = 0;
         List<String> fAddresses = firestationService.getOnlyAddressesFor(station);
-        List<PersonWithAgeDto> personListAtAddress = new ArrayList<>();
+        List<FirestationPersonsDto> personListAtAddress = new ArrayList<>();
 
         for(Person person : personService.getAllPersons())
         {
             if (fAddresses.toString().contains(person.getAddress()))
             {
-            	personListAtAddress.add(new PersonWithAgeDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone(),
-            			medicalRecordService.getHowOld(person.getFirstName(), person.getLastName())));
+            	personListAtAddress.add(new FirestationPersonsDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone()));
             	
                 if (medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()) < 18)
                 {
@@ -85,10 +85,10 @@ public class AlertService implements IAlertService
 	 * @return List of children with family
 	 */
 	@Override
-	public List<ChildWithFamilyDto> getChildrenWithFamilyListAtAddress(String address)
+	public List<ChildAlertDto> getChildrenWithFamilyListAtAddress(String address)
 	{
-		List<ChildWithFamilyDto> listOfChildrenWithFamily = new ArrayList<>();
-		List<PersonWithAgeDto> listOfAdult = new ArrayList<>();
+		List<ChildAlertDto> listOfChildrenWithFamily = new ArrayList<>();
+		List<FirestationPersonsDto> listOfAdult = new ArrayList<>();
 
 		for(Person person : personService.getAllPersons())
 		{ 
@@ -96,13 +96,11 @@ public class AlertService implements IAlertService
 			{
 				if(medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()) < 18)
 				{
-					listOfChildrenWithFamily.add(new ChildWithFamilyDto(person.getFirstName(),person.getLastName(), person.getAddress(),
-							medicalRecordService.getHowOld(person.getFirstName(),person.getLastName()), null));
+					listOfChildrenWithFamily.add(new ChildAlertDto(person.getFirstName(),person.getLastName(), medicalRecordService.getHowOld(person.getFirstName(),person.getLastName()), null));
 				} 
 				else
 				{
-					listOfAdult.add(new PersonWithAgeDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone(),
-	            			medicalRecordService.getHowOld(person.getFirstName(), person.getLastName())));
+					listOfAdult.add(new FirestationPersonsDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone()));
 				}
 			}
 		}
@@ -121,14 +119,14 @@ public class AlertService implements IAlertService
 	 * @return list of phone number
 	 */
 	@Override
-	public List<String> getPhoneNumberOfStation(String station)
+	public Set<String> getPhoneNumberOfStation(String station)
 	{
 		List<String> addresses = firestationService.getOnlyAddressesFor(station);
 		logger.info("Get list of phone number for station N°{}",station);
 		return personService.getAllPersons().stream()
 				.filter(p -> addresses.toString().contains(p.getAddress()))
-				.map(phone -> phone.getFirstName()+" "+ phone.getLastName()+" : "+phone.getPhone())
-				.collect(Collectors.toList());
+				.map(Person::getPhone)
+				.collect(Collectors.toSet());
 	}
 
 	/**
@@ -151,9 +149,9 @@ public class AlertService implements IAlertService
 			if(person.getAddress().equals(address))
 			{
 				personInfoListAtAddress.add(new PersonInfoDto(person.getFirstName(),person.getLastName(),
-						medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()),
-						person.getAddress(),person.getPhone(), person.getEmail(),
-						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName())));
+						medicalRecordService.getHowOld(person.getFirstName(),person.getLastName()),person.getPhone(),"not disclosed",
+						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName()).getMedication(),
+						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName()).getAllergie()));
 			}
 		}
 		logger.info("List of person info with the firestation in charge of: {}",address);
@@ -182,15 +180,14 @@ public class AlertService implements IAlertService
 			for (Person person : personService.getAllPersons())
 			{		
 				PersonInfoDto personToMatch = new PersonInfoDto(person.getFirstName(),person.getLastName(),
-						medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()),
-						person.getAddress(),person.getPhone(), person.getEmail(),
-						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName()));
+						medicalRecordService.getHowOld(person.getFirstName(),person.getLastName()),"not disclosed",person.getEmail(),
+						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName()).getMedication(),
+						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName()).getAllergie());
 				
 				if (address.equals(person.getAddress()))
 				{		
 					homeFamily.add(personToMatch);
 				}	
-				//homeFamily.stream().anyMatch(hf -> hf.getLastName().matches(person.getLastName()));
 			}		
 			homeFamilliesList.add(new FloodAlertDto(address,homeFamily));
 		}
@@ -217,9 +214,9 @@ public class AlertService implements IAlertService
 			if(person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
 			{
 				personInfoList.add(new PersonInfoDto(person.getFirstName(),person.getLastName(),
-						medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()),
-						person.getAddress(),person.getPhone(), person.getEmail(),
-						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName())));
+						medicalRecordService.getHowOld(person.getFirstName(),person.getLastName()),person.getPhone(),person.getEmail(),
+						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName()).getMedication(),
+						medicalRecordService.getMedicalRecordByName(person.getFirstName(),person.getLastName()).getAllergie()));
 			}
 		}
 		logger.info("Get all person infos of {} {}", firstName,lastName);
@@ -236,12 +233,12 @@ public class AlertService implements IAlertService
 	 * @return list of emails for all city
 	 */
 	@Override
-	public List<String> getEmailsListByCity(String city)
+	public Set<String> getEmailsListByCity(String city)
 	{
 		logger.info("Get all person emails list of {}",city);
 		return personService.getAllPersons().stream()
 				.filter(p -> p.getCity().equals(city))
-				.map(pEmail -> pEmail.getFirstName()+" "+ pEmail.getLastName()+" : "+	pEmail.getEmail())
-				.collect(Collectors.toList());
+				.map(Person::getEmail)
+				.collect(Collectors.toSet());
 	}
 }

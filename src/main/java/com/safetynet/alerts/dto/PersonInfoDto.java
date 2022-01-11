@@ -1,29 +1,28 @@
 package com.safetynet.alerts.dto;
 
-import com.safetynet.alerts.model.MedicalRecord;
+import java.util.List;
 
 public class PersonInfoDto
 {	
 	private String firstName;
 	private String lastName;
 	private Integer age;
-    private String address;
     private String phone;
     private String email;
-    private MedicalRecord medicalRecord;
+	private List<String> medication;
+	private List<String> allergie;
       
 	public PersonInfoDto(
 			String firstName, String lastName, Integer age,
-			String address,	String phone, String email,
-			MedicalRecord medicalRecord)
+			String phone, String email, List<String> medication, List<String> allergie)
 	{	
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
-		this.address = address;
 		this.phone = phone;
 		this.email = email;
-		this.medicalRecord = medicalRecord;
+		this.medication = medication;
+		this.allergie = allergie;
 	}
 
 	public PersonInfoDto()
@@ -51,16 +50,14 @@ public class PersonInfoDto
 		this.lastName = lastName;
 	}
 	
-	public String getAddress()
-	{
-		return address;
+	public Integer getAge() {
+		return age;
 	}
 
-	public void setAddress(String address)
-	{
-		this.address = address;
+	public void setAge(Integer age) {
+		this.age = age;
 	}
-
+	
 	public String getPhone() {
 		return phone;
 	}
@@ -80,21 +77,23 @@ public class PersonInfoDto
 		this.email = email;
 	}
 
-	public MedicalRecord getMedicalRecord()
+	public List<String> getMedication()
 	{
-		return medicalRecord;
+		return medication;
 	}
 
-	public void setMedicalRecord(MedicalRecord medicalRecord)
+	public void setMedication(List<String> medication)
 	{
-		this.medicalRecord = medicalRecord;
+		this.medication = medication;
 	}
 
-	public Integer getAge() {
-		return age;
+	public List<String> getAllergie()
+	{
+		return allergie;
 	}
 
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setAllergie(List<String> allergie)
+	{
+		this.allergie = allergie;
 	}
 }

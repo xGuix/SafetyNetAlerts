@@ -1,8 +1,9 @@
 package com.safetynet.alerts.service;
 
 import java.util.List;
+import java.util.Set;
 
-import com.safetynet.alerts.dto.ChildWithFamilyDto;
+import com.safetynet.alerts.dto.ChildAlertDto;
 import com.safetynet.alerts.dto.FireAlertDto;
 import com.safetynet.alerts.dto.FirestationPersonAlertDto;
 import com.safetynet.alerts.dto.FloodAlertDto;
@@ -18,12 +19,12 @@ public interface IAlertService
 	/**
 	 * {@inheritDoc}
 	 */
-	List<ChildWithFamilyDto> getChildrenWithFamilyListAtAddress(String address);
+	List<ChildAlertDto> getChildrenWithFamilyListAtAddress(String address);
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	List<String> getPhoneNumberOfStation(String station);
+	Set<String> getPhoneNumberOfStation(String station);
 	
 	/**
 	 * {@inheritDoc}
@@ -43,5 +44,5 @@ public interface IAlertService
 	/**
 	 * {@inheritDoc}
 	 */
-	List<String> getEmailsListByCity(String city);
+	Set<String> getEmailsListByCity(String city);
 }

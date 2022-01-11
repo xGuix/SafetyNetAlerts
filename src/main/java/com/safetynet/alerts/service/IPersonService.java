@@ -15,12 +15,7 @@ public interface IPersonService
 	 * {@inheritDoc}
 	 */
 	public Person getPersonByName(String firstName, String lastName);
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public List<Person> getFamilyWithLastName(String address,String lastName);
-	
+		
 	/**
 	 * {@inheritDoc}
 	 */

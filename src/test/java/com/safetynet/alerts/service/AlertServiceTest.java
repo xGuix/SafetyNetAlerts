@@ -1,22 +1,27 @@
 package com.safetynet.alerts.service;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetynet.alerts.dto.FirestationPersonAlertDto;
-import com.safetynet.alerts.dto.PersonWithAgeDto;
+import com.safetynet.alerts.dto.FirestationPersonsDto;
+import com.safetynet.alerts.model.Firestation;
 import com.safetynet.alerts.model.Person;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,28 +39,27 @@ class AlertServiceTest
     @Mock
     MedicalRecordService medicalRecordService;
     
-	List<String> emails;
-	List<PersonWithAgeDto> personWithAgeDto;
+	List<String> addresses;
+	Set<String> emails;
+	List<FirestationPersonsDto> firestationPersonsDto;
 	List<Person> personListTest;
 	
 	FirestationPersonAlertDto firestationPersonAlertTest;
-	PersonWithAgeDto personWithAgeTest;
+	FirestationPersonsDto personWithAgeTest;	
+	Firestation firestationTest;
 	Person personTest;
 	Person personTest2;
-	Person personTestForFirstName;
-	Person personTestForLastName;
 	
 	@BeforeEach
 	void setupTest()
-	{		
-		emails = Arrays.asList("guix92@hotmail.com","666@welcomToHell.com");
-		personWithAgeDto = new ArrayList<>();
+	{
+		addresses = Arrays.asList("150 Rue Houdan");
+		emails = Stream.of("guix92@hotmail.com","666@welcomToHell.com").collect(Collectors.toSet());
+		firestationPersonsDto = new ArrayList<>();
 		personListTest = new ArrayList<>();
-		personWithAgeTest = new PersonWithAgeDto("Guix","DeBrens","150 Rue Houdan","0666669999", 99);
+		personWithAgeTest = new FirestationPersonsDto("Guix","DeBrens","150 Rue Houdan","0630031876");
 		personTest = new Person("Guix","DeBrens","150 Rue Houdan","Sceaux", "92330","0630031876","guix92@hotmail.com");
-		personTest2 = new Person("Bel","zebuth","666 Devil Street","Sceaux", "666999","0630031876","666@welcomToHell.com");
-		personTestForFirstName = new Person("TestFirstName","TestLastName",null,null,null,null,null);
-		personTestForLastName = new Person("Guix","TestLastName",null,null,null,null,null);
+		personTest2 = new Person("Bel","zebuth","666 Devil Street","Sceaux", "666999","0666669999","666@welcomToHell.com");
 	}
 	
 	@Test
@@ -63,9 +67,9 @@ class AlertServiceTest
 	{   
         int childrenNumber = 0;
         int adultsNumber = 0;
-        List<PersonWithAgeDto> personListAtAddress = new ArrayList<>();
+        List<FirestationPersonsDto> personListAtAddress = new ArrayList<>();
         FirestationPersonAlertDto firestationPersonForTest= new FirestationPersonAlertDto(personListAtAddress, adultsNumber, childrenNumber);
-		when(personService.getAllPersons()).thenReturn(personListTest);
+		when(firestationService.getOnlyAddressesFor("1")).thenReturn(addresses);
 		
 		FirestationPersonAlertDto firestationPersonAlertTest;
 		firestationPersonAlertTest = alertService.getPersonsListWithChildrenNumberForStation("1");
@@ -77,55 +81,13 @@ class AlertServiceTest
 	@Test
 	void TestGetEmailsListByCityReturnList()
 	{
-
+		personListTest.add(personTest);
+		personListTest.add(personTest2);
 		when(personService.getAllPersons()).thenReturn(personListTest);
 		
-		List<String> testList = alertService.getEmailsListByCity("city");
+		Set<String> testList = alertService.getEmailsListByCity("Sceaux");
 		
-		assertEquals(testList, personListTest);
+		verify(personService, Mockito.times(1)).getAllPersons();
+		assertEquals(testList, emails);
 	}
-	
-/*	
-	@Test
-	void TestIfGetPersonListWithChildrenNumberForStationReturnList()
-	{
-		when(alertService.getPersonsListWithChildrenNumberForStation()).thenReturn(FirestationPersonAlertDto);
-		List<Firestation> allFirestationListTest = alertService.getAllFirestations();
-		
-		assertEquals(allFirestationListTest, firestationListTest);
-		verify(firestationRepository, Mockito.times(1)).getAllFirestation();
-	}
-
-	@Test
-	void TestIfGetFirestationWithStationReturnFirestationList()
-	{
-		firestationListTest.add(firestationTest);
-		when(firestationRepository.getAllFirestation()).thenReturn(firestationListTest);
-		
-		List<Firestation> firestationsListToTest = alertService.getFirestationsFor("1");
-		assertEquals(firestationsListToTest, firestationListTest);
-	}
-	
-	@Test
-	void TestIfGetFirestationWithStationReturnOnlyAddressesList()
-	{
-		List<String> AddressesListTest = new ArrayList<>();
-		AddressesListTest.add(firestationTest.getAddress());
-		firestationListTest.add(firestationTest);
-		when(firestationRepository.getAllFirestation()).thenReturn(firestationListTest);
-		
-		List<String> firestationAddressListToTest = alertService.getOnlyAddressesFor("1");
-		assertEquals(firestationAddressListToTest, AddressesListTest);
-	}
-	
-	@Test
-	void TestIfGetOneFirestationReturnFirestationWithAddressAndStation()
-	{
-		firestationListTest.add(firestationTest);
-		when(firestationRepository.getAllFirestation()).thenReturn(firestationListTest);
-		
-		Firestation firestationToTest = alertService.getOneFirestation("Saint Omer Sur Mer");
-		assertEquals(firestationToTest,firestationTest);
-	}
-*/
 }
