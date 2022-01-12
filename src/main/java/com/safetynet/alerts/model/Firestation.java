@@ -2,6 +2,8 @@ package com.safetynet.alerts.model;
 
 import java.util.Objects;
 
+import groovy.transform.Generated;
+
 public class Firestation
 {
 	private String address;
@@ -37,7 +39,14 @@ public class Firestation
 	{
 		this.station = station;
 	}
-
+	
+	@Generated
+	@Override
+	public String toString() {
+		return "Firestation [address=" + address + ", station=" + station + "]";
+	}
+	
+	@Generated
 	@Override
 	public int hashCode() {
 		return Objects.hash(address, station);
@@ -54,10 +63,5 @@ public class Firestation
 		Firestation other = (Firestation) obj;
 		return Objects.equals(address, other.address) &&
 				Objects.equals(station, other.station);
-	}
-
-	@Override
-	public String toString() {
-		return "Firestation [address=" + address + ", station=" + station + "]";
 	}
 }

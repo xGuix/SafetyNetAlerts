@@ -2,6 +2,8 @@ package com.safetynet.alerts.model;
 
 import java.util.Objects;
 
+import groovy.transform.Generated;
+
 public class Person
 {	
     private String firstName;
@@ -96,7 +98,15 @@ public class Person
 	{
 		this.email = email;
 	}
-
+	
+	@Generated
+	@Override
+	public String toString() {
+		return "Person [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address 
+				+ ", city=" + city + ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
+	}
+	
+	@Generated
 	@Override
 	public int hashCode() {
 		return Objects.hash(address, city, email, firstName, lastName, phone, zip);
@@ -115,11 +125,5 @@ public class Person
 				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(phone, other.phone)
 				&& Objects.equals(zip, other.zip);
-	}
-
-	@Override
-	public String toString() {
-		return "Person [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address 
-				+ ", city=" + city + ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
 	}
 }

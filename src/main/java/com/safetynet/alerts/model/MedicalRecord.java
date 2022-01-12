@@ -3,6 +3,8 @@ package com.safetynet.alerts.model;
 import java.util.List;
 import java.util.Objects;
 
+import groovy.transform.Generated;
+
 public class MedicalRecord {
 	
 	 private String firstName;
@@ -62,7 +64,14 @@ public class MedicalRecord {
 	public void setAllergie(List<String> allergie) {
 		this.allergie = allergie;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "MedicalRecord [firstName=" + firstName + ", lastName=" + lastName + ", birthdate=" + birthdate
+				+ ", medication=" + medication + ", allergie=" + allergie + "]";
+	}
+	
+	@Generated
 	@Override
 	public int hashCode() {
 		return Objects.hash(allergie, birthdate, firstName, lastName, medication);
@@ -80,11 +89,5 @@ public class MedicalRecord {
 		return Objects.equals(allergie, other.allergie) && Objects.equals(birthdate, other.birthdate)
 				&& Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName)
 				&& Objects.equals(medication, other.medication);
-	}
-
-	@Override
-	public String toString() {
-		return "MedicalRecord [firstName=" + firstName + ", lastName=" + lastName + ", birthdate=" + birthdate
-				+ ", medication=" + medication + ", allergie=" + allergie + "]";
 	}
 }
