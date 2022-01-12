@@ -1,6 +1,7 @@
 package com.safetynet.alerts.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ChildAlertDto
 {	
@@ -59,5 +60,29 @@ public class ChildAlertDto
 	public void setFamilyList(List<FirestationPersonsDto> familyList)
 	{
 		this.familyList = familyList;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(age, familyList, firstName, lastName);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ChildAlertDto other = (ChildAlertDto) obj;
+		return Objects.equals(age, other.age) && Objects.equals(familyList, other.familyList) &&
+				Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName);
+	}
+
+	@Override
+	public String toString() {
+		return "ChildAlertDto [firstName=" + firstName + ", lastName=" + lastName 
+				+ ", age=" + age + ", familyList=" + familyList + "]";
 	}
 }

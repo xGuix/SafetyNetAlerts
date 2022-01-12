@@ -1,6 +1,7 @@
 package com.safetynet.alerts.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.safetynet.alerts.model.Firestation;
 
@@ -38,5 +39,27 @@ public class FireAlertDto
 	public void setPersonInfoList(List<PersonInfoDto> personInfoList)
 	{
 		this.personInfoList = personInfoList;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(firestation, personInfoList);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FireAlertDto other = (FireAlertDto) obj;
+		return Objects.equals(firestation, other.firestation) && Objects.equals(personInfoList, other.personInfoList);
+	}
+
+	@Override
+	public String toString() {
+		return "FireAlertDto [firestation=" + firestation + ", personInfoList=" + personInfoList + "]";
 	}
 }

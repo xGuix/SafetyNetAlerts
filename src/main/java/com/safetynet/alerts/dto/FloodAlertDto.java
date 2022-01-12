@@ -1,6 +1,7 @@
 package com.safetynet.alerts.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FloodAlertDto
 {	
@@ -36,5 +37,28 @@ public class FloodAlertDto
 	public void sethomeFamilyList (List<PersonInfoDto> homeFamily)
 	{
 		this.homeFamily = homeFamily;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(address, homeFamily);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FloodAlertDto other = (FloodAlertDto) obj;
+		return Objects.equals(address, other.address) &&
+				Objects.equals(homeFamily, other.homeFamily);
+	}
+
+	@Override
+	public String toString() {
+		return "FloodAlertDto [address=" + address + ", homeFamily=" + homeFamily + "]";
 	}
 }

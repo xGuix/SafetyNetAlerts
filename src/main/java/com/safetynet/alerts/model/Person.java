@@ -116,4 +116,10 @@ public class Person
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(phone, other.phone)
 				&& Objects.equals(zip, other.zip);
 	}
+
+	@Override
+	public String toString() {
+		return "Person [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address 
+				+ ", city=" + city + ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
+	}
 }

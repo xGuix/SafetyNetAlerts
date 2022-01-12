@@ -56,7 +56,8 @@ public class AlertService implements IAlertService
         {
             if (fAddresses.toString().contains(person.getAddress()))
             {
-            	personListAtAddress.add(new FirestationPersonsDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone()));
+            	personListAtAddress.add(new FirestationPersonsDto(person.getFirstName(),person.getLastName(),
+            			person.getAddress(),person.getPhone()));
             	
                 if (medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()) < 18)
                 {
@@ -96,11 +97,13 @@ public class AlertService implements IAlertService
 			{
 				if(medicalRecordService.getHowOld(person.getFirstName(), person.getLastName()) < 18)
 				{
-					listOfChildrenWithFamily.add(new ChildAlertDto(person.getFirstName(),person.getLastName(), medicalRecordService.getHowOld(person.getFirstName(),person.getLastName()), null));
+					listOfChildrenWithFamily.add(new ChildAlertDto(person.getFirstName(),person.getLastName(),
+							medicalRecordService.getHowOld(person.getFirstName(),person.getLastName()), null));
 				} 
 				else
 				{
-					listOfAdult.add(new FirestationPersonsDto(person.getFirstName(),person.getLastName(),person.getAddress(),person.getPhone()));
+					listOfAdult.add(new FirestationPersonsDto(person.getFirstName(),person.getLastName(),
+							person.getAddress(),person.getPhone()));
 				}
 			}
 		}

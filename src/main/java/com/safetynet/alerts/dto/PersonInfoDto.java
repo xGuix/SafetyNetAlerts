@@ -1,6 +1,7 @@
 package com.safetynet.alerts.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PersonInfoDto
 {	
@@ -95,5 +96,31 @@ public class PersonInfoDto
 	public void setAllergie(List<String> allergie)
 	{
 		this.allergie = allergie;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(age, allergie, email, firstName, lastName, medication, phone);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PersonInfoDto other = (PersonInfoDto) obj;
+		return Objects.equals(age, other.age) && Objects.equals(allergie, other.allergie)
+				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(medication, other.medication)
+				&& Objects.equals(phone, other.phone);
+	}
+
+	@Override
+	public String toString() {
+		return "PersonInfoDto [firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", phone=" + phone
+				+ ", email=" + email + ", medication=" + medication + ", allergie=" + allergie + "]";
 	}
 }

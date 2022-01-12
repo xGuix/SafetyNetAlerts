@@ -1,5 +1,7 @@
 package com.safetynet.alerts.model;
 
+import java.util.Objects;
+
 public class Firestation
 {
 	private String address;
@@ -34,5 +36,28 @@ public class Firestation
 	public void setStation(String station)
 	{
 		this.station = station;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(address, station);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Firestation other = (Firestation) obj;
+		return Objects.equals(address, other.address) &&
+				Objects.equals(station, other.station);
+	}
+
+	@Override
+	public String toString() {
+		return "Firestation [address=" + address + ", station=" + station + "]";
 	}
 }
