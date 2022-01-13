@@ -25,6 +25,7 @@ class FirestationRepositoryTest
 	public static List<Firestation> firestationListTest;
 	
 	Firestation firestationTest;
+	Firestation firestationUDTest;
 	Firestation firestationTestAddress;
 	Firestation firestationTestStation;
 
@@ -38,6 +39,7 @@ class FirestationRepositoryTest
 	void setupTestForEach()
 	{
 		firestationTest = new Firestation("Saint Omer sur Mer", "1");
+		firestationUDTest = new Firestation("Tamère sur Mars", "1");
 		firestationTestAddress = new Firestation("TestAddress","TestNumber");
 		firestationTestStation = new Firestation("Saint Omer sur Mer","TestNumber");
 	}
@@ -45,38 +47,43 @@ class FirestationRepositoryTest
 	@Test
 	void TestIfGetAllFirestationReturnPersonList()
 	{
-		List <Firestation> newFirestationListTest = firestationRepository.getAllFirestation();
+		List <Firestation> newFirestationListTest = firestationRepository.getAllFirestation();	
 		
-		assertEquals(newFirestationListTest, firestationRepository.getAllFirestation());
+		assertEquals(firestationRepository.getAllFirestation(), newFirestationListTest);
 	}
 	
 	@Test
 	void TestAddPersonReturnPerson()
 	{
 		Firestation newFirestationAddTest = firestationRepository.addFirestation(firestationTest);
-
-		assertEquals(newFirestationAddTest, firestationTest);
+		
+		assertEquals(firestationTest, newFirestationAddTest);
 	}
-
+	
 	@Test
 	void TestUpdateFirestationWhenExists()
 	{
-		firestationListTest.add(firestationTest);
-		assertThrows(NotFoundException.class,() -> firestationRepository.updateFirestation("Saint Omer sur Mer", firestationTest));
+		firestationRepository.addFirestation(firestationTest);
+		Firestation updateFirestationTest = firestationRepository.updateFirestation("Saint Omer sur Mer", firestationUDTest);
+		
+		assertEquals(firestationUDTest, updateFirestationTest);
 	}
 	
 	@Test
 	void TestUpdateFirestationWhenIsWrongAddress()
 	{
 		firestationListTest.add(firestationTest);
-		assertThrows(NotFoundException.class, () -> firestationRepository.updateFirestation("TestAddress",firestationTestAddress));
+		
+		assertThrows(NotFoundException.class, () -> firestationRepository.updateFirestation("TestAddress",firestationUDTest));
 	}
 
 	@Test
 	void TestDeleteFirestationRemovePersonFromList()
 	{
 		firestationListTest.add(firestationTest);
+		
 		firestationRepository.deleteFirestation(firestationTest);
+		
 		assertTrue(firestationListTest.remove(firestationTest));
 	}
 }
