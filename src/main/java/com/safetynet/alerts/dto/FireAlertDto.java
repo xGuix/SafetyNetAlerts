@@ -5,9 +5,6 @@ import java.util.Objects;
 
 import com.safetynet.alerts.model.Firestation;
 
-import groovy.transform.Generated;
-
-@Generated
 public class FireAlertDto
 {	
 	private Firestation firestation;

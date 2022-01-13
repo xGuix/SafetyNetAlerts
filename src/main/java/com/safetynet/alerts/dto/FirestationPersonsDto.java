@@ -2,9 +2,6 @@ package com.safetynet.alerts.dto;
 
 import java.util.Objects;
 
-import groovy.transform.Generated;
-
-@Generated
 public class FirestationPersonsDto
 {	
 	private String firstName;

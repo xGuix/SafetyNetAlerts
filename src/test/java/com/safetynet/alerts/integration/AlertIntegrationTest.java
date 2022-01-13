@@ -1,31 +1,65 @@
 package com.safetynet.alerts.integration;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.safetynet.alerts.controller.AlertsController;
-import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.dto.FirestationPersonAlertDto;
+import com.safetynet.alerts.repository.FirestationRepository;
+import com.safetynet.alerts.repository.MedicalRecordRepository;
+import com.safetynet.alerts.repository.PersonRepository;
 import com.safetynet.alerts.service.AlertService;
+import com.safetynet.alerts.service.FirestationService;
+import com.safetynet.alerts.service.MedicalRecordService;
+import com.safetynet.alerts.service.PersonService;
 
 @SpringBootTest
 class AlertIntegrationTest
 {
-	AlertsController alertsController= new AlertsController();
+	PersonRepository personRepository = new PersonRepository();
+	FirestationRepository firestationRepository = new FirestationRepository();
+	MedicalRecordRepository medicalRecordRepository = new MedicalRecordRepository();
+
+	FirestationService firestationService = new FirestationService();
+	PersonService personService = new PersonService();
+	MedicalRecordService medicalRecordService = new MedicalRecordService();
+
 	AlertService alertService = new AlertService();
+	AlertsController alertsController = new AlertsController();
 
-	MedicalRecord medicalRecordTest;
-	List<String> medicationTest;
-	List<String> allergieTest;
+	@BeforeEach
+	public void setupTest()
+	{
+        personRepository.setPersonList(personRepository.getPersonList());
+	    firestationRepository.setFirestationList(firestationRepository.getFirestationList());
+	    medicalRecordRepository.setMedicalRecordList(medicalRecordRepository.getMedicalRecordList());
 
-/*************************************************************************************************
-    @BeforeEach
-    public void setupTest()
+	    personService.setPersonRepository(personRepository);
+	    firestationService.setFirestationRepository(firestationRepository);
+	    medicalRecordService.setMedicalRecordRepository(medicalRecordRepository);
+
+	    alertService.setFirestationService(firestationService);
+	    alertService.setPersonService(personService);
+	    alertService.setMedicalRecordService(medicalRecordService);
+
+	    alertsController.setAlertService(alertService);
+	}
+		
+    @Test
+    void getPersonsListCoveredByFirestationTest()
     {
-    	medicalRecordRepository.setMedicalRecordList(medicalRecordRepository.getMedicalRecordList());
-    	medicalRecordService.setMedicalRecordRepository(medicalRecordRepository);
-    	AlertsController.setAlerts(alertService);
-    	    }
+        String station = "1";
+        FirestationPersonAlertDto expected = alertService.getPersonsListWithChildrenNumberForStation(station);
+        
+        FirestationPersonAlertDto result;        	
+        result = alertsController.personsListCoveredByFirestation(station).getBody();
+
+        assertEquals(expected, result);         
+    }
+/*************************************************************************************************
     
     @Test
     void getAllMedicalRecordsTest()

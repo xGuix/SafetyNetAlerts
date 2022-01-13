@@ -28,9 +28,9 @@ public class PersonsController {
 	private IPersonService personService;
 	
 	/**
-	 * Set Person list for integrationTest
+	 * Set PersonService for integrationTest
 	 * 
-	 * @param personService Setter list person
+	 * @param personService Setter personService
 	 */
 	public void setPersonsService(PersonService personService)
 	{

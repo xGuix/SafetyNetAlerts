@@ -28,9 +28,9 @@ public class FirestationsController
 	private IFirestationService firestationService;
 	
 	/**
-	 * Set Firestation list for integrationTest
+	 * Set FirestationService for integrationTest
 	 * 
-	 * @param firestationService Setter list firestation
+	 * @param firestationService Setter firestationService
 	 */
 	public void setFirestationsService(FirestationService firestationService)
 	{

@@ -21,9 +21,9 @@ public class PersonService implements IPersonService
 	private static Logger logger = LogManager.getLogger("PersonService");
 	
 	/**
-	 * Setter Person for integrationTest
+	 * Set PersonRepository for integrationTest
 	 * 
-	 * @param personRepository Setter repository
+	 * @param personRepository Setter PersonRepository
 	 */
 	public void setPersonRepository(PersonRepository personRepository)
 	{

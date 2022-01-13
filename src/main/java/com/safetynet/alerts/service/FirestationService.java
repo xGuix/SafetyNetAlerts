@@ -22,9 +22,9 @@ public class FirestationService implements IFirestationService
 	private static Logger logger = LogManager.getLogger("FirestationService");
 	
 	/**
-	 * Setter Firestation for integrationTest
+	 * Set FirestationRepository for integrationTest
 	 * 
-	 * @param firestationRepository Set of data in memory
+	 * @param firestationRepository Setter FirestationRepository
 	 */
 	public void setFirestationRepository(FirestationRepository firestationRepository)
 	{

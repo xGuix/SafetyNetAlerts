@@ -28,9 +28,9 @@ public class MedicalRecordsController
 	private IMedicalRecordService medicalRecordService;
 	
 	/**
-	 * Set Medical record list for integrationTest
+	 * Set MedicalRecordService for integrationTest
 	 * 
-	 * @param medicalRecordService Setter list medical record
+	 * @param medicalRecordService Setter medicalRecordService
 	 */
 	public void setMedicalRecordsService(MedicalRecordService medicalRecordService)
 	{

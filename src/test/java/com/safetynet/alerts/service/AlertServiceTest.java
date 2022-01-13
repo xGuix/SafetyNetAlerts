@@ -43,6 +43,7 @@ class AlertServiceTest
     
 	Person personTest;
 	Person person2Test;
+	Person wrongPersonTest;
 	List<Person> personListTest;
 	List<MedicalRecord> medicalRecordListTest;
 	
@@ -102,13 +103,14 @@ class AlertServiceTest
 		medication2UD = Arrays.asList("Lexomil: 120mg","Oxycodone: 600mg","Darkmagic: hallellouia");
 		allergie2UD = Arrays.asList("God","Heaven");
 		medicalRecord2Test = new MedicalRecord("Bel","Zebuth", "1/01/2021",medication2UD,allergie2UD);
-		
+				
 		firestationTest = new Firestation("777 Paradise Road", "1");
 		firestation2Test = new Firestation("666 Devil Street", "1");
 		personListAndFirestationTest = new PersonInfoDto("Guix","DeBrens",39,"0630031876","not disclosed", medicationUD,allergieUD);
 		personHomeFamilyTest = new PersonInfoDto("Guix","DeBrens",39,"not disclosed","guix92@hotmail.com", medicationUD,allergieUD);
 		personHomeFamily2Test= new PersonInfoDto("Bel","Zebuth",1,"not disclosed","666@welcomToHell.com",medication2UD,allergie2UD);
 		personInfoDto = new PersonInfoDto("Guix","DeBrens",39,"0630031876","guix92@hotmail.com", medicationUD, allergieUD);
+		
 		addresses = Arrays.asList("777 Paradise Road","666 Devil Street");
 		emails = Stream.of("guix92@hotmail.com","666@welcomToHell.com").collect(Collectors.toSet());
 		phone = Stream.of("0630031876","0666669999").collect(Collectors.toSet());
@@ -140,6 +142,23 @@ class AlertServiceTest
 	}
 	
 	@Test
+	void TestIfGetWrongPersonAddressReturnEmptyList()
+	{ 
+		wrongPersonTest = new Person("firstNameTest","lastNameTest","addressTest","cityTest", "zipTest","phoneTest","emailTest");
+		personListTest.add(wrongPersonTest);
+		firestationPersonsListDto = new ArrayList<>();
+		FirestationPersonAlertDto expected = new FirestationPersonAlertDto(firestationPersonsListDto ,0,0);	
+		
+		when(firestationService.getOnlyAddressesFor("1")).thenReturn(addresses);
+		when(personService.getAllPersons()).thenReturn(personListTest);
+		
+		FirestationPersonAlertDto wrongAddressTest;
+		wrongAddressTest = alertService.getPersonsListWithChildrenNumberForStation("1");
+		
+		assertEquals(expected, wrongAddressTest);
+	}
+			
+	@Test
 	void TestIfgetChildrenWithFamilyListAtAddressReturnListDto()
 	{   
 		personListTest.add(personTest);
@@ -148,7 +167,7 @@ class AlertServiceTest
 		childAlertTest = new ChildAlertDto("Bel","Zebuth", 1, firestationPersonsListDto); 
 		childAlertTestListDto.add(childAlertTest);
 		List<ChildAlertDto> expected = childAlertTestListDto;
-
+		
 		when(personService.getAllPersons()).thenReturn(personListTest);
 		when(medicalRecordService.getHowOld("Bel", "Zebuth")).thenReturn(1);
 		when(medicalRecordService.getHowOld("Guix", "DeBrens")).thenReturn(39);
@@ -162,12 +181,29 @@ class AlertServiceTest
 	
 		assertEquals(expected, childAlertForTest);
 	}
-	
+		
+	@Test
+	void TestIfgetWrongAddressReturnEmptyList()
+	{ 
+		personListTest.add(personTest);
+		firestationPersonsListDto.add(personFirestationTest);
+		childAlertTestListDto= new ArrayList<>();
+		List<ChildAlertDto> expected = childAlertTestListDto;
+		
+		when(personService.getAllPersons()).thenReturn(personListTest);
+		
+		List<ChildAlertDto> wrongChildAlertTest;
+		wrongChildAlertTest = alertService.getChildrenWithFamilyListAtAddress("addressNotExistsTest");
+		
+		assertEquals(expected, wrongChildAlertTest);
+	}
+
 	@Test
 	void TestGetPhoneNumberOfStationReturnPhoneList()
 	{
 		personListTest.add(personTest);
 		personListTest.add(person2Test);
+		
 		when(firestationService.getOnlyAddressesFor("1")).thenReturn(addresses);
 		when(personService.getAllPersons()).thenReturn(personListTest);
 		
@@ -185,6 +221,7 @@ class AlertServiceTest
 		personListTest.add(personTest);
 		personInfoListDto.add(personListAndFirestationTest);
 		FireAlertDto expected = new FireAlertDto(firestationTest,personInfoListDto);
+		
 		when(firestationService.getOneFirestation("777 Paradise Road")).thenReturn(firestationTest);
 		when(personService.getAllPersons()).thenReturn(personListTest);
 		when(medicalRecordService.getHowOld("Guix", "DeBrens")).thenReturn(39);
@@ -200,6 +237,24 @@ class AlertServiceTest
 		assertEquals(expected, PersonsListTest);
 	}
 	
+	@Test
+	void TestGetPersonsWrongAddressReturnEmptyList()
+	{
+		wrongPersonTest = new Person("firstNameTest","lastNameTest","addressTest","cityTest", "zipTest","phoneTest","emailTest");
+		personListTest.add(wrongPersonTest);
+		personInfoListDto= new ArrayList<>();
+		FireAlertDto expected = new FireAlertDto(firestationTest,personInfoListDto);
+		
+		when(firestationService.getOneFirestation("777 Paradise Road")).thenReturn(firestationTest);
+		when(personService.getAllPersons()).thenReturn(personListTest);
+		
+		FireAlertDto wrongPersonsTest;
+		wrongPersonsTest = alertService.getPersonsListAndFirestationForAddress("777 Paradise Road");
+		
+		verify(firestationService, Mockito.times(1)).getOneFirestation("777 Paradise Road");
+		verify(personService, Mockito.times(1)).getAllPersons();
+		assertEquals(expected, wrongPersonsTest);
+	}
 	@Test
 	void TestGetHomeFamilyforStation()
 	{
@@ -235,6 +290,7 @@ class AlertServiceTest
 		personListTest.add(personTest);
 		personInfoListDto.add(personInfoDto);
 		List<PersonInfoDto> expected = personInfoListDto;
+		
 		when(personService.getAllPersons()).thenReturn(personListTest);
 		when(medicalRecordService.getHowOld("Guix", "DeBrens")).thenReturn(39);
 		when(medicalRecordService.getMedicalRecordByName("Guix", "DeBrens")).thenReturn(medicalRecordTest);
@@ -248,10 +304,41 @@ class AlertServiceTest
 	}
 	
 	@Test
+	void TestGetWhenWrongFirstNamePersonInfo()
+	{
+		//wrongPersonTest = new Person("firstNameTest","firstNameTest","addressTest","cityTest", "zipTest","phoneTest","emailTest");
+		personListTest.add(personTest);
+		personInfoListDto= new ArrayList<>();
+		List<PersonInfoDto> expected = personInfoListDto;
+		when(personService.getAllPersons()).thenReturn(personListTest);
+		
+		List<PersonInfoDto> personInfoTotest = alertService.getPersonInfo("firstNameTest", "DeBrens");
+		
+		verify(personService, Mockito.times(1)).getAllPersons();
+		assertEquals(expected, personInfoTotest);
+	}
+	
+	@Test
+	void TestGetWhenWrongLastNamePersonInfo()
+	{
+		//wrongPersonTest = new Person("firstNameTest","firstNameTest","addressTest","cityTest", "zipTest","phoneTest","emailTest");
+		personListTest.add(personTest);
+		personInfoListDto= new ArrayList<>();
+		List<PersonInfoDto> expected = personInfoListDto;
+		when(personService.getAllPersons()).thenReturn(personListTest);
+		
+		List<PersonInfoDto> personInfoTotest = alertService.getPersonInfo("Guix", "lastNameTest");
+		
+		verify(personService, Mockito.times(1)).getAllPersons();
+		assertEquals(expected, personInfoTotest);
+	}
+	
+	@Test
 	void TestGetEmailsListByCityReturnList()
 	{
 		personListTest.add(personTest);
 		personListTest.add(person2Test);
+		
 		when(personService.getAllPersons()).thenReturn(personListTest);
 		
 		Set<String> testList = alertService.getEmailsListByCity("Heaven");
