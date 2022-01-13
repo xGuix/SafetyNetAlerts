@@ -23,7 +23,7 @@ public class PersonRepository implements IPersonRepository
     /**
 	 * Getter Person for integrationTest
 	 * 
-	 * @return - {personList}
+	 * @return personList Getter list
 	 */
     public List<Person> getPersonList()
     {
@@ -33,7 +33,7 @@ public class PersonRepository implements IPersonRepository
     /**
 	 * Setter Person for integrationTest
 	 * 
-	 * @param - {personList}
+	 * @param personList Setter list
 	 */
     public void setPersonList(List<Person> personList)
     {
@@ -42,7 +42,8 @@ public class PersonRepository implements IPersonRepository
     
 	/**
 	 * Full List in memory
-	 * @return - {personList} 
+	 * 
+	 * @return personList List of all persons
 	 */
 	@Override
 	public List<Person> getAllPerson() 
@@ -53,7 +54,8 @@ public class PersonRepository implements IPersonRepository
 	
 	/**
 	 * Add person to the list
-	 * @return - {person} 
+	 * 
+	 * @return person added
 	 */
 	@Override
 	public Person addPerson(Person person) 
@@ -66,8 +68,9 @@ public class PersonRepository implements IPersonRepository
 	/**
 	 * Update person to the list
 	 * Find and update the person if existing
-	 * @return - {person} 
-	 * @exception - NotFoundException
+	 * 
+	 * @return person updated
+	 * @exception NotFoundException Throws when not found
 	 */
 	@Override
 	public Person updatePerson(Person person) 
@@ -86,7 +89,8 @@ public class PersonRepository implements IPersonRepository
 	
 	/**
 	 * Delete person from the list
-	 * @NoReturn
+	 * 
+	 * @param person Deleted
 	 */
 	@Override
 	public void deletePerson(Person person) 

@@ -8,6 +8,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 import groovy.transform.Generated;
 
+/** 
+* *SAFETYNET ALERTS*
+* The APIRest of emergencies.
+* 
+* @author xGuix
+*/
 @Generated
 @SpringBootApplication
 public class SafetyNetAlertsApplication extends SpringBootServletInitializer

@@ -22,9 +22,9 @@ public class FirestationService implements IFirestationService
 	private static Logger logger = LogManager.getLogger("FirestationService");
 	
 	/**
-	 * Setter Firestation for integrationTest
+	 * Set FirestationRepository for integrationTest
 	 * 
-	 * @param - {firestationRepository}
+	 * @param firestationRepository Setter FirestationRepository
 	 */
 	public void setFirestationRepository(FirestationRepository firestationRepository)
 	{
@@ -34,7 +34,7 @@ public class FirestationService implements IFirestationService
 	/**
 	 * Get all list of firestation from Repository
 	 * 
-	 * @return - Repositorylist
+	 * @return Repositorylist
 	 */
 	public List<Firestation> getAllFirestations()
 	{
@@ -46,7 +46,7 @@ public class FirestationService implements IFirestationService
 	 * Search firestation with N°Station
 	 * Get list with Station number
 	 * 
-	 * @return - Firestation List
+	 * @return Firestation List
 	 */
 	@Override
     public List<Firestation> getFirestationsFor(String station)
@@ -62,11 +62,11 @@ public class FirestationService implements IFirestationService
 	 * Search addresses of Station N°
 	 * Get list of addresses with number
 	 * 
-	 * @return - Addresses List
+	 * @return Addresses List
 	 */
     public List<String> getOnlyAddressesFor(String station)
 	{
-		logger.info("Firestation N°{} Check matches.", station);
+		logger.info("Firestation N°{} - Check matches.", station);
 		return firestationRepository.getAllFirestation().stream()
 				.filter(f -> f.getStation().equals(station))
 				.map(Firestation::getAddress)
@@ -76,14 +76,14 @@ public class FirestationService implements IFirestationService
 	/**
 	 * Read Firestation :
 	 * Search One firestation with Address
-	 * Get the Firestation with station & address
+	 * Get the Firestation with station and address
 	 * 
-	 * @return - Firestation
+	 * @return Firestation
 	 */
 	@Override
-	public Firestation getOneFirestation(String address, String station)
+	public Firestation getOneFirestation(String address)
 	{
-		logger.info("Searching match address for Firestation N°{} with '{}'", station, address);
+		logger.info("Searching match for Firestation at '{}'", address);
 		return firestationRepository.getAllFirestation().stream()
 	    		.filter(f -> f.getAddress().equals(address))
 	    		.findAny().orElseThrow(() -> new NotFoundException("Address does not exists"));
@@ -94,8 +94,8 @@ public class FirestationService implements IFirestationService
 	 * Search if fires existing and
 	 * Add the firestation to the list
 	 * 
-	 * @return - Firestation added
-	 * @exception - {@link AlreadyExistingException}
+	 * @return Firestation Added
+	 * @exception AlreadyExistingException Throws when exits
 	 */
 	@Override
 	public Firestation addFirestation(Firestation firestation)
@@ -115,7 +115,7 @@ public class FirestationService implements IFirestationService
 	 * Update Firestation :
 	 * Send parameter to the repository for checking
 	 * 
-	 * @return  - Firestation udated
+	 * @return Firestation udated
 	 */
 	@Override
 	public Firestation updateFirestation(String address, Firestation firestation)
@@ -128,7 +128,7 @@ public class FirestationService implements IFirestationService
 	 * Search if firestation existing by address and
 	 * remove it from the list
 	 * 
-	 * @exception - {@link NotFoundException}
+	 * @exception NotFoundException Throws when does not exits
 	 */
 	@Override
 	public void deleteFirestation(Firestation firestation)

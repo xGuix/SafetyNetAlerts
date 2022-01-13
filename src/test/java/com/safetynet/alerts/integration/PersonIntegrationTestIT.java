@@ -16,7 +16,7 @@ import com.safetynet.alerts.repository.PersonRepository;
 import com.safetynet.alerts.service.PersonService;
 
 @SpringBootTest
-class PersonIntegrationTest
+class PersonIntegrationTestIT
 {
     PersonsController personsController= new PersonsController();
     PersonService personService = new PersonService();

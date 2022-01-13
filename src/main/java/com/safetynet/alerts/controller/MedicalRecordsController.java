@@ -28,9 +28,9 @@ public class MedicalRecordsController
 	private IMedicalRecordService medicalRecordService;
 	
 	/**
-	 * Set Medical record list for integrationTest
+	 * Set MedicalRecordService for integrationTest
 	 * 
-	 * @param - {personService}
+	 * @param medicalRecordService Setter medicalRecordService
 	 */
 	public void setMedicalRecordsService(MedicalRecordService medicalRecordService)
 	{
@@ -41,7 +41,7 @@ public class MedicalRecordsController
 	 * Read List :
 	 * Get all medical records list
 	 * 
-	 * @return - Full medicalRecords list
+	 * @return Full medicalRecords list
 	 */
     @GetMapping(value = "/medicalRecords")
     public ResponseEntity <List<MedicalRecord>> getAllMedicalRecords()
@@ -54,8 +54,9 @@ public class MedicalRecordsController
 	 * Read Medical Record :
 	 * Get medical record of person by name
 	 * 
-	 * @param firstName & lastName
-	 * @return - Medical record of person
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @return Medical record of person
 	 */
     @GetMapping(value = "/medicalRecord")
     public ResponseEntity<MedicalRecord> getMedicalRecordByName(
@@ -69,7 +70,7 @@ public class MedicalRecordsController
 	 * Create Medical rRcord :
 	 * Add a new medical record
 	 * 
-	 * @param - medicalRecord {@link RequestBody} 
+	 * @param medicalRecord RequestBody 
 	 * @return medicalRecord added
 	 */
 	@PostMapping(value ="/medicalRecord")
@@ -84,9 +85,10 @@ public class MedicalRecordsController
 	 * Update Medical Record :
 	 * Setup a medical record by person name
 	 * 
-	 * @param - firstName & lastName
-	 * @param - medicalRecord {@link RequestBody} 
-	 * @return - New data of person updated
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @param medicalRecord RequestBody
+	 * @return New data of person updated
 	 */
     @PutMapping(value = "/medicalRecord")
     public ResponseEntity<MedicalRecord> updateMedicalRecord(
@@ -100,7 +102,9 @@ public class MedicalRecordsController
 	 * Delete Medical Record :
 	 * Delete a medical record of person
 	 * 
-	 * @param {firstName} & {lastName} - Person to delete
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @return ResponseEntity HttpStatus.ok
 	 */
 	@DeleteMapping(value = "/medicalRecord")
 	public ResponseEntity<Void> deleteMedicalRecord(

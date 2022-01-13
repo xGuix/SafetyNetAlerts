@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +48,7 @@ class MedicalRecordServiceTest
 		medicalRecordListTest = new ArrayList<>();
 		medicationUD = Arrays.asList("Alcohol: 2 bottles of Whisky","Tabacco: 5 packets","Doner-kebbab: 3 times a day");
 		allergieUD = Arrays.asList("Liar","Storyteller");
-		medicalRecordTest = new MedicalRecord("Guix","DeBrens", "22/10/1982",medicationUD,allergieUD);
+		medicalRecordTest = new MedicalRecord("Guix","DeBrens", "10/22/1982",medicationUD,allergieUD);
 		medicalRecordTestFirstName = new MedicalRecord("TestFirstName","TestLastName", null,null,null);
 		medicalRecordTestLastName = new MedicalRecord("Guix","TestLastName", null,null,null);
 	}
@@ -96,6 +98,48 @@ class MedicalRecordServiceTest
 		
 		assertThrows(NotFoundException.class, () -> medicalRecordService.getMedicalRecordByName("Guix","LastNameTest"));
 	}
+	
+	@Test
+	void TestIfGetHowOldReturnInteger()
+	{
+		medicalRecordListTest.add(medicalRecordTest);
+		String birthdate = "10/22/1982";		
+		DateTimeFormatter setupDate = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		int expected = LocalDate.parse(birthdate, setupDate).until(LocalDate.now()).getYears();
+		
+		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);
+				
+		int howOldToTest = medicalRecordService.getHowOld("Guix","DeBrens");
+		
+		assertEquals(expected,howOldToTest);
+	}
+	
+	@Test
+	void TestIfGetHowOldWithWrongFirstNameReturnNotFoundException()
+	{
+		medicalRecordListTest.add(medicalRecordTestFirstName);
+		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);
+					
+		assertThrows(NotFoundException.class, () -> medicalRecordService.getHowOld("Guix","DeBrens"));
+	}
+	
+	@Test
+	void TestIfGetHowOldWithWrongLastNameReturnNotFoundException()
+	{
+		medicalRecordListTest.add(medicalRecordTestLastName);
+		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);
+					
+		assertThrows(NotFoundException.class, () -> medicalRecordService.getHowOld("Guix","DeBrens"));
+	}
+	
+	@Test
+	void TestIfGetHowOldReturnNotFoundException()
+	{
+		medicalRecordListTest.add(medicalRecordTestFirstName);
+		when(medicalRecordRepository.getAllMedicalRecords()).thenReturn(medicalRecordListTest);
+					
+		assertThrows(NotFoundException.class, () -> medicalRecordService.getHowOld("Guix","DeBrens"));
+	}	
 	
 	@Test
 	void TestAddMedicalRecordWhenDoesNotExists()

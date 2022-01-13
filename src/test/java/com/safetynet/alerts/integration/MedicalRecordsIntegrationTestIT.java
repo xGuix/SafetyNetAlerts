@@ -18,7 +18,7 @@ import com.safetynet.alerts.repository.MedicalRecordRepository;
 import com.safetynet.alerts.service.MedicalRecordService;
 
 @SpringBootTest
-class MedicalRecordsIntegrationTest
+class MedicalRecordsIntegrationTestIT
 {
 	MedicalRecordsController medicalRecordsController= new MedicalRecordsController();
 	MedicalRecordService medicalRecordService = new MedicalRecordService();

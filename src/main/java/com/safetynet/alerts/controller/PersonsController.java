@@ -28,9 +28,9 @@ public class PersonsController {
 	private IPersonService personService;
 	
 	/**
-	 * Set Person list for integrationTest
+	 * Set PersonService for integrationTest
 	 * 
-	 * @param - {personService}
+	 * @param personService Setter personService
 	 */
 	public void setPersonsService(PersonService personService)
 	{
@@ -41,7 +41,7 @@ public class PersonsController {
 	 * Read list :
 	 * Get all persons
 	 * 
-	 * @return - Full persons list
+	 * @return PersonsList Full persons list
 	 */
 	@GetMapping(value = "/persons")
 	public  ResponseEntity<List<Person>> getAllPersons()
@@ -54,8 +54,9 @@ public class PersonsController {
 	 * Read person :
 	 * Get a person by name
 	 * 
-	 * @param {firstName} & {lastName}
-	 * @return - The person data
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @return person The person found
 	 */
     @GetMapping(value ="/person")
     public  ResponseEntity<Person> getPersonByName(@RequestParam String firstName, @RequestParam String lastName)
@@ -68,8 +69,8 @@ public class PersonsController {
 	 * Create person :
 	 * Add a new person
 	 * 
-	 * @param - {Person} - Model as object
-	 * @return - Person added
+	 * @param person Model as object
+	 * @return person added
 	 */
 	@PostMapping(value ="/person")
 	public ResponseEntity<Person> addNewPerson(@RequestBody Person person)
@@ -82,8 +83,8 @@ public class PersonsController {
 	 * Update Person :
 	 * Modif info of a person by name
 	 * 
-	 * @param - {Person} Body
-	 * @return - Update new data to person
+	 * @param person Body
+	 * @return Update new data to person
 	 */
     @PutMapping(value = "/person")
     public ResponseEntity<Person> updatePerson(@RequestBody Person person)
@@ -96,7 +97,9 @@ public class PersonsController {
 	 * Delete Person :
 	 * Person to delete
 	 * 
-	 * @param - {firstName} & {lastName} - Person to delete
+	 * @param firstName First name to match
+	 * @param lastName Last name to match
+	 * @return ResponseEntity HttpStatus
 	 */
 	@DeleteMapping(value = "/person")
 	public ResponseEntity<Void> deletePerson(@RequestParam String firstName, @RequestParam String lastName)

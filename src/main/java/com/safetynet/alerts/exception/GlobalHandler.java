@@ -19,8 +19,8 @@ public class GlobalHandler
 	   * Custom exception throw by error
 	   * then return a readeable response
 	   *
-	   * @param - NotFountException.
-	   * @return ResponseEntity with {@link HttpStatus} NOT_FOUND.
+	   * @param e NotFoundException
+	   * @return ResponseEntity httpStatus {@link HttpStatus} NOT_FOUND.
 	   */
 	@ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> aNotFoundException(NotFoundException e){
@@ -32,8 +32,8 @@ public class GlobalHandler
 	   * Custom exception throw by error
 	   * then return a readeable response
 	   *
-	   * @param - AlreadyExistingException
-	   * @return ResponseEntity with {@link HttpStatus} CONFICLT.
+	   * @param e AlreadyExistingException
+	   * @return ResponseEntity httpStatus {@link HttpStatus} CONFICLT.
 	   */
 	@ExceptionHandler(AlreadyExistingException.class)
 	public ResponseEntity<Object> anAlreadyExistingExceptionn(AlreadyExistingException e){

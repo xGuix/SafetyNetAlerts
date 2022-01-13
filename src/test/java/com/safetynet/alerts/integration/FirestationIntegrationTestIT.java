@@ -16,7 +16,7 @@ import com.safetynet.alerts.repository.FirestationRepository;
 import com.safetynet.alerts.service.FirestationService;
 
 @SpringBootTest
-class FirestationIntegrationTest
+class FirestationIntegrationTestIT
 {
     FirestationsController firestationsController= new FirestationsController();
     FirestationService firestationService = new FirestationService();
@@ -49,10 +49,10 @@ class FirestationIntegrationTest
     @Test
     void getOneFirestationWithAddressAndStationTest()
     {
-    	Firestation expected = firestationService.getOneFirestation("Saint Omer sur Mer", "1");
+    	Firestation expected = firestation;
         Firestation result;
         
-        result = firestationsController.getOneFirestation("Saint Omer sur Mer", "1").getBody();
+        result = firestationsController.getOneFirestation("Saint Omer sur Mer").getBody();
 
         assertTrue(firestationRepository.getAllFirestation().contains(firestation));
         assertEquals(expected, result);
@@ -90,7 +90,7 @@ class FirestationIntegrationTest
     {
         List<Firestation> expected = firestationRepository.getAllFirestation();
 
-        firestationsController.deleteFirestation("Saint Omer sur Mer", "1");
+        firestationsController.deleteFirestation("Saint Omer sur Mer");
 
         List<Firestation> result = firestationRepository.getFirestationList();
         assertFalse(firestationRepository.getAllFirestation().contains(firestation));

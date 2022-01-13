@@ -81,7 +81,7 @@ class FirestationServiceTest
 		firestationListTest.add(firestationTest);
 		when(firestationRepository.getAllFirestation()).thenReturn(firestationListTest);
 		
-		Firestation firestationToTest = firestationService.getOneFirestation("Saint Omer Sur Mer","1");
+		Firestation firestationToTest = firestationService.getOneFirestation("Saint Omer Sur Mer");
 		assertEquals(firestationToTest,firestationTest);
 	}
 	
@@ -90,7 +90,7 @@ class FirestationServiceTest
 	{
 		when(firestationRepository.getAllFirestation()).thenReturn(firestationListTest);
 		
-		assertThrows(NotFoundException.class, () -> firestationService.getOneFirestation("Saint Omer Sur Mer","1"));
+		assertThrows(NotFoundException.class, () -> firestationService.getOneFirestation("Saint Omer Sur Mer"));
 	}
 	
 	@Test
