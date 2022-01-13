@@ -74,10 +74,10 @@ class AlertIntegrationTestIT
         FirestationPersonAlertDto expected;
         expected = alertService.getPersonsListWithChildrenNumberForStation(station);
         
-        FirestationPersonAlertDto result;        	
-        result = alertsController.personsListCoveredByFirestation(station).getBody();
+        FirestationPersonAlertDto firestationPersonAlertTest;        	
+        firestationPersonAlertTest = alertsController.personsListCoveredByFirestation(station).getBody();
 
-        assertEquals(expected, result);         
+        assertEquals(expected, firestationPersonAlertTest);         
     }
     
     
