@@ -16,7 +16,7 @@ import com.safetynet.alerts.repository.FirestationRepository;
 import com.safetynet.alerts.service.FirestationService;
 
 @SpringBootTest
-class FirestationIntegrationTest
+class FirestationIntegrationTestIT
 {
     FirestationsController firestationsController= new FirestationsController();
     FirestationService firestationService = new FirestationService();

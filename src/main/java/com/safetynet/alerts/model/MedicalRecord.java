@@ -65,6 +65,7 @@ public class MedicalRecord {
 		this.allergie = allergie;
 	}
 	
+	@Generated
 	@Override
 	public String toString() {
 		return "MedicalRecord [firstName=" + firstName + ", lastName=" + lastName + ", birthdate=" + birthdate
@@ -76,7 +77,8 @@ public class MedicalRecord {
 	public int hashCode() {
 		return Objects.hash(allergie, birthdate, firstName, lastName, medication);
 	}
-
+	
+	@Generated
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

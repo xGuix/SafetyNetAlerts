@@ -112,6 +112,7 @@ public class Person
 		return Objects.hash(address, city, email, firstName, lastName, phone, zip);
 	}
 
+	@Generated
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

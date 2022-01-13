@@ -52,6 +52,7 @@ public class Firestation
 		return Objects.hash(address, station);
 	}
 
+	@Generated
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
