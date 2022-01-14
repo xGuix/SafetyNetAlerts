@@ -3,6 +3,9 @@ package com.safetynet.alerts.dto;
 import java.util.List;
 import java.util.Objects;
 
+import groovy.transform.Generated;
+
+@Generated
 public class PersonInfoDto
 {	
 	private String firstName;

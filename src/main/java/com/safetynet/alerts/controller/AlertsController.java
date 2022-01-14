@@ -31,10 +31,11 @@ public class AlertsController
 	 * 
 	 * @param alertService Setter alertService
 	 */
-    public void setAlertService(AlertService alertService)
+/*  public void setAlertService(AlertService alertService)
     {
         this.alertService = alertService;
     }
+*/
     
 	private static Logger logger = LogManager.getLogger("AlertsController");
 	

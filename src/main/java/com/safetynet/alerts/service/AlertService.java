@@ -31,36 +31,38 @@ public class AlertService implements IAlertService
 
     @Autowired
     IMedicalRecordService medicalRecordService;
+    
 	
 	/**
 	 * Set PersonService for integrationTest
 	 * 
 	 * @param personService Setter personService
 	 */
-    public void setPersonService(PersonService personService)
+/*  public void setPersonService(PersonService personService)
     {
         this.personService = personService;
     }
-
+*/
 	/**
 	 * Set FirestationService for integrationTest
 	 * 
 	 * @param firestationService Setter firestationService
 	 */
-    public void setFirestationService(FirestationService firestationService)
+/*  public void setFirestationService(FirestationService firestationService)
     {
         this.firestationService = firestationService;
     }
-
+*/
 	/**
 	 * Set MedicalRecordService for integrationTest
 	 * 
 	 * @param medicalRecordService Setter medicalRecordService
 	 */
-    public void setMedicalRecordService(MedicalRecordService medicalRecordService)
+/*  public void setMedicalRecordService(MedicalRecordService medicalRecordService)
     {
         this.medicalRecordService = medicalRecordService;
     }
+*/
     
 	private static Logger logger = LogManager.getLogger("AlertService");
     
