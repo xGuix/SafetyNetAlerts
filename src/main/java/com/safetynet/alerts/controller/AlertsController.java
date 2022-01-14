@@ -25,18 +25,7 @@ public class AlertsController
 {	
     @Autowired
     AlertService alertService;
-	
-	/**
-	 * Set Alert for integrationTest
-	 * 
-	 * @param alertService Setter alertService
-	 */
-/*  public void setAlertService(AlertService alertService)
-    {
-        this.alertService = alertService;
-    }
-*/
-    
+	   
 	private static Logger logger = LogManager.getLogger("AlertsController");
 	
 	/**
