@@ -17,51 +17,6 @@ class AlertIntegrationTestIT
 {
     @Autowired
     private MockMvc mockMvc;
-    
-    /*************************************************************************************************
-	PersonRepository personRepository = new PersonRepository();
-	FirestationRepository firestationRepository = new FirestationRepository();
-	MedicalRecordRepository medicalRecordRepository = new MedicalRecordRepository();
-
-	FirestationService firestationService = new FirestationService();
-	PersonService personService = new PersonService();
-	MedicalRecordService medicalRecordService = new MedicalRecordService();
-
-	AlertService alertService = new AlertService();
-	AlertsController alertsController = new AlertsController();
-
-
-	@BeforeEach
-	public void setupTest()
-	{	
-        personRepository.setPersonList(personRepository.getPersonList());
-	    firestationRepository.setFirestationList(firestationRepository.getFirestationList());
-	    medicalRecordRepository.setMedicalRecordList(medicalRecordRepository.getMedicalRecordList());
-
-	    personService.setPersonRepository(personRepository);
-	    firestationService.setFirestationRepository(firestationRepository);
-	    medicalRecordService.setMedicalRecordRepository(medicalRecordRepository);
-
-	    alertService.setFirestationService(firestationService);
-	    alertService.setPersonService(personService);
-	    alertService.setMedicalRecordService(medicalRecordService);
-
-	    alertsController.setAlertService(alertService);
-
-	}
-    @Test
-    void personsListCoveredByFirestationTest() throws Exception
-    {     
-        String station = "1";      
-        FirestationPersonAlertDto expected;
-        expected = alertService.getPersonsListWithChildrenNumberForStation(station);
-        
-        FirestationPersonAlertDto firestationPersonAlertTest;        	
-        firestationPersonAlertTest = alertsController.personsListCoveredByFirestation(station).getBody();
-
-        assertEquals(expected, firestationPersonAlertTest);
-        *************************************************************************************************/       
-	
 	
     @Test
     void personsListCoveredByFirestationTest() throws Exception
@@ -75,7 +30,7 @@ class AlertIntegrationTestIT
         		.andExpect(content().string(containsString("Stelzer")))
        			.andReturn();
     }
-    
+   
     @Test
     void childrensWithFamilyByAddress() throws Exception
     {
