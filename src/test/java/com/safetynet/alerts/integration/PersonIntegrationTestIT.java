@@ -35,7 +35,7 @@ class PersonIntegrationTestIT
     Person person;
     
     @BeforeEach
-    public void setupTest()
+    void setupTest()
     {
     	personRepository.setPersonList(personRepository.getPersonList());
     	personService.setPersonRepository(personRepository);

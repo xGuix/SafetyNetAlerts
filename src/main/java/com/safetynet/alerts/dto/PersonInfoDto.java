@@ -1,5 +1,6 @@
 package com.safetynet.alerts.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -83,12 +84,13 @@ public class PersonInfoDto
 
 	public List<String> getMedication()
 	{
-		return medication;
+		return new ArrayList<>(medication);
 	}
 
 	public void setMedication(List<String> medication)
 	{
-		this.medication = medication;
+		List<String> medicationSafe = new ArrayList<>(medication);
+		this.medication = medicationSafe;
 	}
 
 	public List<String> getAllergie()

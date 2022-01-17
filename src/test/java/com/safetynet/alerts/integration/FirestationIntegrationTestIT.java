@@ -24,7 +24,7 @@ class FirestationIntegrationTestIT
     Firestation firestation;
     
     @BeforeEach
-    public void setupTest()
+    void setupTest()
     {
     	firestationRepository.setFirestationList(firestationRepository.getFirestationList());
     	firestationService.setFirestationRepository(firestationRepository);

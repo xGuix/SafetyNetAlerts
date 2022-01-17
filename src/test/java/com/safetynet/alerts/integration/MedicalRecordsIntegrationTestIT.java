@@ -30,7 +30,7 @@ class MedicalRecordsIntegrationTestIT
 	List<String> allergieUDTest;
     
     @BeforeEach
-    public void setupTest()
+    void setupTest()
     {
     	medicalRecordRepository.setMedicalRecordList(medicalRecordRepository.getMedicalRecordList());
     	medicalRecordService.setMedicalRecordRepository(medicalRecordRepository);
